@@ -387,10 +387,6 @@ def _tex(summary):
         rows.append(f"{LAB[m]} & {_f(e['outage_pct'], '.2f')} & {_f(e['interrupts_per_100'], '.2f')} & "
                     f"{_f(e['mean_len'], '.2f')} & {_f(e['p95_len'], '.1f')} & "
                     f"{_f(e['long_share_pct'], '.1f')} & {_f(e['never_pct'], '.1f')} \\\\")
-    rt_rows = []
-    for m in RT_VARIANTS:
-        e = summary[m]
-        rt_rows.append(f"{LAB[m]} & {100 * e['rt_all']:.1f} & {100 * e['rt_V']:.1f} & {e['el_rate']:.2f} \\\\")
     lines = [
         "% Source: results/continuity.json, scenario hotspot, truthful devices, T=6000, seeds 0..4",
         "\\begin{tabular}{lrrrrrr}",
@@ -399,15 +395,6 @@ def _tex(summary):
         "95th pct.\\ outage length (s) & Outage in runs $\\geq 5$ s (\\%) & Calls never interrupted (\\%) \\\\",
         "\\midrule",
         *rows,
-        "\\bottomrule",
-        "\\end{tabular}",
-        "",
-        "% RT success and elastic rate of the REPAY variants",
-        "\\begin{tabular}{lrrr}",
-        "\\toprule",
-        "Mechanism & RT success, all (\\%) & RT success, video (\\%) & Elastic rate (Mbit/s) \\\\",
-        "\\midrule",
-        *rt_rows,
         "\\bottomrule",
         "\\end{tabular}",
         "",

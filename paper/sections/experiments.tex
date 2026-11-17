@@ -125,6 +125,46 @@ In the home scenario capacity is ample most of the time and all rules serve abou
 \label{fig:compare}
 \end{figure}
 
+\paragraph{Trade-off curves and a capped priority.}
+Each rule has a parameter that moves it between protecting RT flows and serving elastic devices, and a single setting can flatter or penalise it.
+Figure~\ref{fig:frontier} therefore sweeps $V$ for \repay{} and plain DPP and the RT weight multiplier for \textsc{WFQ}, on five traces.
+We also add a baseline that a practitioner would try first, \emph{capped priority}: strict priority in which declared RT flows may use at most a fraction $q$ of the capacity of the slot, so that the reward for declaring RT is limited by construction.
+\repay{} lies to the right of plain DPP and \textsc{WFQ} at every level of RT success, that is, it protects the same share of RT slots while leaving more to elastic devices.
+Capped priority, however, does better than \repay{} on this pair of metrics: at $q=0.3$ it serves $93\%$ of RT slots with an elastic rate of $1.80$~Mbit/s, against $89\%$ and $1.67$ for \repay{} at $V=20$, at equal utility ($70.1$), because it holds admitted calls close to their minimum rate.
+Table~\ref{tab:cap} shows what it gives up.
+Its class envy is $390$~Mbit at $q=0.3$, twenty times that of \repay{}, and grows quickly with $q$; and its resistance to misreporting depends on the cap being tight for the traffic mix at hand: with $q=0.2$ or $0.3$ a misreporting device loses on average, with $q=0.5$ the median device gains $69\%$.
+The cap must be set for the share of real-time traffic, which the operator does not know and which changes during the day, whereas $V$ sets the envy bound whatever the mix.
+We read this as follows. If an operator only needs calls to survive short shortages and can tune a cap, capped priority is a simple and effective answer, and the case for \repay{} rests on what it guarantees to each elastic device, not on average performance.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.7\linewidth]{figures/fig_frontier.pdf}
+\caption{RT success against elastic rate when the parameter of each rule is varied (hotspot, truthful devices, mean over five traces).}
+\label{fig:frontier}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Capped priority: RT flows may use at most a fraction $q$ of capacity. Left columns: truthful devices, five traces. Right columns: one elastic device declares video ($60$ devices on two traces, as in Section~\ref{sec:exp-strategic}).}
+\label{tab:cap}
+\resizebox{\linewidth}{!}{\input{tables/priority_cap}}
+\end{table}
+
+\paragraph{Call continuity.}
+RT success counts slots, and a call that is cut for one second every few seconds is worse than the count suggests.
+Table~\ref{tab:continuity} reports the interruptions of genuine video calls on five traces.
+Under \repay{} a call is below its minimum rate in $14\%$ of its slots; outages last $3.9$~s on average and $14$~s at the 95th percentile, there are $3.7$ of them per $100$~s of call, and $42\%$ of the calls are never interrupted.
+Plain DPP is slightly better on each count, \textsc{WFQ} and \textsc{Priority} much better, and \textsc{PF} is worse in the way that matters most: its outages are rarer and last $17$~s on average.
+The rotation inside a partially admitted group is not the cause of the interruptions. Two variants, one that keeps incumbents admitted and one that rotates only every ten slots, give the same figures to within $0.02$, because a whole tier--class group is usually admitted or refused together.
+The interruptions come from the allocation itself, which stops admitting a group when its debt price is high, and reducing them would require a cost of interruption in the objective, which our model does not have.
+
+\begin{table}[t]
+\centering
+\caption{Interruptions of genuine video calls (hotspot, truthful devices, five traces). An outage is a maximal run of slots below $\rmin_{\mathrm{v}}$.}
+\label{tab:continuity}
+\resizebox{\linewidth}{!}{\input{tables/continuity}}
+\end{table}
+
 \paragraph{Capacity variability.}
 Figure~\ref{fig:variability} varies the spread of the capacity states while holding the mean at $90$~Mbit/s.
 With constant capacity every rule serves at least $99\%$ of the RT slots.
@@ -152,6 +192,20 @@ The deviation is not harmless for everyone: $51\%$ of the devices gain something
 The picture differs by tier. Free devices, whose fair share is often below the video rate, gain a median of $1.2\%$ and $71\%$ of them gain; premium and PAYG devices lose a median of $12\%$ and $3\%$.
 Part of the losses comes from the experiment itself: every sampled device has a link rate above $3$~Mbit/s, so declaring video caps it at $\rmax_{\mathrm{v}}$ whenever capacity is plentiful.
 This is why the pooled volume also falls under \textsc{PF} and \textsc{Credit}, which ignore the declaration altogether, and the comparison that matters is between \repay{} and the rules that do use the class.
+
+\paragraph{Short stays.}
+The bound of Theorem~\ref{thm:static} is a constant per stay, so it promises little to a device that stays less than a minute.
+We repeat the experiment for $120$ elastic devices with stays of $5$ to $59$ slots on four traces (Table~\ref{tab:short}).
+Here misreporting does pay under \repay{} for most devices: $83\%$ of them gain and the median gain is $10\%$, although the pooled volume still falls by $6\%$ and no device gains more than $10.4$~Mbit, a quarter of its bound.
+The same devices gain a median of $59\%$ under plain DPP and about $140\%$ under \textsc{Priority} and \textsc{WFQ}.
+\repay{} therefore reduces the incentive of short-lived devices by an order of magnitude without removing it.
+
+\begin{table}[t]
+\centering
+\caption{Unilateral misreport by devices that stay $5$ to $59$ slots ($120$ devices on four traces).}
+\label{tab:short}
+\input{tables/short_stays}
+\end{table}
 
 \paragraph{Thin markets.}
 Theorem~\ref{thm:static} assumes price-taking devices, so we also compute the exact gain in markets where one device is a large part of its tier.
