@@ -30,7 +30,7 @@ An elastic device $i$ has a demand cap $d_{i,t}\ge 0$ in slot $t$: the smaller o
 For downlink traffic both quantities are measured by the access point itself, so $d_{i,t}$ is \emph{verified}, not declared.
 The device receives a rate $x_{i,t}\in[0,d_{i,t}]$.
 What an elastic user cares about is how much data it gets, not when: its true preference is an arbitrary nondecreasing function of the cumulative volume $\sum_t x_{i,t}$ received during its sojourn.
-The operator scores elastic service with the concave surrogate $w_g\,u(x)$, $u(x)=\log(1+x)$, which yields weighted proportional fairness among elastic devices; the analysis only uses that $u$ is concave, increasing, differentiable and $u'\le 1$, so any $\alpha$-fair utility $((1+x)^{1-\alpha}-1)/(1-\alpha)$ can be substituted.
+The operator scores elastic service with the concave surrogate $w_g\,u(x)$, $u(x)=\log(1+x)$, which yields weighted proportional fairness among elastic devices; the analysis only uses that $u$ is concave, increasing, differentiable and $u'\le 1$, so any $\alpha$-fair utility $((1+x)^{1-\alpha}-1)/(1-\alpha)$ can be substituted (our implementation and experiments use $\alpha=1$).
 
 \paragraph{Decisions.}
 Let $n_{g,k,t}$ be the number of active flows of tier $g$ that declare class $k$.

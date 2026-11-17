@@ -114,7 +114,7 @@ Theorem~\ref{thm:dynamic} shows that with commitment the exploitable amount is o
 Theorem~\ref{thm:dynamic} bounds the advantage collected while the device poses as RT. It does not compare the $E$-declared phases, in which the device re-enters with zero deficit while its truthful self would have carried a positive one.
 One might expect that less credit can only mean less volume.
 This is false: the elastic response \eqref{eq:xresp} is steep near $\lambda-\beta_g=D_i$, so a copy with slightly more credit can be served up to its cap, lose the excess through the reflection in \eqref{eq:D}, and fall behind.
-A random search over price-taking environments produced differences of either sign.
+A random search over price-taking environments (script \texttt{experiments/check\_credit\_monotonicity.py} in the repository) produced differences of either sign.
 We therefore make no analytical claim about these phases and measure the total effect of switching strategies in Section~\ref{sec:exp-strategic}.
 
 \paragraph{The reverse deviation.}
@@ -131,7 +131,7 @@ When tier-mates hold positive deficits the RT offer carries a debt price and the
 
 \paragraph{Other manipulations.}
 Demand caps are measured by the access point, so they are not a strategic variable for downlink traffic.
-A subscriber can still inflate its backlog with traffic it does not need, and so accumulate a deficit that it later redeems; since deficits never exceed $B_{g,k}$, so does the credit obtained in this way.
+A subscriber can still inflate its backlog with traffic it does not need, and so accumulate a deficit that it later redeems; since deficits never exceed $B_{g,k}$, the credit held at any time in this way is at most $B_{g,k}$. We do not bound credit that is accumulated and redeemed repeatedly.
 Utilities, deficits and the hold-down are attached to the billing identity, so splitting traffic over several flows of one subscriber changes nothing, and a subscriber is entitled to one RT bundle per class.
 
 \subsection{Near-optimality and the business constraints}\label{sec:opt}

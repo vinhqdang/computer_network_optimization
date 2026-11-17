@@ -127,12 +127,12 @@ The deficit update \eqref{eq:D} uses the fluid reference $a\min(z,d_i)$, which i
 \State round admissions to whole flows (incumbents first) and serve
 \ForAll{elastic $i$, class $k$} $D_{i,k}\gets\max\big(D_{i,k}+a_{g_i,k}\min(z_{g_i,k},d_i)-x_i,\ 0\big)$ \EndFor
 \ForAll{$j$} $Q_j\gets\max(Q_j+e_j,\ 0)$ \EndFor
-\State arrivals start with $D=0$; departures drop their deficits; a device that changes its declared class keeps the new class for at least $\tau$ slots
+\State arrivals start with $D=0$; departures drop their deficits; a device that declares an RT class forfeits its deficits and restarts from $D=0$ if it returns to $E$
 \end{algorithmic}
 \end{algorithm}
 
 The rule has four knobs: $V$, which trades utility against the size of the envy bound; the tier weights $w_g$; the commercial targets $(\theta_P,\theta_Y,\phi)$; and the \emph{hold-down} time $\tau$ that a subscriber must keep a declared class before changing it.
-Section~\ref{sec:analysis} explains why the hold-down is needed.
+The hold-down is a condition on declarations that the access point imposes per subscriber identity; the incentive analysis of Section~\ref{sec:analysis} assumes it and explains why.
 
 \subsection{Variants}\label{sec:variants}
 
