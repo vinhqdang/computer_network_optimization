@@ -172,3 +172,16 @@ variability sweep; E7 ablations (REPAY-E, REPAY-WC, no debt price); E8 runtime s
    through a served-ratio constraint.
 4. Deterministic rounding that never reduces elastic allocations.
 5. Entrant-offer and slack-recycling variants defined and scoped (T1/T2 only).
+
+## 9. Changes made during implementation
+
+- Premium and PAYG service levels are relative to **committed demand**: each paid tier has a committed
+  rate per device $c_g$ (defaults $c_P=2$, $c_Y=1.5$ Mbit/s) and
+  $\mathrm{com}_g=\sum_k n_{g,k}\min(r^{\max}_k,c_g)+\sum_i\min(d_i,c_g)$; $e_{PS}=\theta_P\mathrm{com}_P-\rho_P$,
+  $e_{YS}=\theta_Y\mathrm{com}_Y-\rho_Y$. With demand taken as the link rate of saturated devices the
+  constraints were infeasible and the queues diverged. Defaults $\theta_P=0.8$, $\theta_Y=0.6$, $\phi=0.15$.
+- REPAY-WC recycles spare capacity only when every elastic device is at its cap (with negative tier
+  prices, $\lambda=0$ alone does not imply that, and the deficit bound failed in a test).
+- Hotspot scenario: $C_{mean}=150$ with multipliers (1.0, 0.6, 0.2).
+- Priority baseline: strict priority with admission control (admit RT flows at $r^{\min}$ in priority
+  order, then raise video rates equally).

@@ -138,6 +138,6 @@ Section~\ref{sec:analysis} explains why the hold-down is needed.
 
 We also evaluate three modifications.
 \textsc{Repay-E} (entrant offer) defines a reference even when the group $(g,k)$ is empty: the offer that a single new class-$k$ flow of tier $g$ would receive at the realised $\lambda$, obtained from \eqref{eq:psi} with $n=1$. It closes a loophole in thin markets, where a lone elastic device could become the only RT flow of its tier.
-\textsc{Repay-WC} (work-conserving) hands capacity that is left unused at $\lambda=0$ to RT groups, which the debt price may otherwise keep below $\rmax_k$ for a few slots after a congestion episode.
+\textsc{Repay-WC} (work-conserving) hands capacity that is left unused when every elastic device is served at its cap to RT groups, which the debt price may otherwise keep below $\rmax_k$ for a few slots after a congestion episode.
 \textsc{No-debt} drops the debt coefficients ($\pi=\zeta=0$) and keeps only the elastic bonus.
 The deterministic guarantees of Section~\ref{sec:envy} hold for all three; the optimality guarantee of Section~\ref{sec:opt} is proved for \repay{} itself.

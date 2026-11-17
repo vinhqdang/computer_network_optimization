@@ -42,6 +42,7 @@ The capacity constraint is
 \end{equation}
 where $\cE_t$ is the set of active devices that declare $E$.
 The total rate of tier $g$ is $\rho_{g,t}=\sum_k n_{g,k,t}y_{g,k,t}+\sum_{i\in\cE_t:\,g_i=g}x_{i,t}$ and its demand is $\dem_{g,t}=\sum_k n_{g,k,t}\rmax_k+\sum_{i\in\cE_t:\,g_i=g}d_{i,t}$.
+The paid tiers come with a \emph{committed rate} $c_g$ per device, the rate the product promises; the committed demand of tier $g$ is $\mathrm{com}_{g,t}=\sum_k n_{g,k,t}\min(\rmax_k,c_g)+\sum_{i\in\cE_t:\,g_i=g}\min(d_{i,t},c_g)$.
 The (expected) utility collected in slot $t$ is
 \begin{equation}\label{eq:util}
 U_t=\sum_{g,k}w_g\,n_{g,k,t}\,a_{g,k,t}\,u_k(z_{g,k,t})+\sum_{i\in\cE_t}w_{g_i}u(x_{i,t}).
@@ -50,12 +51,12 @@ U_t=\sum_{g,k}w_g\,n_{g,k,t}\,a_{g,k,t}\,u_k(z_{g,k,t})+\sum_{i\in\cE_t}w_{g_i}u
 \paragraph{Business constraints.}
 The operator's commercial commitments are long-run constraints on tier rates:
 \begin{align}
-\text{premium service level:}\quad &\limsup_{T\to\infty}\frac1T\sum_{t\le T}\big(\theta_P\,\dem_{P,t}-\rho_{P,t}\big)\le 0,\label{eq:ps}\\
-\text{PAYG service level:}\quad &\limsup_{T\to\infty}\frac1T\sum_{t\le T}\big(\theta_Y\,\dem_{Y,t}-\rho_{Y,t}\big)\le 0,\label{eq:ys}\\
+\text{premium service level:}\quad &\limsup_{T\to\infty}\frac1T\sum_{t\le T}\big(\theta_P\,\mathrm{com}_{P,t}-\rho_{P,t}\big)\le 0,\label{eq:ps}\\
+\text{PAYG service level:}\quad &\limsup_{T\to\infty}\frac1T\sum_{t\le T}\big(\theta_Y\,\mathrm{com}_{Y,t}-\rho_{Y,t}\big)\le 0,\label{eq:ys}\\
 \text{free-tier floor:}\quad &\limsup_{T\to\infty}\frac1T\sum_{t\le T}\big(\min(\phi\,C_t,\dem_{F,t})-\rho_{F,t}\big)\le 0.\label{eq:ff}
 \end{align}
-Constraint~\eqref{eq:ps} says that premium subscribers receive at least a fraction $\theta_P$ of what they ask for.
-PAYG subscribers pay a price $p$ per unit of volume, so the revenue rate is $p\,\rho_{Y,t}$ and \eqref{eq:ys} guarantees that the operator captures at least a fraction $\theta_Y$ of the PAYG revenue that is on offer.
+Constraint~\eqref{eq:ps} says that the premium tier receives on average at least a fraction $\theta_P$ of its committed demand.
+PAYG subscribers pay a price $p$ per unit of volume, so the revenue rate is $p\,\rho_{Y,t}$ and \eqref{eq:ys} guarantees that the operator captures at least a fraction $\theta_Y$ of the PAYG revenue that the committed rates put on offer.
 Constraint~\eqref{eq:ff} reserves a share $\phi$ of the capacity for the free tier whenever free users want it, as venues that advertise free access typically must.
 We write $e_{j,t}$, $j\in\{PS,YS,FF\}$, for the three summands, so that each constraint reads ``the time average of $e_j$ is nonpositive''.
 All three are linear in the tier rates. This matters for the analysis: the price that such a constraint puts on a unit of rate is the same for every class inside a tier.

@@ -135,7 +135,7 @@ class Repay:
         res = solve_slot(C, p.V, w[tel], d, bonus, beta_t[tel], gk, gn, gw, gb, gpi, gze, p)
         x, a, z, lam = res["x"], res["a"].copy(), res["z"].copy(), res["lam"]
 
-        if self.recycle and lam == 0.0 and groups:
+        if self.recycle and lam == 0.0 and groups and bool(np.all(x >= d - 1e-12)):
             spare = C - (float(np.sum(gn * a * z)) + float(x.sum()))
             for j in np.argsort(-gw, kind="stable"):
                 if spare <= 1e-12:
@@ -206,8 +206,9 @@ class Repay:
         rho = np.bincount(tier, weights=rate, minlength=3)
         dem_dev = np.where(decl == 0, cap, _rmax_of(p, decl))
         dem = np.bincount(tier, weights=dem_dev, minlength=3)
-        eps = np.array([p.theta_P * dem[1] - rho[1],
-                        p.theta_Y * dem[2] - rho[2],
+        com = np.bincount(tier, weights=p.committed(tier, dem_dev), minlength=3)
+        eps = np.array([p.theta_P * com[1] - rho[1],
+                        p.theta_Y * com[2] - rho[2],
                         min(p.phi * C, dem[0]) - rho[0]])
         self.Q = np.maximum(self.Q + eps, 0.0)
 

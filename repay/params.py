@@ -26,9 +26,10 @@ class Params:
     w: tuple = (1.0, 2.0, 1.5)
     V: float = 20.0
     alpha: float = 1.0
-    theta_P: float = 0.6
-    theta_Y: float = 0.5
-    phi: float = 0.10
+    theta_P: float = 0.8
+    theta_Y: float = 0.6
+    phi: float = 0.15
+    commit: tuple = (float("inf"), 2.0, 1.5)  # committed rate per device, by tier
     varpi: float = 0.0
     price: float = 1.0
 
@@ -40,6 +41,10 @@ class Params:
     def w_arr(self):
         """Tier weights as an array indexed by tier."""
         return np.asarray(self.w, dtype=float)
+
+    def committed(self, tier, dem_dev):
+        """Committed demand per device: its demand capped at the committed rate of its tier."""
+        return np.minimum(np.asarray(dem_dev, dtype=float), np.asarray(self.commit, dtype=float)[tier])
 
     def rmin(self, k):
         """Minimum rate of RT class k (1 = video, 2 = gaming); array-friendly."""
