@@ -233,3 +233,4 @@ paper/*.fdb_latexmk
 paper/sections/*.aux
 __pycache__/
 .pytest_cache/
+data/raw/
