@@ -105,7 +105,7 @@ def main():
             for i in picks_rev[s]:
                 jobs.append((m, s, f"rev:{i}", ((i, 0),)))
     print(f"{len(jobs)} runs queued", flush=True)
-    res = pmap(_worker, jobs, procs=2)
+    res = pmap(_worker, jobs, procs=4)
     print(f"runs done in {time.time() - t0:.0f}s", flush=True)
 
     truth = {(r["mech"], r["seed"]): r for r in res if r["tag"] == "truth"}

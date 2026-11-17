@@ -211,7 +211,7 @@ def main():
 
     jobs = [(k, V, s) for k in ("repay", "dpp") for V in V_GRID for s in SEEDS]
     jobs += [("pf", 20.0, s) for s in SEEDS]
-    runs = pmap(_sim, jobs, procs=2)
+    runs = pmap(_sim, jobs, procs=4)
     print(f"simulation runs: {len(runs)} in {time.time() - t0:.0f}s", flush=True)
 
     rows = {k: [_gap_stats(runs, k, V, U_star) for V in V_GRID] for k in ("repay", "dpp")}

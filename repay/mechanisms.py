@@ -60,6 +60,8 @@ class Repay:
         self.D = {}
         self.prev_decl = {}
         self.incumbents = set()
+        self.rt_present = {}  # slots spent as a declared RT flow
+        self.rt_served = {}   # slots in which the flow was admitted
         self.last = {}
 
     def bound(self, g, k):
@@ -74,6 +76,10 @@ class Repay:
         for i in [i for i in self.prev_decl if i not in present]:
             del self.prev_decl[i]
         self.incumbents &= present
+        rt_now = {i for i, dk in zip(ids.tolist(), decl.tolist()) if dk != 0}
+        for i in [i for i in self.rt_present if i not in rt_now]:
+            del self.rt_present[i]
+            self.rt_served.pop(i, None)
         for i, dk in zip(ids.tolist(), decl.tolist()):
             if dk == 0:
                 if i not in self.D or self.prev_decl.get(i) != 0:
@@ -169,13 +175,16 @@ class Repay:
                         ref[mg, kk] = float(ae) * np.minimum(float(ze), d[mg])
             fref[el] = ref
 
-        # Rounding to whole flows: incumbents first, then earlier arrival.
+        # Rounding to whole flows: least-served flows first (fair rotation inside a group),
+        # ties broken in favour of incumbents, then earlier arrival.
         rate = np.zeros(n)
         pool = 0.0
         inc = np.isin(ids, np.fromiter(self.incumbents, np.int64, len(self.incumbents)))
         for j, (g, k, mem) in enumerate(groups):
             na = gn[j] * a[j]
-            order = mem[np.lexsort((ids[mem], arr[mem], ~inc[mem]))]
+            sfrac = np.array([self.rt_served.get(i, 0) / max(self.rt_present.get(i, 0), 1)
+                              for i in ids[mem].tolist()])
+            order = mem[np.lexsort((ids[mem], arr[mem], ~inc[mem], sfrac))]
             M = min(int(np.floor(na + 1e-9)), order.size)
             rate[order[:M]] = z[j]
             frac = na - M
@@ -202,6 +211,10 @@ class Repay:
                 self.D[i] = Dn[e].copy()
 
         self.incumbents = set(ids[rt][rate[rt] > 1e-12].tolist())
+        for i, r_i in zip(ids[rt].tolist(), rate[rt].tolist()):
+            self.rt_present[i] = self.rt_present.get(i, 0) + 1
+            if r_i > 1e-12:
+                self.rt_served[i] = self.rt_served.get(i, 0) + 1
 
         rho = np.bincount(tier, weights=rate, minlength=3)
         dem_dev = np.where(decl == 0, cap, _rmax_of(p, decl))

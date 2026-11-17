@@ -92,7 +92,7 @@ def main():
         for m in MECH_NAMES:
             plan.append((m, s, "truth", None, None))
     print(f"{len(plan)} runs queued", flush=True)
-    res = pmap(_worker, plan, procs=2)
+    res = pmap(_worker, plan, procs=4)
     print(f"runs done in {time.time() - t0:.0f}s", flush=True)
 
     truth = {(r["mech"], r["seed"]): r for r in res if r["tag"] == "truth"}
