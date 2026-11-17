@@ -28,8 +28,8 @@ We also run the three variants of Section~\ref{sec:variants}.
 \emph{Elastic rate} is the mean rate of genuine elastic devices while active.
 \emph{Utility} is the sum over devices of their true per-slot utility, averaged over time.
 \emph{Class envy} is computed in the same way for every rule, from realised rates: for each elastic device we track the largest window sum of (mean rate of the RT flows of its tier, capped at its own demand, minus its own rate), and report the maximum over devices.
-Unless stated otherwise we report means over seeds with 95\% confidence intervals.
-The number of independent traces is $10$ for the comparison, $5$ for the bound, the variability sweep and the binding-constraint table, $3$ for the default business constraints and the optimality gap, $4$ for the collapse curves, $6$ for the unilateral deviations and $2$ for the switching and oracle attacks.
+Unless stated otherwise we report means over seeds with 95\% confidence intervals based on Student's $t$ quantiles; with three to ten seeds these intervals are indicative, and since all rules run on the same traces we also give paired differences where a comparison matters.
+The number of independent traces is $10$ for the comparison, $5$ for the bound, the variability sweep and the binding-constraint table, $3$ for the default business constraints and the optimality gap, $4$ for the collapse curves, $6$ for the unilateral deviations and $2$ for the reverse deviation and the switching and oracle attacks. Runs last $6000$ slots for the comparisons and $3000$ for the strategic experiments, from an empty system and without warm-up.
 Capacity noise is lognormal with $\sigma=0.15$ and sojourns last at least five slots. All traces are synthetic.
 
 \subsection{The envy bound}\label{sec:exp-bound}
@@ -40,6 +40,27 @@ The ratio never exceeds $0.43$, in line with Theorem~\ref{thm:bound} and Remark~
 Figure~\ref{fig:bound}(b) shows what the bound buys.
 Without deficit queues the same drift-plus-penalty rule produces class envy between $110$ and $900$~Mbit; with them the envy stays between $2$ and $52$~Mbit and below the theoretical line.
 The price is small: at $V=100$ \repay{} serves $93.8\%$ of RT slots against $94.9\%$ for plain DPP, and at $V=20$ it serves $89.3\%$ against $92.0\%$, while elastic devices receive more ($1.67$ against $1.47$~Mbit/s at $V=20$).
+
+\paragraph{How large is the bound?}
+Table~\ref{tab:bsize} puts the video bound next to what elastic devices actually receive, for the $180$ devices of Section~\ref{sec:exp-strategic} (stays of at least $60$ slots, median about $200$).
+At $V=20$ the bound is between a sixth and a quarter of the volume a device receives during a median stay, and the envy realised is three to twelve times smaller than the bound.
+For a stay of $60$ slots the bound is close to the whole volume received, and for the shortest stays it says nothing; Section~\ref{sec:exp-strategic} therefore tests short stays separately.
+An operator can read the choice of $V$ off this table: $V$ is the envy bound, in units of $w_g\eta_k$, that it is willing to tolerate, and it should be small compared with the volume of the stays it wants to protect.
+
+\begin{table}[t]
+\centering
+\caption{The video bound $B_{g,\mathrm{v}}=Vw_g\eta_{\mathrm{v}}+\rmax_{\mathrm{v}}$ at $V=20$ against realised quantities ($180$ elastic devices on six traces, truthful declarations). The gaming bounds are $100$, $200$ and $150$~Mbit.}
+\label{tab:bsize}
+\begin{tabular}{lrrrrr}
+\toprule
+Tier & $B_{g,\mathrm{v}}$ (Mbit) & Median volume of a stay (Mbit) & Median $B/$volume & Median realised envy (Mbit) & Largest realised envy (Mbit) \\
+\midrule
+Free & 43 & 189 & 0.23 & 6.9 & 14.1 \\
+Premium & 83 & 494 & 0.17 & 3.8 & 6.7 \\
+PAYG & 63 & 248 & 0.25 & 6.6 & 14.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[t]
 \centering
@@ -69,16 +90,19 @@ The largest deficit in these runs is $0.21$ of its bound.
 
 Table~\ref{tab:compare} and Figure~\ref{fig:compare} compare all rules on the hotspot scenario when every device declares its true class ($10$ seeds, $6000$ slots).
 The rules fall into three groups.
-\textsc{WFQ} and \textsc{Priority} serve nearly all RT slots, but they do so by taking capacity from elastic devices for good: the elastic rate falls from about $1.75$ to $1.26$~Mbit/s and class envy reaches about $2000$~Mbit.
+\textsc{WFQ} and \textsc{Priority} serve nearly all RT slots, but they do so by taking capacity from elastic devices for good: the elastic rate falls from about $1.75$ to $1.26$~Mbit/s and class envy reaches $2000$ to $2200$~Mbit.
 \textsc{PF} and \textsc{Credit} are fair to elastic devices and leave RT flows unprotected ($82\%$ of RT slots, $76$--$80\%$ for video).
 \repay{} sits between the two on RT success ($89.9\%$) while giving elastic devices what \textsc{PF} gives them ($1.75$ against $1.78$~Mbit/s) and keeping class envy at $19$~Mbit.
 It closes $44\%$ of the gap in RT success between \textsc{PF} and \textsc{Priority} at a $1.7\%$ lower elastic rate and with a higher utility than \textsc{PF}.
-The gain is in the free tier, where $83\%$ of RT slots are served against $70\%$ under \textsc{PF}; the paid tiers are served in more than $99\%$ of slots by every rule that uses the tier weights.
+The intervals in the table overlap because the traces differ more than the rules do; the paired differences between \repay{} and \textsc{PF} over the ten traces are $+8.0\pm1.3$ points of RT success, $+2.0\pm0.4$ in utility and $-0.029\pm0.005$~Mbit/s in elastic rate, each with the same sign on every trace.
+Plain DPP, which differs from \repay{} only by the deficit queues, serves $2.3\pm0.5$ points more RT slots and has a utility higher by $1.4\pm0.1$, with an elastic rate lower by $0.19$~Mbit/s: this is the price of bounded envy when everyone is truthful.
+The utility figures add real-time and elastic utilities on the scales of Section~\ref{sec:model}, so their ranking depends on that exchange rate; RT success and elastic rate do not.
+The gain is in the free tier, where $83\%$ of RT slots are served against $70\%$ under \textsc{PF}; the paid tiers are served in more than $99\%$ of slots by every rule except \textsc{Credit} ($95\%$ for premium and $84\%$ for PAYG). These per-tier figures are computed from the result files and are not in the table.
 When all devices are truthful, \textsc{Priority} and \textsc{WFQ} have the highest utility ($74.8$ and $73.9$ against $70.7$); their defects are envy and, as Section~\ref{sec:exp-strategic} shows, incentives.
-\textsc{Repay-WC} coincides with \repay{} in every run, because its recycling condition (spare capacity while every elastic device is at its cap) never occurs in these scenarios, so the variant is not exercised by our experiments. \textsc{Repay-E} differs only in the third decimal: the entrant offer matters when a tier has no RT flow, which is rare with $75$ devices.
+\textsc{Repay-WC} coincides with \repay{} in every run, so its recycling condition (spare capacity while every elastic device is at its cap) has no effect in any run and the variant is not exercised by our experiments. \textsc{Repay-E} differs only in the third decimal: the entrant offer matters when a tier has no RT flow, which is rare with $75$ devices.
 Dropping the debt price raises RT success by one point and class envy from $19$ to $28$~Mbit.
 
-In the home scenario capacity is ample most of the time and all rules serve at least $97\%$ of RT slots (Table~\ref{tab:compare-home}); the differences are again in class envy, $10$~Mbit for \repay{} against $165$ for plain DPP and $460$ for \textsc{WFQ} and \textsc{Priority}, which coincide on this scenario because RT flows never have to be rationed.
+In the home scenario capacity is ample most of the time and all rules serve about $97\%$ of RT slots or more (Table~\ref{tab:compare-home}); the differences are again in class envy, $10$~Mbit for \repay{} against $165$ for plain DPP and $460$ for \textsc{WFQ} and \textsc{Priority}, which coincide on this scenario because RT flows never have to be rationed.
 
 \begin{table}[t]
 \centering
@@ -131,7 +155,7 @@ This is why the pooled volume also falls under \textsc{PF} and \textsc{Credit}, 
 
 \paragraph{Thin markets.}
 Theorem~\ref{thm:static} assumes price-taking devices, so we also compute the exact gain in markets where one device is a large part of its tier.
-One tier holds the potential deviator, $n_E$ other saturated elastic devices and $n_V$ genuine video flows, all present for $L$ slots, and capacity alternates between $0.3$ and $1$~Mbit/s per device.
+Tier prices are set to zero. One tier holds the potential deviator, $n_E$ other saturated elastic devices and $n_V$ genuine video flows, all present for $L$ slots, and capacity alternates between $0.3$ and $1$~Mbit/s per device.
 Table~\ref{tab:thin} gives the gain of the deviator in Mbit.
 It does not grow with the length of the stay: it is either a constant of about $5$~Mbit, an eighth of the bound $B_{F,\mathrm{v}}=43$~Mbit, or negative and decreasing in $L$.
 With the incumbents-first rounding of an earlier version the gain in the three-device market grew linearly in $L$, which is what led us to the rotation of Section~\ref{sec:algorithm}.
@@ -159,7 +183,7 @@ With the incumbents-first rounding of an earlier version the gain in the three-d
 
 \paragraph{When many misreport.}
 Figure~\ref{fig:collapse} lets a fraction $\rho$ of the elastic devices declare video.
-Under \textsc{Priority}, \textsc{WFQ} and plain DPP a misreporting device receives more than a truthful one at every $\rho$ (for instance $1.60$ against $0.63$~Mbit/s under \textsc{Priority} at $\rho=0.25$), so $\rho$ drifts to one.
+Under \textsc{Priority}, \textsc{WFQ} and plain DPP a misreporting device receives more than a truthful one at every interior $\rho$ we tested ($0.25$, $0.5$, $0.75$) (for instance $1.60$ against $0.63$~Mbit/s under \textsc{Priority} at $\rho=0.25$), so $\rho$ drifts to one.
 At $\rho=1$ the rules have nothing left to differentiate on. \textsc{WFQ} then serves $78\%$ of genuine RT slots, the same as \textsc{PF}, and plain DPP $84\%$; total utility falls from $72.3$ to $59.8$ under \textsc{WFQ} and from $70.7$ to $61.9$ under plain DPP.
 \textsc{Priority} with admission control degrades more gracefully: it still serves $95.8\%$ of genuine RT slots at $\rho=1$, because it admits flows at the minimum rate, but calls then run at lower quality (video utility $1.75$ per slot instead of $2.53$) and every elastic device, capped at the video rate, receives $0.97$~Mbit/s.
 Under \repay{} a misreporting device receives \emph{less} than a truthful one ($1.06$ against $1.24$~Mbit/s at $\rho=0.25$), so the truthful profile $\rho=0$ is stable.
@@ -229,7 +253,7 @@ Meeting the commitment is costly in this configuration, since premium devices ta
 
 \subsection{Running time}\label{sec:exp-runtime}
 
-The solver performs about forty bisection steps per slot, each a vectorised pass over the devices.
+The solver performs at most $80$ bisection steps per slot, each a vectorised pass over the devices.
 On single-slot instances with $10$ to $3000$ devices the median solve time stays between $1.4$ and $2.0$~ms on one core of a commodity server (Figure~\ref{fig:runtime}); a conic solver applied to the same problem takes $11$ to $27$~ms for $10$ to $300$ devices and agrees with the bisection to a relative difference of $10^{-8}$ in the objective (evaluated at the conic solver's primal point).
 The complete allocation step, including rounding and bookkeeping, takes $2.2$~ms per slot at $75$ devices in our simulator, so one-second slots leave more than two orders of magnitude of headroom.
 

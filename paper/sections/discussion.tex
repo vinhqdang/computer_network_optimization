@@ -33,6 +33,6 @@ The gain from misreporting is measured for a video bundle capped at $3$~Mbit/s, 
 
 Protecting real-time traffic on a shared access link invites every other application to claim to be real-time.
 We proposed to grant the protection on credit: priority now is paid back in volume later, through per-device deficit queues embedded in a drift-plus-penalty allocation with commercial tiers and long-run business constraints.
-The resulting rule bounds the envy between service classes by a constant on every sample path and for every device, whatever the churn, while remaining within $O(1/V)$ of the best envy-free policy in utility.
+The resulting rule bounds the envy between service classes by a constant on every sample path and for every device, whatever the churn, while its fluid allocation stays within $O(1/V)$, in utility, of a benchmark of policies that meet the business constraints and are class-envy-free in expectation in every population state.
 The construction is not tied to Wi-Fi.
 It applies wherever an operator must differentiate users whose needs differ in timing rather than in quantity and cannot verify what they are, for instance in shared compute clusters with interactive and batch jobs or in charging infrastructure; adapting the analysis to several resources and to learned, rather than declared, classes are the directions we find most interesting.

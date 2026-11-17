@@ -342,6 +342,56 @@ class Priority:
         return rate
 
 
+class PriorityCap(Priority):
+    """Capped priority: Priority with the declared-RT total limited to q * C.
+
+    Admission at rmin and the video water-fill draw on an RT budget of q * C instead of C, in the
+    same order as Priority. Elastic devices receive all capacity left after the RT rates by weighted
+    proportional fairness. With q = 1 the allocation equals Priority's.
+    """
+
+    def __init__(self, params: Params, q=0.3):
+        super().__init__(params)
+        if not 0.0 < q <= 1.0:
+            raise ValueError("q must lie in (0, 1]")
+        self.q = float(q)
+
+    def allocate(self, view):
+        """Capped admission in priority order, equal water-fill of video within the budget, elastic PF."""
+        p = self.p
+        ids, tier, decl, cap, arr = _arrays(view)
+        n = ids.size
+        rate = np.zeros(n)
+        rt = np.flatnonzero(decl > 0)
+        tier_rank = np.array([2, 0, 1])[tier]
+        dec_rank = np.where(decl == 2, 0, 1)
+        order = rt[np.lexsort((ids[rt], arr[rt], dec_rank[rt], tier_rank[rt]))]
+        C = float(view.C)
+        budget = self.q * C
+        left = C
+        admitted_video = []
+        for j in order:
+            rn = p.rmin(decl[j])
+            if budget >= rn - 1e-12 and left >= rn - 1e-12:
+                rate[j] = rn
+                budget = max(budget - rn, 0.0)
+                left = max(left - rn, 0.0)
+                if decl[j] == 1:
+                    admitted_video.append(j)
+        if admitted_video:
+            vid = np.asarray(admitted_video, dtype=np.int64)
+            extra = np.array([p.rmax(1) - p.rmin(1)] * vid.size, float)
+            raise_by = _waterfill(budget, extra)
+            rate[vid] += raise_by
+            used = float(raise_by.sum())
+            budget = max(budget - used, 0.0)
+            left = max(left - used, 0.0)
+        el = np.flatnonzero(decl == 0)
+        if el.size:
+            rate[el] = solve_pf(left, p.w_arr[tier[el]], cap[el])
+        return rate
+
+
 class Credit:
     """Karma-style class-blind credit mechanism."""
 

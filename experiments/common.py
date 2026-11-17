@@ -4,8 +4,9 @@ import os
 from multiprocessing import Pool
 
 import numpy as np
+from scipy.stats import t as _t
 
-from repay.mechanisms import PF, WFQ, Credit, PlainDPP, Priority, Repay
+from repay.mechanisms import PF, WFQ, Credit, PlainDPP, Priority, PriorityCap, Repay
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS = os.path.join(ROOT, "results")
@@ -22,21 +23,25 @@ MECHS = {
     "wfq": lambda p: WFQ(p),
     "priority": lambda p: Priority(p),
     "credit": lambda p: Credit(p),
+    "priority-cap": lambda p: PriorityCap(p),
 }
 
 LABELS = {
     "repay": "REPAY", "repay-wc": "REPAY-WC", "repay-e": "REPAY-E", "no-debt": "No-debt",
     "dpp": "Plain DPP", "pf": "PF", "wfq": "WFQ", "priority": "Priority", "credit": "Credit",
+    "priority-cap": "Capped priority",
 }
 
-# Okabe-Ito colour-blind-safe palette
+# Okabe-Ito colour-blind-safe palette (plus one purple for the capped priority baseline)
 COLORS = {
     "repay": "#0072B2", "repay-wc": "#56B4E9", "repay-e": "#009E73", "no-debt": "#999999",
     "dpp": "#E69F00", "pf": "#CC79A7", "wfq": "#D55E00", "priority": "#000000", "credit": "#F0E442",
+    "priority-cap": "#6A3D9A",
 }
 MARKERS = {
     "repay": "o", "repay-wc": "v", "repay-e": "^", "no-debt": "x",
     "dpp": "s", "pf": "D", "wfq": "P", "priority": "*", "credit": "h",
+    "priority-cap": "p",
 }
 
 
@@ -80,11 +85,11 @@ def load(name):
 
 
 def mean_ci(values):
-    """Mean and half-width of a 95% normal confidence interval over seeds."""
+    """Mean and half-width of a 95% Student-t confidence interval over seeds."""
     v = np.asarray([x for x in values if x is not None], dtype=float)
     if v.size == 0:
         return float("nan"), float("nan")
-    hw = 1.96 * v.std(ddof=1) / np.sqrt(v.size) if v.size > 1 else 0.0
+    hw = float(_t.ppf(0.975, v.size - 1)) * v.std(ddof=1) / np.sqrt(v.size) if v.size > 1 else 0.0
     return float(v.mean()), float(hw)
 
 

@@ -7,6 +7,13 @@ Weighted fair queueing and its practical approximations \citep{parekh1993general
 These frameworks take the set of flows and their classes as given.
 Closer to our setting, \citet{sisalem2023enabling} contrast fairness in every slot with fairness over the horizon and show that vanishing regret for the latter is impossible against an unrestricted adversary, and \citet{elazzouni2020deadline} treat online, deadline-constrained allocation with fairness.
 
+\paragraph{Classification and queue management in deployed networks.}
+Operators do not rely on declarations alone.
+Wi-Fi access categories are selected from the Diffserv marking of a packet \citep{rfc8325}, which for uplink traffic is set by the device and for downlink traffic by whoever sits upstream; many networks reset it at their boundary and classify traffic themselves, increasingly with learned classifiers that work on encrypted flows \citep{rezaei2019deep}.
+A second line of practice avoids classes altogether: flow queueing with active queue management \citep{rfc8290,hoiland2018cake} isolates flows and gives sparse flows low delay without asking what they are, and L4S \citep{rfc9330} lets a flow ask for low queueing delay on the condition that it responds to congestion marks, which removes the incentive to misdeclare because the low-delay queue carries no throughput advantage.
+These mechanisms control delay at the scale of packets and share the rate equally among flows or hosts, so on the time scale of our model they behave like the class-blind baseline \textsc{PF}: when the equal share falls below what a call needs, the call fails.
+A classifier is complementary to our rule. Its output can replace the declaration, and since every classifier errs and can be imitated, a rule under which being taken for real-time is not worth much limits the damage of its errors; we do not model classification errors here.
+
 \paragraph{Stochastic network optimisation and constrained online learning.}
 Our algorithm belongs to the drift-plus-penalty family \citep{georgiadis2006resource,neely2010stochastic}, which builds on the primal--dual and queue-based methods of \citet{stolyar2005maximizing}, \citet{eryilmaz2007fair} and \citet{neely2008fairness}.
 Deterministic bounds on virtual queues are a known device in this literature, for example for worst-case delay \citep{neely2011worstcase}; we do not claim the technique, only its use for a per-device fairness property.
@@ -30,7 +37,7 @@ Karma \citep{vuppalapati2023karma} implements it with credits for a single elast
 Related guarantees for repeated allocation without money appear in \citet{balseiro2019nomoney}, \citet{banerjee2023pseudo}, \citet{fikioris2025dmmf} and \citet{lin2026spec}, envy that grows sublinearly in the horizon in \citet{benade2018envy}, and a deficit-based rule with anytime fairness bounds in \citet{kahana2026perpetual}.
 Most of these works consider agents of a single kind, who differ in demand or urgency but not in the shape of their utility (\citet{le2019bopf} distinguish two job classes, and the karma models let urgency vary), a fixed or heuristically handled population, and no long-run constraints of the operator.
 Our contribution is narrower and complementary: we place the repayment idea inside a constrained stochastic optimisation with heterogeneous service classes and commercial tiers, and obtain a sample-path bound per device that is unaffected by churn.
-Consistent with the impossibility result of \citet{zahedi2026credit}, our incentive guarantee is approximate and holds in the large-market sense of \citet{azevedo2019strategy}.
+Consistent with the impossibility result of \citet{zahedi2026credit}, our incentive guarantee is approximate; it uses the price-taking hypothesis that underlies the large-market notion of \citet{azevedo2019strategy}, without establishing a large-market limit.
 \citet{dai2025efficiency} show, for indivisible resources, that strategic agents can manipulate the dual variables of primal--dual allocation rules, and they counter this with payments combined with lazy dual updates and random exploration; our price-taking hypothesis sets this channel aside in the theory, and we measure it in the experiments.
 
 \paragraph{Robust and stochastic optimisation.}

@@ -78,7 +78,7 @@ An allocation rule is \emph{$B$-class-envy-free} if this quantity is at most $B$
 
 Class envy is measured in volume because volume is what an elastic user values.
 A rule with bounded class envy may still serve RT flows first when capacity is short; it only has to return the difference later.
-A rule with $B=0$ can never favour an RT flow over an elastic tier-mate in any slot, so it offers no protection at all.
+A rule with $B=0$ can never favour an RT flow over an elastic tier-mate in any slot, so it cannot protect an RT flow in any slot in which its elastic tier-mates cannot be given as much.
 
 \paragraph{Problem.}
 Design an online rule that (i)~maximises the long-run average of $U_t$, (ii)~satisfies \eqref{eq:ps}--\eqref{eq:ff}, and (iii)~is $B$-class-envy-free for a small $B$, without knowledge of future capacities, arrivals, departures or demands.

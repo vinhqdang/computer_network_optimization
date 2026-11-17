@@ -70,7 +70,8 @@ The bound is a constant in units of volume. With $V=20$, $w_g=1$ and $\rmin_{\ma
 
 Envy-freeness compares what a device received with what the other class was offered \emph{on the realised path}.
 A misreport changes the path: the deviating device joins an RT group, its own bonus and debt terms disappear, and the offers are re-optimised.
-To pass from envy to incentives we follow the large-market approach of \citet{azevedo2019strategy}, who show that envy-freeness is a sufficient condition for a mechanism to be strategy-proof in the large.
+To pass from envy to incentives we borrow the price-taking idea behind the large-market approach of \citet{azevedo2019strategy}, who show that envy-freeness is a sufficient condition for a mechanism to be strategy-proof in the large.
+We do not prove a large-market limit: our bounds are constants per sojourn, they become negligible per slot for long stays and not for large populations, and the effect of a device on the offers of its tier is assumed away, not shown to vanish.
 
 \begin{definition}[Price-taking]\label{def:pt}
 A device is \emph{price-taking} if it evaluates a deviation assuming that (i)~the multipliers and offers $(\lambda_t,\beta_{g,t},a_{g,k,t},z_{g,k,t})_t$ and its own demand caps are those of the truthful path, and (ii)~in each slot in which it declares class $k$ it receives the offer of group $(g,k)$, that is, an expected usable volume of at most $r_{i,k,t}$.
@@ -89,9 +90,11 @@ Declaring an RT class $k$ for the whole sojourn instead of $E$ increases the vol
 The deviation yields at most $\sum_t r_{i,k,t}$, and truthful declaration yields at least $\sum_t r_{i,k,t}-B_{g_i,k}$ by Corollary~\ref{cor:window}.
 \end{proof}
 
-The statement is about volume, which is what an elastic user values; for a preference that is Lipschitz in volume the utility gain is bounded accordingly.
+The statement is about volume. If the true preference of the device is $\kappa$-Lipschitz in the volume it receives, its gain in utility is at most $\kappa B_{g_i,k}$; for a preference with a jump, such as a file that is worthless unless complete, a bounded gain in volume can still be decisive.
+The bound is on the long-run share: under the rotation a single path can deliver up to $\rmax_k$ more than the reference, which adds $\rmax_k$ to the constant.
+It is informative only for stays long enough for $B_{g_i,k}/L$ to be small compared with the rate of the device (Table~\ref{tab:bsize}).
 Without the price-taking hypothesis the same argument gives a bound with an explicit correction: if $R^{\mathrm{dev}}$ is the volume the device receives as a class-$k$ flow on the deviation path and $R^{\mathrm{tr}}=\sum_tr_{i,k,t}$ its reference on the truthful path, the gain is at most $B_{g_i,k}+(R^{\mathrm{dev}}-R^{\mathrm{tr}})$.
-The correction term is the effect of one device on the offers of its tier. We do not bound it analytically; Section~\ref{sec:exp-strategic} measures the total gain exactly, by re-running the system with one device deviating, in large and in very small markets.
+The correction term is the effect of one device on the offers of its tier. A device that joins a group of $n$ flows at rate $z$ changes what the group is offered by an amount of order $z/n$ per slot, so over $L$ slots the correction can be of order $Lz/n$, which is not small compared with $B$ unless $n$ is large relative to $Lz/B$. We do not bound it analytically; Section~\ref{sec:exp-strategic} measures the total gain exactly, by re-running the system with one device deviating, in large and in very small markets.
 
 \paragraph{Changing class over time.}
 A device may also switch its declaration during its stay.
@@ -145,11 +148,12 @@ When tier-mates hold positive deficits the RT offer carries a debt price and the
 \paragraph{Other manipulations.}
 Demand caps are measured by the access point, so they are not a strategic variable for downlink traffic.
 A subscriber can still inflate its backlog with traffic it does not need, and so accumulate a deficit that it later redeems; since deficits never exceed $B_{g,k}$, the credit held at any time in this way is at most $B_{g,k}$. We do not bound credit that is accumulated and redeemed repeatedly.
-Utilities, deficits and the hold-down are attached to the billing identity, so splitting traffic over several flows of one subscriber changes nothing, and a subscriber is entitled to one RT bundle per class.
+Throughout, a ``device'' is an authenticated identity (an account or a registered address) with one declared class at a time, and deficits, rotation counters and the hold-down are attached to it; splitting traffic over several flows therefore changes nothing only as long as each identity is limited to one RT bundle per class.
+The guarantees do not cover a subscriber who controls several identities and routes bulk traffic through the one that declares video, nor a device that reconnects under a fresh identity to reset its state; both need admission-level countermeasures (one RT bundle per account, state kept across reconnections) that are outside the model.
 
 \subsection{Utility and the business constraints}\label{sec:opt}
 
-We now show that \repay{} loses little utility relative to a benchmark of stationary policies that satisfy the business constraints and are class-envy-free on average.
+We now compare the utility of \repay{} with a benchmark of stationary policies that satisfy the business constraints and are class-envy-free on average. The argument is the standard drift-plus-penalty one; the benchmark is restricted, as we explain below.
 The statement concerns the \emph{fluid} allocation, in which a group with admission fraction $a$ earns $n\,a\,u_k(z)$ and no rounding takes place.
 
 \begin{assumption}\label{ass:model}
@@ -170,7 +174,8 @@ and let $U^*(\xi)=\sup_{\mu\in\Pi(\xi)}\E_{F_\xi}[U(\mu)]$.
 Two features of this benchmark should be kept in mind.
 The business constraints are imposed \emph{in every population state}, in expectation over the capacity, which is more demanding than the long-run averages \eqref{eq:ps}--\eqref{eq:ff}; a policy that favours the premium tier in some states and neglects it in others is not in the class.
 And the second family of constraints is class-envy-freeness in expectation with respect to the majorant reference $a\,m_d(z)\ge a\min(z,d)$, which coincides with the reference of Definition~\ref{def:envy} when no demand cap lies strictly between $\rmin_k$ and $\rmax_k$ and is stricter otherwise.
-Policies in $\Pi(\xi)$ may give RT flows priority when capacity is low provided they compensate when it is high, which is the kind of time-shifting that \repay{} performs online.
+Policies in $\Pi(\xi)$ may give RT flows priority when capacity is low provided they compensate when it is high \emph{within the same population state}; this is time-shifting across capacity draws only. If capacity is constant given the state, the benchmark has no room to shift and reduces to a policy without envy in any slot. It is therefore weaker than ``the best policy with bounded envy'', and we make no claim about the latter.
+Part~(ii) of the assumption excludes capacity with memory, such as the Markov-modulated capacity of our main experiments, unless the capacity regime is made part of $\xi_t$; the only experiment that satisfies the assumption as stated is that of Section~\ref{sec:exp-opt}.
 
 \begin{theorem}[Utility and constraint violation]\label{thm:opt}
 Under Assumption~\ref{ass:model}, if $\Pi(\xi)\neq\emptyset$ for every reachable state and the fluid per-slot problem is solved exactly, then for all $T\ge1$
@@ -188,12 +193,13 @@ Churn is harmless for the drift: a departure removes a nonnegative term and an a
 The theorem is a one-sided guarantee: \repay{} is at most $B_0/V$ below the benchmark, and it may be above it, because its tier queues balance the business constraints across population states while the benchmark must meet them in each.
 The condition $\Pi(\xi)\neq\emptyset$ is restrictive for the same reason; it fails in a state in which the committed demand cannot be met on average, and the theorem is then silent, although the deficit bound continues to hold.
 The constant $B_0$ is of order $(N_{\max}\ell^{\max})^2$, so for a hotspot with dozens of devices the bound is informative only for $V$ far larger than the values we use; the result should be read as an asymptotic rate, and Section~\ref{sec:exp-opt} measures the actual gap.
+The two bounds pull in opposite directions and cannot both be made small with the constants we prove: the utility gap $B_0/V$ is below one unit only for $V$ of the order of $B_0$, at which the envy bound $Vw_g\eta_k$ exceeds the volume a device receives in a typical stay. At $V=20$ the envy bound is meaningful (Table~\ref{tab:bsize}) and the utility bound is not; we rely on Section~\ref{sec:exp-opt} for the size of the gap.
 Together with Theorem~\ref{thm:bound} this gives the familiar trade-off of drift-plus-penalty methods with one difference in kind: the utility gap is $O(1/V)$ and the violation of the tier constraints vanishes as $O(\sqrt{V/T})$, both in expectation, whereas the envy bound $O(V)$ holds deterministically and for each device over its own, finite, sojourn.
 
 \subsection{What the standard rules do}\label{sec:baselines-theory}
 
 \begin{proposition}\label{prop:baselines}
-Consider one tier with one video flow and one elastic device with demand cap at least $C$, and constant capacity $C$ with $\rmin_{\mathrm{v}}<C<\min(2\rmin_{\mathrm{v}},1)$.
+Consider one tier with one video flow and one elastic device with demand cap at least $C$, and constant capacity $C$ with $\rmin_{\mathrm{v}}<C<\min(2\rmin_{\mathrm{v}},1)$ and $C\le\rmax_{\mathrm{v}}$.
 \begin{enumerate}[label=(\alph*),nosep]
 \item Strict priority for declared RT flows gives the video flow rate $C$ and the elastic device nothing; class envy grows by $C$ per slot, without bound. If the elastic device declares video, only one of the two flows can be admitted in a slot, so the genuine call is blocked whenever the impostor is served.
 \item Class-blind proportional fairness gives both $C/2<\rmin_{\mathrm{v}}$: the call is useless in every slot.
@@ -204,6 +210,6 @@ Consider one tier with one video flow and one elastic device with demand cap at 
 (a) and (b) are direct computations. For (c), the capacity is used in full in every case, so the tier price adds a constant. If the call is admitted with $a=1$ at rate $z$ the objective is $Vw\,[1+\log(z/\rmin_{\mathrm{v}})+\log(1+C-z)]$, which is increasing in $z$ on $[\rmin_{\mathrm{v}},C]$ because $C<1$; its value at $z=C$ is at least $Vw$, more than the $Vw\log(1+C)<Vw\log 2$ obtained by blocking the call. A fractional admission does no better: for fixed $z$ the objective is concave in $a$ and its derivative at $a=1$ is positive.
 \end{proof}
 
-On the same instance \repay{} serves the call for a number of slots, until the deficit of the elastic device is large enough to outbid it, and from then on gives each side the same long-run volume, which under permanent overload means that the call is admitted part of the time.
+On the same instance \repay{} serves the call for a number of slots, until the deficit of the elastic device is large enough to outbid it, and from then on gives the elastic device at least the long-run volume of the call, which under permanent overload means that the call is admitted part of the time.
 Bounded class envy and unconditional RT protection cannot both hold when capacity is short forever.
 What \repay{} can do, and the three rules above cannot, is protect RT traffic through \emph{transient} shortages at no long-run cost to elastic users.
