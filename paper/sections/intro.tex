@@ -9,7 +9,7 @@ And almost nothing is known in advance. Devices join and leave, sometimes dozens
 
 When capacity is short, the natural reaction is to protect the real-time traffic and let the delay-tolerant traffic wait.
 Doing this well runs into three difficulties at once.
-The first is \emph{incentives}. The access point usually cannot tell from encrypted packets what an application is, so the class of a flow is in effect declared by the device.
+The first is \emph{incentives}. With encrypted traffic the access point often cannot tell what an application is, and when it relies on markings set by the device, the class of a flow is in effect declared.
 If declaring ``real-time'' buys priority, every bulk transfer will declare it, and the protection disappears; we show that strict priority and standard utility-maximising schedulers both have this defect.
 The second is \emph{fairness under churn}. Guarantees stated as long-run averages are of little use to a device that stays for four minutes.
 The third is \emph{business constraints}: premium subscribers were promised a service level, pay-as-you-go traffic is revenue, and a venue that advertises free Wi-Fi must deliver some.
