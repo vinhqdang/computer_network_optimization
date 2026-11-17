@@ -48,7 +48,7 @@ The price is small: at $V=100$ \repay{} serves $93.8\%$ of RT slots against $94.
 
 \subsection{Optimality gap}\label{sec:exp-opt}
 
-To test Theorem~\ref{thm:opt} we fix a population (two tiers, three video flows, one gaming flow and five elastic devices with different demand caps), draw the capacity independently in each slot from $200$ equally likely values between about $3$ and $40$~Mbit/s, and compute the benchmark $U^*$ of \eqref{eq:bench} with a conic solver.
+To test Theorem~\ref{thm:opt} we fix a population (two tiers, three video flows, one gaming flow and five elastic devices with different demand caps), draw the capacity independently in each slot from $200$ equally likely values (sampled once from a mixture of lognormals with medians $30$, $12$ and $4$~Mbit/s), and compute the benchmark $U^*$ of \eqref{eq:bench} with a conic solver.
 Its value is $18.13$. Without the envy constraints the optimum is $18.22$, and with envy-freeness imposed in every slot instead of on average it drops to $17.78$: on this instance the whole value of time-shifting is $0.35$ and the cost of class-envy-freeness, once time-shifting is allowed, is $0.09$.
 Figure~\ref{fig:optgap} shows the time-average fluid utility of \repay{} over $20\,000$ slots.
 The gap to $U^*$ is $0.49$ at $V=5$, $0.098$ at $V=20$ and $0.031$ at $V=100$; the product of gap and $V$ stays between $2$ and $3.1$ for $V\ge5$, as the $B_0/V$ bound predicts, and already at $V=10$ \repay{} is above the slot-wise envy-free optimum, so it does exploit time-shifting.
@@ -116,7 +116,7 @@ This is the regime described at the end of Section~\ref{sec:baselines-theory}.
 We take $30$ elastic devices per trace (two traces of $3000$ slots, devices present for at least $60$ slots) and, for each of them and each rule, re-run the whole simulation with that device declaring video for its entire stay.
 This measures the exact gain, including the effect of the deviation on prices and offers that the price-taking analysis ignores.
 Table~\ref{tab:deviation} and Figure~\ref{fig:deviation} report the change in the volume the device receives.
-Under \textsc{Priority} and \textsc{WFQ} misreporting multiplies the volume by about four and three and a half, and almost every device gains.
+Under \textsc{Priority} and \textsc{WFQ} misreporting roughly quadruples the volume ($+320\%$ and $+272\%$ on average), and almost every device gains.
 Under plain DPP it adds $57\%$ on average.
 Under \repay{} the deviation \emph{loses} $3\%$ on average; the median change is $-0.008$~Mbit/s, $45\%$ of the devices gain a little, and the 95th percentile of the gain is $0.05$~Mbit/s.
 No device gains more than $0.39$ of its bound $B_{g,V}$, so the externality term left open after Theorem~\ref{thm:static} is small here.
@@ -185,4 +185,13 @@ Meeting the commitment is costly in this configuration, since premium devices ta
 
 \subsection{Running time}\label{sec:exp-runtime}
 
-RUNTIMEPLACEHOLDER
+The solver performs about fifty bisection steps per slot, each a vectorised pass over the devices.
+On single-slot instances with $10$ to $3000$ devices the median solve time grows from $1.5$ to $2.1$~ms on one core of a commodity server (Figure~\ref{fig:runtime}); a conic solver applied to the same problem takes $11$ to $23$~ms for $10$ to $300$ devices and agrees with the bisection to a relative difference of $10^{-8}$ in the objective.
+One-second slots therefore leave three orders of magnitude of headroom.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.45\linewidth]{figures/fig_runtime.pdf}
+\caption{Time to solve one slot against the number of active devices.}
+\label{fig:runtime}
+\end{figure}
