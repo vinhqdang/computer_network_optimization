@@ -13,12 +13,12 @@ Tiers are drawn with probabilities $(0.6,0.25,0.15)$ for free, premium and PAYG,
 Elastic devices have a link rate uniform on $[5,30]$ and alternate between active and idle periods (a two-state Markov chain with mean durations $50$ and $20$ slots); while active their demand cap is the link rate, so the link is saturated whenever elastic devices are active.
 Capacity is $150$~Mbit/s modulated by a three-state Markov chain with multipliers $(1,0.6,0.2)$ and mean holding time $33$ slots, times lognormal noise; the mean is about $91$~Mbit/s, so the fair share per device moves between roughly $2$ and $0.4$~Mbit/s, above and below the minimum video rate.
 In the \emph{home} scenario ten premium devices share $25$~Mbit/s with the same modulation; calls and game sessions start and end at random.
-The utilities are those of Section~\ref{sec:model} with $\rmin_V=0.5$, $\rmax_V=3$, $r_G=0.2$; weights are $w_F=1$, $w_P=2$, $w_Y=1.5$; committed rates are $c_P=2$ and $c_Y=1.5$ with $\theta_P=0.8$, $\theta_Y=0.6$, $\phi=0.15$; and $V=20$ unless stated otherwise.
+The utilities are those of Section~\ref{sec:model} with $\rmin_{\mathrm{v}}=0.5$, $\rmax_{\mathrm{v}}=3$, $r_{\mathrm{g}}=0.2$; weights are $w_F=1$, $w_P=2$, $w_Y=1.5$; committed rates are $c_P=2$ and $c_Y=1.5$ with $\theta_P=0.8$, $\theta_Y=0.6$, $\phi=0.15$; and $V=20$ unless stated otherwise.
 
 \paragraph{Baselines.}
 \textsc{PF} is class-blind weighted proportional fairness, recomputed every slot, with RT flows capped at $\rmax_k$.
 \textsc{WFQ} is the same with the weights of declared RT flows multiplied by four.
-\textsc{Priority} serves declared RT flows first, with admission control: flows are admitted at $\rmin_k$ in order of tier (premium, PAYG, free), gaming before video, and arrival, while capacity lasts, admitted video flows then share what is left up to $\rmax_V$, and elastic devices receive the remainder by weighted proportional fairness.
+\textsc{Priority} serves declared RT flows first, with admission control: flows are admitted at $\rmin_k$ in order of tier (premium, PAYG, free), gaming before video, and arrival, while capacity lasts, admitted video flows then share what is left up to $\rmax_{\mathrm{v}}$, and elastic devices receive the remainder by weighted proportional fairness.
 \textsc{Plain DPP} is drift-plus-penalty with the same utilities and tier queues as \repay{} but without deficit queues; it represents utility-maximising schedulers that know the classes.
 \textsc{Credit} is a class-blind credit scheduler in the spirit of Karma~\citep{vuppalapati2023karma}: every device has a weighted fair share, devices that use less than their share earn credit, and spare capacity goes to the borrowers with the most credit. It is our adaptation to this setting, not the original system.
 We also run the three variants of Section~\ref{sec:variants}.
@@ -44,7 +44,7 @@ The price is small: at $V=100$ \repay{} serves $93.8\%$ of RT slots against $94.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_bound.pdf}
-\caption{(a) Largest deficit relative to the bound of Theorem~\ref{thm:bound} (maximum over seeds). (b) Maximum class envy of \repay{} and of the same rule without deficit queues; the dashed line is the largest video bound $\max_gB_{g,V}$.}
+\caption{(a) Largest deficit relative to the bound of Theorem~\ref{thm:bound} (maximum over seeds). (b) Maximum class envy of \repay{} and of the same rule without deficit queues; the dashed line is the largest video bound $\max_gB_{g,\mathrm{v}}$.}
 \label{fig:bound}
 \end{figure}
 
@@ -104,7 +104,7 @@ In the home scenario capacity is ample most of the time and all rules serve at l
 \paragraph{Capacity variability.}
 Figure~\ref{fig:variability} varies the spread of the capacity states while holding the mean at $90$~Mbit/s.
 With constant capacity every rule serves at least $99\%$ of the RT slots.
-As shortages become deeper, \textsc{PF} and \textsc{Credit} lose RT slots first; \repay{} follows plain DPP closely (within three points) until the shortages are so severe that the fair share stays below $\rmin_V$ for long periods, where bounded envy forces rationing and \repay{}, plain DPP and \textsc{PF} all serve $70$--$72\%$ of RT slots.
+As shortages become deeper, \textsc{PF} and \textsc{Credit} lose RT slots first; \repay{} follows plain DPP closely (within three points) until the shortages are so severe that the fair share stays below $\rmin_{\mathrm{v}}$ for long periods, where bounded envy forces rationing and \repay{}, plain DPP and \textsc{PF} all serve $70$--$72\%$ of RT slots.
 Only \textsc{Priority} remains above $90\%$ there, with class envy above $1500$~Mbit.
 This is the regime described at the end of Section~\ref{sec:baselines-theory}.
 
@@ -124,8 +124,8 @@ Table~\ref{tab:deviation} and Figure~\ref{fig:deviation} report the change in th
 Under \textsc{Priority} and \textsc{WFQ} misreporting roughly quadruples the volume ($+320\%$ and $+272\%$ on average), and almost every device gains.
 Under plain DPP it adds $57\%$ on average.
 Under \repay{} the deviation \emph{loses} $3\%$ on average; the median change is $-0.008$~Mbit/s, $45\%$ of the devices gain a little, and the 95th percentile of the gain is $0.05$~Mbit/s.
-No device gains more than $0.39$ of its bound $B_{g,V}$, so the externality term left open after Theorem~\ref{thm:static} is small here.
-\textsc{PF} and \textsc{Credit} are immune for a trivial reason: they ignore the declaration, and a device that declares video merely caps itself at $\rmax_V$.
+No device gains more than $0.39$ of its bound $B_{g,\mathrm{v}}$, so the externality term left open after Theorem~\ref{thm:static} is small here.
+\textsc{PF} and \textsc{Credit} are immune for a trivial reason: they ignore the declaration, and a device that declares video merely caps itself at $\rmax_{\mathrm{v}}$.
 
 \begin{table}[t]
 \centering

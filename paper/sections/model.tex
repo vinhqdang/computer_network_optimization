@@ -14,12 +14,12 @@ Tier $g$ carries a weight $w_g>0$ that expresses how much the operator values a 
 \paragraph{Service classes.}
 A device declares a service class, which the operator cannot verify.
 Class $E$ (elastic) stands for delay-tolerant traffic such as e-mail, backups and downloads.
-The real-time (RT) classes $k\in\cK$ are $V$ (interactive video) and $G$ (online gaming).
+The real-time (RT) classes $k\in\cK=\{\mathrm{v},\mathrm{g}\}$ are interactive video ($\mathrm{v}$) and online gaming ($\mathrm{g}$).
 
-An RT flow of class $k$ is useful only if it receives a rate in $[\rmin_k,\rmax_k]$ in the current slot.
+An RT flow of class $k$ is useful only if it receives a rate in $[\rmin_k,\rmax_k]$ in the current slot, where $0<\rmin_k\le\rmax_k$.
 A rate below $\rmin_k$ makes the slot worthless, and rate above $\rmax_k$ brings nothing.
-Its per-slot utility is $u_k(z)$, concave and nondecreasing on $[\rmin_k,\rmax_k]$ with $u_k(\rmin_k)>0$.
-We use $u_V(z)=1+\log(z/\rmin_V)$, which models a call whose quality degrades gracefully down to $\rmin_V$, and a constant $u_G\equiv 1$ at a fixed rate $\rmin_G=\rmax_G=r_G$.
+Its per-slot utility is $u_k(z)$, bounded, nondecreasing and concave on $[\rmin_k,\rmax_k]$ (strictly concave if $\rmin_k<\rmax_k$) with $u_k(\rmin_k)>0$.
+We use $u_{\mathrm{v}}(z)=1+\log(z/\rmin_{\mathrm{v}})$, which models a call whose quality degrades gracefully down to $\rmin_{\mathrm{v}}$, and a constant $u_{\mathrm{g}}\equiv 1$ at a fixed rate $\rmin_{\mathrm{g}}=\rmax_{\mathrm{g}}=r_{\mathrm{g}}$.
 Let
 \begin{equation}\label{eq:eta}
 \eta_k=\max_{z\in[\rmin_k,\rmax_k]}\frac{u_k(z)}{z},
@@ -28,9 +28,10 @@ the largest utility per unit of rate that a class-$k$ flow can generate; for bot
 
 An elastic device $i$ has a demand cap $d_{i,t}\ge 0$ in slot $t$: the smaller of its link rate and the traffic queued for it at the access point.
 For downlink traffic both quantities are measured by the access point itself, so $d_{i,t}$ is \emph{verified}, not declared.
+The deficit bound of Section~\ref{sec:envy} holds for arbitrary demand caps; the incentive and optimality results of Sections~\ref{sec:ic} and~\ref{sec:opt} additionally treat the caps as exogenous, as for a device with a standing backlog.
 The device receives a rate $x_{i,t}\in[0,d_{i,t}]$.
 What an elastic user cares about is how much data it gets, not when: its true preference is an arbitrary nondecreasing function of the cumulative volume $\sum_t x_{i,t}$ received during its sojourn.
-The operator scores elastic service with the concave surrogate $w_g\,u(x)$, $u(x)=\log(1+x)$, which yields weighted proportional fairness among elastic devices; the analysis only uses that $u$ is concave, increasing, differentiable and $u'\le 1$, so any $\alpha$-fair utility $((1+x)^{1-\alpha}-1)/(1-\alpha)$ can be substituted (our implementation and experiments use $\alpha=1$).
+The operator scores elastic service with the concave surrogate $w_g\,u(x)$, $u(x)=\log(1+x)$, which yields weighted proportional fairness among elastic devices; the analysis only uses that $u$ is strictly concave, differentiable and strictly increasing, so in principle any $\alpha$-fair utility $((1+x)^{1-\alpha}-1)/(1-\alpha)$ can be substituted, with the corresponding change in the closed form \eqref{eq:xresp} (our implementation and experiments use $\alpha=1$, and we have not checked the hypotheses of Proposition~\ref{prop:reverse} for other values).
 
 \paragraph{Decisions.}
 Let $n_{g,k,t}$ be the number of active flows of tier $g$ that declare class $k$.
@@ -58,7 +59,7 @@ The operator's commercial commitments are long-run constraints on tier rates:
 Constraint~\eqref{eq:ps} says that the premium tier receives on average at least a fraction $\theta_P$ of its committed demand.
 PAYG subscribers pay a price $p$ per unit of volume, so the revenue rate is $p\,\rho_{Y,t}$ and \eqref{eq:ys} guarantees that the operator captures at least a fraction $\theta_Y$ of the PAYG revenue that the committed rates put on offer.
 Constraint~\eqref{eq:ff} reserves a share $\phi$ of the capacity for the free tier whenever free users want it, as venues that advertise free access typically must.
-We write $e_{j,t}$, $j\in\{PS,YS,FF\}$, for the three summands, so that each constraint reads ``the time average of $e_j$ is nonpositive''.
+We write $e_{j,t}$, $j\in\{PS,YS,FF\}$, for the three summands, so that each constraint reads ``the time average of $e_j$ is nonpositive''; we take $\theta_P,\theta_Y,\phi\in[0,1]$.
 All three are linear in the tier rates. This matters for the analysis: the price that such a constraint puts on a unit of rate is the same for every class inside a tier.
 
 \paragraph{Strategic behaviour and class envy.}
@@ -71,7 +72,7 @@ with $r_{i,k,t}=0$ when the group is empty.
 We call $r_{i,k,t}$ the \emph{reference} of device $i$ for class $k$.
 
 \begin{definition}[Class envy]\label{def:envy}
-The class envy of elastic device $i$ towards class $k$ over a window of slots $[s,t]$ inside its sojourn is $\sum_{\tau=s}^{t}\big(r_{i,k,\tau}-x_{i,\tau}\big)$.
+The class envy of elastic device $i$ towards class $k$ over a window of slots $[s,t]$ inside its sojourn is $\sum_{q=s}^{t}\big(r_{i,k,q}-x_{i,q}\big)$.
 An allocation rule is \emph{$B$-class-envy-free} if this quantity is at most $B$ for every device, class and window, on every sample path.
 \end{definition}
 
@@ -81,4 +82,4 @@ A rule with $B=0$ can never favour an RT flow over an elastic tier-mate in any s
 
 \paragraph{Problem.}
 Design an online rule that (i)~maximises the long-run average of $U_t$, (ii)~satisfies \eqref{eq:ps}--\eqref{eq:ff}, and (iii)~is $B$-class-envy-free for a small $B$, without knowledge of future capacities, arrivals, departures or demands.
-Section~\ref{sec:analysis} makes precise the benchmark against which (i) is measured and the sense in which (iii) makes truthful class declaration approximately optimal.
+Section~\ref{sec:analysis} makes precise the benchmark against which (i) is measured and the sense in which (iii) limits the gain from misdeclaring the class.

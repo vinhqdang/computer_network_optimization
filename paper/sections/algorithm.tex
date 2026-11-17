@@ -19,7 +19,8 @@ When an elastic device $i$ arrives, $D_{i,k}=0$ for every $k\in\cK$. While it is
 D_{i,k}(t+1)=\max\big(D_{i,k}(t)+r_{i,k,t}-x_{i,t},\,0\big),
 \end{equation}
 with the reference $r_{i,k,t}$ of \eqref{eq:ref}. The deficits are discarded when the device leaves.
-Unrolling the recursion gives $D_{i,k}(t+1)=\max_{s\le t}\sum_{\tau=s}^{t}(r_{i,k,\tau}-x_{i,\tau})$ with the maximum taken over windows that start inside the sojourn (and the empty window): the deficit is exactly the largest class envy over all windows that end now.
+A device that stops declaring $E$ loses its deficits, and they restart at zero if it declares $E$ again.
+Unrolling the recursion gives $D_{i,k}(t+1)=\max_{s\le t}\sum_{q=s}^{t}(r_{i,k,q}-x_{i,q})$ with the maximum taken over windows that start inside the current stretch of $E$-declaration (and the empty window): the deficit is exactly the largest class envy over all windows that end now.
 
 \subsection{Per-slot problem}
 
@@ -33,7 +34,7 @@ m_d(z)=\sigma+s\,z,\qquad
 \Big(\dfrac{d-\rmin_k}{\rmax_k-\rmin_k},\ (1-s)\,d\Big), & \text{otherwise,}
 \end{cases}
 \end{equation}
-which satisfies $m_d(z)\ge\min(z,d)$ on the interval, with equality whenever $d\notin(\rmin_k,\rmax_k)$.
+which satisfies $m_d(z)\ge\min(z,d)$ on the interval, with equality whenever $d\notin(\rmin_k,\rmax_k)$: in the third case $m_d$ is a line through the kink $(d,d)$ of the concave function $z\mapsto\min(z,d)$ with slope $s\in[0,1]$ between its two slopes, hence a supporting line, and the gap is at most $(1-s)(d-\rmin_k)$.
 For device $i$ and class $k$ we write $(s_{i,k},\sigma_{i,k})$ for the coefficients obtained with $d=d_{i,t}$.
 Group $(g,k)$ then faces the \emph{debt coefficients}
 \begin{equation}\label{eq:debt}
@@ -90,7 +91,7 @@ x_i(\lambda)=\begin{cases}d_i, & p_i\le 0,\\
 \psi_{g,k}(z;\lambda)=n_{g,k}\big[V w_g\,u_k(z)+(\beta_g-\lambda)z\big]-\pi_{g,k}z-\zeta_{g,k}.
 \end{equation}
 Hence $z^*(\lambda)=\arg\max_{z\in[\rmin_k,\rmax_k]}\psi_{g,k}(z;\lambda)$ and $a^*(\lambda)=\ind\{\psi_{g,k}(z^*;\lambda)>0\}$.
-For video, with $q=n_{g,k}(\lambda-\beta_g)+\pi_{g,k}$, $z^*=\rmax_V$ if $q\le 0$ and $z^*=\min\{\rmax_V,\max(\rmin_V,\,n_{g,k}Vw_g/q)\}$ otherwise; for gaming $z^*=r_G$.
+For video, with $q=n_{g,k}(\lambda-\beta_g)+\pi_{g,k}$, $z^*=\rmax_{\mathrm{v}}$ if $q\le 0$ and $z^*=\min\{\rmax_{\mathrm{v}},\max(\rmin_{\mathrm{v}},\,n_{g,k}Vw_g/q)\}$ otherwise; for gaming $z^*=r_{\mathrm{g}}$.
 
 The load $S(\lambda)=\sum n\,a^*z^*+\sum_i x_i(\lambda)$ is nonincreasing in $\lambda$.
 If $S(0)\le C_t$ the solution is the one at $\lambda=0$.
@@ -99,11 +100,11 @@ A group that is admitted at $\lambda_{lo}$ and blocked at $\lambda_{hi}$ is \emp
 
 \begin{proposition}[Solver]\label{prop:solver}
 As the tolerance tends to zero, the procedure returns an optimal solution of \eqref{eq:slot}.
-One slot costs $O\big((N_t+|\cK|\cdot 3)\log(1/\epsilon)\big)$ operations for $N_t$ active devices and relative tolerance $\epsilon$.
+With $N$ active devices, each evaluation of the load costs $O(N)$ operations, and the bisection needs $O(\log(\lambda^*/\epsilon))$ evaluations for an absolute tolerance $\epsilon$ on the multiplier $\lambda^*$; the rounding step adds a sort of the flows, $O(N\log N)$.
 \end{proposition}
 \begin{proof}
 By Lemma~\ref{lem:concave} and Slater's condition (the zero allocation leaves capacity $C_t>0$ unused) strong duality holds with some $\lambda^*\ge0$, and a feasible point is optimal if and only if it maximises the Lagrangian at $\lambda^*$ and satisfies complementary slackness.
-The Lagrangian maximisers $x_i(\lambda)$ and $z^*(\lambda)$ are unique and continuous in $\lambda$ because $u$ and $u_V$ are strictly concave (and $z$ is fixed for gaming).
+The Lagrangian maximisers $x_i(\lambda)$ and $z^*(\lambda)$ are unique and continuous in $\lambda$ because $u$ and $u_{\mathrm{v}}$ are strictly concave (and $z$ is fixed for gaming).
 The admission variable is free in $[0,1]$ exactly for groups with $\psi(z^*;\lambda^*)=0$.
 $S$ is nonincreasing: $x_i$ decreases in $\lambda$; $\psi$ has decreasing differences in $(z,\lambda)$, so $z^*$ decreases; and $\max_z\psi$ decreases, so $a^*$ decreases.
 Therefore either $S(0)\le C_t$ and $\lambda^*=0$, or $S(\lambda^*-)\ge C_t\ge S(\lambda^*+)$ and capacity can be met exactly by choosing the free admission fractions; this is what the procedure constructs as $\lambda_{hi}\downarrow\lambda^*$.
@@ -113,7 +114,8 @@ Each evaluation of $S$ is linear in the number of devices and groups.
 \subsection{From fractions to flows}
 
 Only marginal groups have a fractional $a$, generically at most one per slot.
-For such a group \repay{} admits $M=\lfloor n a\rfloor$ flows at rate $z$, giving precedence to flows that were served in the previous slot so that ongoing calls are not interrupted, and then to earlier arrivals.
+For such a group \repay{} admits $M=\lfloor n a\rfloor$ flows at rate $z$, giving precedence to the flows that have so far been admitted in the smallest fraction of their slots; ties are broken in favour of flows served in the previous slot and then of earlier arrivals.
+This rotation gives every flow of the group the same long-run share of admissions, which the incentive analysis requires (Section~\ref{sec:ic}); it does interrupt calls during rationing, and an operator may prefer to rotate over longer periods.
 The leftover capacity $(na-M)z$ serves one more flow if it is at least $\rmin_k$; otherwise it is handed to elastic devices that are below their cap, in decreasing order of marginal value.
 Rounding therefore never reduces an elastic allocation.
 The deficit update \eqref{eq:D} uses the fluid reference $a\min(z,d_i)$, which is at least the average rate of the admitted flows of the group and so errs in favour of the elastic device.
@@ -124,7 +126,7 @@ The deficit update \eqref{eq:D} uses the fluid reference $a\min(z,d_i)$, which i
 \State observe $C_t$, the groups $n_{g,k}$, and for each elastic device its tier and verified demand cap $d_i$
 \State $\beta_g\gets$ tier prices from $Q$; \ $(s_{i,k},\sigma_{i,k})\gets$ majorant coefficients \eqref{eq:maj}; \ $\pi,\zeta\gets$ \eqref{eq:debt}; \ $D_i\gets\sum_kD_{i,k}$
 \State $(a,z,x,\lambda)\gets$ solve \eqref{eq:slot} by bisection on $\lambda$
-\State round admissions to whole flows (incumbents first) and serve
+\State round admissions to whole flows (least-served flows first) and serve
 \ForAll{elastic $i$, class $k$} $D_{i,k}\gets\max\big(D_{i,k}+a_{g_i,k}\min(z_{g_i,k},d_i)-x_i,\ 0\big)$ \EndFor
 \ForAll{$j$} $Q_j\gets\max(Q_j+e_j,\ 0)$ \EndFor
 \State arrivals start with $D=0$; departures drop their deficits; a device that declares an RT class forfeits its deficits and restarts from $D=0$ if it returns to $E$

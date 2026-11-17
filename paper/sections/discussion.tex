@@ -8,21 +8,22 @@ An operator who prefers to protect calls in such regimes can scale the reference
 \paragraph{The size of the bound.}
 The bound grows linearly in $V$ and the utility gap shrinks as $1/V$.
 For a device that stays $L$ slots the incentive to misreport is at most $B/L$ per slot, so short visits are weakly protected; this is unavoidable for any rule that settles accounts over time.
-The gaming class has a small rate, hence a large $\eta_G$ and a loose $B_{g,G}$, although the envy it can actually cause is small because its rate is small.
+The gaming class has a small rate, hence a large $\eta_{\mathrm{g}}$ and a loose $B_{g,\mathrm{g}}$, although the envy it can actually cause is small because its rate is small.
 
 \paragraph{Incentives.}
 Our guarantees are of three kinds, and they should not be confused.
 The envy bound is exact and holds on every path.
-The translation into incentives assumes price-taking devices; it is the right approximation for a hotspot with dozens of users and a poor one for a home with a single call, where the experiments, not the theorem, are the evidence.
+The translation into incentives assumes price-taking devices; it is a reasonable approximation for a hotspot with dozens of users and not for a home with a single call, where the experiments, not the theorem, are the evidence.
 Finally, the approach relies on two operational assumptions: demand is measured by the access point, which holds for downlink traffic, and a subscriber cannot change its declared class more often than every $\tau$ slots.
 Uplink demand would have to be inferred from buffer reports, which a device can inflate; the credit held at any time through such inflation is at most one envy bound, but we did not bound repeated accumulation, nor model its cost to others.
-We also proved that the simple monotonicity one would like for dynamic strategies fails, so for switching strategies our analytical statement covers only the phases in which the device poses as real-time.
+The simple monotonicity one would like for dynamic strategies fails, so for switching strategies our analytical statement covers only the phases in which the device poses as real-time.
+The rotation that equalises admissions inside a real-time group, which the incentive argument needs, interrupts calls during rationing; call continuity is not part of our model, and rotating over longer periods would trade fairness inside the group against it.
 
 \paragraph{Modelling choices.}
 We treat a single bottleneck with slot-level rates.
 Latency inside a slot, which matters for gaming, is represented only through the requirement of service in every slot.
 Several access points that share a backhaul would add a second layer of capacity constraints; the per-slot problem remains concave, but the bisection on one price would become a small dual problem.
-The optimality theorem assumes that the population process does not react to the allocation, whereas real users leave when service is poor.
+The utility theorem assumes that the population process and the demand caps do not react to the allocation, whereas real users leave when service is poor and finite transfers end sooner when served faster; its benchmark imposes the business constraints in every population state, and its constant is too large for the bound to be informative at the parameter values we simulate.
 The business constraints are stated per unit of rate; a commitment on the admission probability of premium calls would break the cancellation used in Theorem~\ref{thm:bound} and add the corresponding multiplier to the bound.
 The evaluation is by simulation with synthetic traces; we did not have access to operator traces, and a prototype on a real access point is the natural next step.
 The comparisons use fixed values of $V$, of the tier weights and of the capacity level, chosen before the comparison runs and not tuned afterwards; with these values the business constraints are slack, and they bind only in the dedicated experiment of Section~\ref{sec:exp-tiers}.
