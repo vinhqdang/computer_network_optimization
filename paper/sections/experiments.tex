@@ -292,12 +292,15 @@ The experiments therefore do not show that a hold-down is needed in practice; in
 \subsection{Trace-driven evaluation}\label{sec:exp-real}
 
 The experiments so far use synthetic arrivals, stays, demands and capacity.
-We now replace all four by measurements.
+We now build them from public logs. The result is a trace-driven scenario, not the trace of one operator.
 Arrivals, stays and demand levels come from the session logs that the City of Paris publishes for its public Wi-Fi network \citep{pariswifi2026}, which give, for every session, its start, its duration and the bytes transferred.
-We take the site with the largest population (a youth centre, code PW0127), the six days with the most sessions since January 2025 and, in each, the two hours with the highest occupancy; a second, smaller site (a museum, PW0232) serves as a check.
-Capacity follows the per-second throughput logs that \citet{riiser2013commute} recorded on metro, tram, train, bus and ferry routes, concatenated in random order and scaled by a constant so that mean capacity is a multiple (the \emph{load}, $1$ by default) of the mean nominal demand.
+We take a site with a large population (code PW0127, ``Quartier Jeunes'' in the data), the six days with the most sessions since January 2025 and, in each, the two hours with the highest occupancy; a second, smaller site (PW0232, the Petit Palais museum) serves as a check.
+These are the busiest days by construction and four of the six are consecutive Thursdays, so the traces are not an independent sample of days.
+A device is a session: the network limits connections to two hours, so a user who reconnects counts as a new device, and the roughly one hundred sessions already open at the start of a window enter with zero deficits and are observed only for the part of their stay that falls in the window.
+Capacity follows the throughput logs, at roughly one sample per second, that \citet{riiser2013commute} recorded in a 3G network on metro, tram, train, bus and ferry routes in Oslo, which has nothing to do with the Paris network; we treat each sample as one slot (gaps in the logs are skipped), concatenate the logs in random order and scale them by a constant so that mean capacity is a multiple (the \emph{load}, $1$ by default) of the mean nominal demand.
 Table~\ref{tab:real-traces} describes the traces.
-They differ from our synthetic hotspot in ways that matter: about $120$ devices are present instead of $75$, stays last three quarters of an hour instead of four minutes, elastic demand is light (the demand cap of an elastic device is set so that its mean demand equals the mean rate observed for its session; the median cap is $0.3$ to $0.6$~Mbit/s, below the minimum video rate), and capacity is far more variable, with a coefficient of variation of $0.7$ to $0.8$ and outages in tunnels.
+They differ from our synthetic hotspot in ways that matter: about $120$ devices are present instead of $75$, stays last three quarters of an hour instead of four minutes, elastic demand is light (the demand cap of an elastic device is set so that its mean demand equals the mean rate observed for its session; the median cap is $0.28$ to $0.64$~Mbit/s, below the minimum video rate in five of the six traces), and capacity is far more variable, with a coefficient of variation of $0.70$ to $0.84$ and deep fades.
+The observed bytes determine only a third to a half of the nominal demand; the rest is the demand of the randomly assigned video and gaming flows.
 The logs carry neither a service class nor a commercial tier, so these are drawn at random with the same probabilities as before, as are the on--off periods of elastic devices; all parameters of the rules, including $V=20$ and the cap $q=0.3$, are those of the synthetic experiments and were not retuned.
 
 \begin{table}[t]
@@ -330,25 +333,26 @@ The logs carry neither a service class nor a commercial tier, so these are drawn
 
 \paragraph{Truthful devices.}
 Table~\ref{tab:real-compare} repeats the comparison of Section~\ref{sec:exp-compare}.
-The ordering of the rules is the same as on synthetic traces.
+The ordering of the rules on RT success, elastic rate and envy is the same as on the synthetic traces, with the exception of capped priority discussed below.
 \repay{} serves $81.5\%$ of RT slots against $75.8\%$ for \textsc{PF}; the paired difference over the six traces is $5.7\pm1.3$ points, with an elastic rate lower by $0.010\pm0.004$~Mbit/s.
-Plain DPP serves $4.9\pm0.8$ points more than \repay{} with an elastic rate lower by a fifth and class envy of $2400$~Mbit, and \textsc{WFQ} and \textsc{Priority} serve more RT slots still while cutting the elastic rate to less than half and reaching envy above $5000$~Mbit.
-The class envy of \repay{} is $46$~Mbit on average and at most $57$~Mbit, and no deficit exceeds $0.64$ of its bound in any run, including those at other loads and with a misreporting device.
+Plain DPP serves $4.9\pm0.8$ points more than \repay{} with an elastic rate lower by almost a quarter and class envy of $2400$~Mbit; \textsc{WFQ} serves $4.6\pm1.2$ points more than \repay{} and \textsc{Priority} $12.5\pm2.8$ more, while cutting the elastic rate to less than half and reaching envy above $5000$~Mbit.
+The class envy of \repay{} is $46$~Mbit on average and at most $57$~Mbit, and no deficit of \repay{} exceeds $0.48$ of its bound in any run, including those at other loads and with a misreporting device.
 The same holds at loads $0.7$ and $1.5$ (Table~\ref{tab:real-load}) and on the second site, where \repay{} serves $85.1\%$ of RT slots against $78.7\%$ for \textsc{PF}.
 
 The capped priority that looked best on the synthetic hotspot does not transfer.
-With the same cap $q=0.3$ it serves no more RT slots than \repay{} ($81.1\%$; paired difference $0.4\pm2.0$ points), its utility is lower by $15$ because premium calls are held near the minimum rate, and it delivers only $0.61$ of the committed premium demand, below the target of $0.8$ that \repay{} and \textsc{PF} meet ($1.01$ and $1.03$).
+With the same cap $q=0.3$ it serves no more RT slots than \repay{} ($81.1\%$; paired difference $0.4\pm2.0$ points), its utility is lower by $15$ because premium calls are held near the minimum rate, and it delivers only $0.60$ of the committed premium demand, below the target of $0.8$ that \repay{} and \textsc{PF} meet ($1.01$ and $1.03$).
 In exchange it gives elastic devices more ($0.52$ against $0.42$~Mbit/s) and has the lowest envy of the class-aware rules ($9$~Mbit).
-A cap chosen for one traffic mix is thus not right for another, which is the weakness we anticipated in Section~\ref{sec:exp-compare}; we did not retune $q$ on these traces, and a retuned cap would do better.
+The cap $q=0.3$ that suited the synthetic mix is thus not right for this one, which is the weakness we anticipated in Section~\ref{sec:exp-compare}; we did not test other values of $q$ on these traces.
 
 \paragraph{Misreporting.}
 Table~\ref{tab:real-dev} repeats the unilateral deviation of Section~\ref{sec:exp-strategic} for $20$ elastic devices per trace.
 Under \textsc{Priority} and \textsc{WFQ} every device gains, and the median device gains $219\%$ and $162\%$; under plain DPP $98\%$ gain and the median gain is $26\%$.
 Under \repay{} the median gain is $1.4\%$ and the pooled gain $0.6\%$.
 These gains are small, but two things are less favourable than on the synthetic traces.
-First, $74\%$ of the devices gain something, so on these traces truthful declaration is not a best response for most devices, only nearly one.
-Second, three of the $120$ devices gain more than the bound $B_{g,\mathrm{v}}$ of Theorem~\ref{thm:static}, by up to a factor $2.1$ ($92$~Mbit over a stay of two hours, or $2.4\%$ of the device's volume).
-This does not contradict the theorem, whose price-taking hypothesis is not satisfied here, but it shows that the correction term discussed after the theorem is not negligible for stays of this length: the gain per slot remains small (at most $0.05$~Mbit/s) and accumulates over thousands of slots.
+First, $74\%$ of the sampled devices gain something from this one deviation, so on these traces truthful declaration is not a best response for most of them, only nearly one.
+Second, three of the $120$ devices gain more than the bound $B_{g,\mathrm{v}}$ of Theorem~\ref{thm:static}, by factors $1.5$, $1.6$ and $2.1$ (between $64$ and $92$~Mbit over stays of $46$ minutes to two hours in the window, or $2$ to $11\%$ of the device's volume).
+This does not contradict the theorem, whose price-taking hypothesis is not satisfied here, but it shows that the correction term discussed after the theorem is not negligible.
+We checked that these gains are not noise (perturbing capacity by $0.05\%$ moves the volumes by at most $0.2$~Mbit) and not an artefact of how volume is counted. They are not a simple accumulation either: for the device with the largest gain, declaring video during any one third of its stay changes its volume by $-37$ to $+8$~Mbit, against $+92$ for the whole stay, so the gain requires a sustained declaration and we cannot attribute it to a constant advantage per slot.
 Capped priority leaves no gain to misreporting on these traces ($-16\%$ in the median), at the cost described above.
 
 \subsection{Business constraints}\label{sec:exp-tiers}

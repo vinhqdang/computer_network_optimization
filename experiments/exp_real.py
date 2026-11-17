@@ -239,8 +239,8 @@ def part2(t0, part1_runs):
               f"{s['share_gaining_pct']:10.1f}{s['p95_gain_per_slot']:15.4f}{mb:>12s}")
     print(f"truthful part-2 runs vs part-1 runs: max |util_rate difference| = {mismatch:.2e}")
 
-    rep_db = [r["D_over_B_max"] for r in res if "D_over_B_max" in r] + \
-             [r["D_over_B_max"] for r in part1_runs if "D_over_B_max" in r]
+    rep_db = [r["D_over_B_max"] for r in res if r.get("mech") == "repay" and r.get("D_over_B_max") is not None] + \
+             [r["D_over_B_max"] for r in part1_runs if r.get("mech") == "repay" and r.get("D_over_B_max") is not None]
     viol = sum(r["cap_violations"] for r in res) + sum(r["cap_violations"] for r in part1_runs)
     print(f"REPAY max D/B over all REPAY runs: {max(rep_db):.4f}; capacity violations (all runs): {viol}")
 
