@@ -1,0 +1,25 @@
+% Source: results/continuity.json, scenario hotspot, truthful devices, T=6000, seeds 0..4
+\begin{tabular}{lrrrrrr}
+\toprule
+Mechanism & Outage slots (\%) & Interruptions per 100 s & Mean outage length (s) & 95th pct.\ outage length (s) & Outage in runs $\geq 5$ s (\%) & Calls never interrupted (\%) \\
+\midrule
+REPAY & 14.13 & 3.65 & 3.93 & 14.4 & 65.4 & 41.9 \\
+REPAY-sticky & 14.13 & 3.63 & 3.95 & 14.2 & 65.7 & 42.0 \\
+REPAY-block & 14.12 & 3.63 & 3.94 & 14.6 & 65.6 & 41.9 \\
+Plain DPP & 10.64 & 2.93 & 3.69 & 12.8 & 63.3 & 46.9 \\
+PF & 21.71 & 1.33 & 17.27 & 65.9 & 94.7 & 42.1 \\
+WFQ & 1.93 & 1.13 & 1.57 & 3.6 & 12.8 & 69.5 \\
+Priority & 0.00 & 0.00 & -- & -- & -- & 100.0 \\
+\bottomrule
+\end{tabular}
+
+% RT success and elastic rate of the REPAY variants
+\begin{tabular}{lrrr}
+\toprule
+Mechanism & RT success, all (\%) & RT success, video (\%) & Elastic rate (Mbit/s) \\
+\midrule
+REPAY & 89.3 & 85.9 & 1.67 \\
+REPAY-sticky & 89.3 & 85.9 & 1.67 \\
+REPAY-block & 89.3 & 85.9 & 1.67 \\
+\bottomrule
+\end{tabular}
