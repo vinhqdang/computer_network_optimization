@@ -160,7 +160,28 @@ SWITCHINGPLACEHOLDER
 
 \subsection{Business constraints}\label{sec:exp-tiers}
 
-TIERSPLACEHOLDER
+With the default weights the service levels are met with a margin by every rule, including \textsc{PF} (Table~\ref{tab:compare}): the tier weights alone give paid tiers enough, and the queues are active only during shortages.
+Figure~\ref{fig:tiers} shows the running ratios for \repay{}; they settle above their targets for all $V$.
+Raising the premium target moves capacity as intended: for $\theta_P=0.6,0.8,1.0,1.2$ the premium ratio is $1.28,1.33,1.40,1.50$, and RT success, which is dominated by the more numerous free users, falls from $92\%$ to $79\%$.
+The largest deficit relative to its bound stays at $0.33$--$0.34$ throughout, as Theorem~\ref{thm:bound} predicts: tier prices do not enter the bound.
+
+To see the constraints bind we remove the tier weights ($w_F=w_P=w_Y=1$) and ask for more: committed rates $c_P=3$, $c_Y=2$, targets $\theta_P=0.8$, $\theta_Y=0.7$, and a free floor of $\phi=0.2$.
+Table~\ref{tab:tiers-binding} shows that the weight-based rules now deliver only $55\%$ of the committed premium demand, whatever their treatment of classes, while \repay{} and plain DPP, which share the tier queues, deliver $99\%$ and $98\%$ and also meet the other two targets.
+Meeting the commitment is costly in this configuration, since premium devices take capacity from the more numerous free users (utility $59.4$ against $72.6$ for \textsc{PF}, RT success $76\%$ against $89\%$); that is a property of the commitment the operator chose, not of the algorithm, and class envy under \repay{} remains at $17$~Mbit.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_tiers.pdf}
+\caption{Running averages of the three service levels relative to their targets (dashed), default configuration.}
+\label{fig:tiers}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Equal tier weights and demanding targets: the business constraints bind (mean over 5 seeds $\pm$ half-width of the 95\% confidence interval).}
+\label{tab:tiers-binding}
+\resizebox{0.9\linewidth}{!}{\input{tables/tiers_binding}}
+\end{table}
 
 \subsection{Running time}\label{sec:exp-runtime}
 
