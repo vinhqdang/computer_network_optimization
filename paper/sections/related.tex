@@ -10,8 +10,8 @@ Closer to our setting, \citet{sisalem2023enabling} contrast fairness in every sl
 \paragraph{Classification and queue management in deployed networks.}
 Operators do not rely on declarations alone.
 Wi-Fi access categories are selected from the Diffserv marking of a packet \citep{rfc8325}, which for uplink traffic is set by the device and for downlink traffic by whoever sits upstream; many networks reset it at their boundary and classify traffic themselves, increasingly with learned classifiers that work on encrypted flows \citep{rezaei2019deep}.
-A second line of practice avoids classes altogether: flow queueing with active queue management \citep{rfc8290,hoiland2018cake} isolates flows and gives sparse flows low delay without asking what they are, and L4S \citep{rfc9330} lets a flow ask for low queueing delay on the condition that it responds to congestion marks, which reduces the incentive to misdeclare, since the low-delay queue is designed to carry no throughput advantage, although the service relies on self-restraint.
-These mechanisms control delay at the scale of packets and share the rate equally among flows or hosts, so on the time scale of our model they behave like the class-blind baseline \textsc{PF}: when the equal share falls below what a call needs, the call fails.
+A second line of practice avoids classes altogether: flow queueing with active queue management \citep{rfc8290,hoiland2018cake} isolates flows and gives sparse flows low delay without asking what they are, and L4S \citep{rfc9330} lets a flow ask for low queueing delay on the condition that it responds to congestion marks, which is designed to reduce the incentive to misdeclare, since the low-delay queue is designed to carry no throughput advantage, although the service relies on self-restraint.
+These mechanisms control delay at the scale of packets and share the rate equally among flows or hosts, so on the time scale of our model we expect them to behave like the class-blind baseline \textsc{PF} (we did not simulate a flow-queueing baseline): when the equal share falls below what a call needs, the call fails.
 A classifier is complementary to our rule. Its output can replace the declaration, and since every classifier errs and can be imitated, a rule under which being taken for real-time is not worth much limits the damage of its errors; we do not model classification errors here.
 
 \paragraph{Stochastic network optimisation and constrained online learning.}
@@ -47,7 +47,7 @@ These approaches fix the population and optimise capacity or routing decisions; 
 
 \begin{table}[t]
 \centering
-\caption{Features covered by representative approaches. ``RT'' means that real-time classes are modelled as such; ``IC'' that class or demand reports are strategic; a dot means partially.}
+\caption{Features covered by representative approaches. ``RT'' means that real-time classes are modelled as such; ``IC'' that class or demand reports are strategic; a dot means partially. For \repay{} the fairness guarantee is bounded class envy for the implemented allocation, the constraint guarantee is for the fluid allocation, and ``approximate'' means for price-taking devices.}
 \label{tab:related}
 \small
 \begin{tabular}{@{}lccccc@{}}

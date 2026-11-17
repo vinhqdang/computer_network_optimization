@@ -8,7 +8,7 @@ calls, gaming) and delay-tolerant flows (downloads, mail) of free, premium and p
 subscribers, without knowing future arrivals, demand or capacity. REPAY grants real-time flows
 priority on credit: every delay-tolerant device that is passed over accumulates a deficit that is
 paid back in volume later. The deficit is provably bounded on every sample path, which makes
-misdeclaring the service class unprofitable (approximately, in the large-market sense).
+misdeclaring the service class unprofitable (approximately, for price-taking devices that stay long enough).
 
 ## Layout
 
@@ -24,7 +24,7 @@ misdeclaring the service class unprofitable (approximately, in the large-market 
 ## Reproducing
 
 ```bash
-pip install numpy scipy cvxpy matplotlib pytest
+pip install -r requirements.txt   # tested with Python 3.13
 ```
 
 ```bash

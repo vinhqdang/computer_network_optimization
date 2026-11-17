@@ -119,7 +119,7 @@ This rotation gives every flow of the group the same long-run share of admission
 The leftover capacity $(na-M)z$ serves one more flow if it is at least $\rmin_k$; otherwise it is handed to elastic devices that are below their cap, in decreasing order of marginal value.
 Rounding therefore never reduces an elastic allocation.
 The deficit update \eqref{eq:D} uses the fluid reference $a\min(z,d_i)$. When the leftover is discarded this is at least the average usable rate of the flows of the group; when a leftover flow is served at a reduced rate the realised average can exceed it by at most $\min((na-M)z,d_i)/n$.
-Rounding has two further consequences that the analysis must respect. Theorem~\ref{thm:bound} holds for the rounded allocation, because rounding never lowers an elastic rate. Theorem~\ref{thm:opt} is proved for the fluid allocation only: the tier queues are updated with the realised rates, and rounding can move up to $\rmax_k$ per marginal group and slot between tiers, an effect we do not bound and instead measure in Section~\ref{sec:exp-tiers}. Finally, a group with $na<1$ is not served in that slot.
+Rounding has two further consequences that the analysis must respect. Theorem~\ref{thm:bound} holds for the rounded allocation, because rounding never lowers an elastic rate. Theorem~\ref{thm:opt} is proved for the fluid allocation only: the tier queues are updated with the realised rates, and rounding can move up to $\rmax_k$ per marginal group and slot between tiers, an effect we do not bound; in the experiments of Section~\ref{sec:exp-tiers}, which use the rounded allocation, the service levels are met. Finally, a group with $na<1$ is not served in that slot.
 
 \begin{algorithm}[t]
 \caption{\repay{}, slot $t$}\label{alg:repay}

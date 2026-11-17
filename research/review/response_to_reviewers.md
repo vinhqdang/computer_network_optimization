@@ -39,3 +39,7 @@ Reports: `R1_theory.md`, `R2_experiments.md`, `R3_editor_devil.md`; numeric re-c
 - No class-aware credit baseline and no run of the Jaramillo-Srikant scheme.
 - The paper was not shortened; it grew from 30 to 34 pages.
 - Switching, oracle and reverse-deviation experiments still use two traces.
+
+## Round 2
+
+The verification review (`R4_rereview.md`) asked for a further, narrower revision. Its ten text-level points were applied: the capped-priority result and the short-stay result are now in the abstract, introduction and conclusion; the theorem scopes in the abstract carry their conditions; the collapse paragraph reports the PF control; the remaining overclaims and small errors it listed were corrected; dependencies are pinned in `requirements.txt`. Its list of new work (real or packet-level traces, noisy classifier and flow-queueing baselines, class-aware credit baseline, sweeps over traffic mix, a bound on the rounding bias and on the price-taking correction, more traces for the switching attacks, shortening) remains open and is listed under "Not done" above.

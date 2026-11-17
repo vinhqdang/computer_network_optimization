@@ -132,8 +132,8 @@ We also add a baseline that a practitioner would try first, \emph{capped priorit
 \repay{} lies to the right of plain DPP and \textsc{WFQ} at every level of RT success, that is, it protects the same share of RT slots while leaving more to elastic devices.
 Capped priority, however, does better than \repay{} on this pair of metrics: at $q=0.3$ it serves $93\%$ of RT slots with an elastic rate of $1.80$~Mbit/s, against $89\%$ and $1.67$ for \repay{} at $V=20$, at equal utility ($70.1$), because it holds admitted calls close to their minimum rate.
 Table~\ref{tab:cap} shows what it gives up.
-Its class envy is $390$~Mbit at $q=0.3$, twenty times that of \repay{}, and grows quickly with $q$; and its resistance to misreporting depends on the cap being tight for the traffic mix at hand: with $q=0.2$ or $0.3$ a misreporting device loses on average, with $q=0.5$ the median device gains $69\%$.
-The cap must be set for the share of real-time traffic, which the operator does not know and which changes during the day, whereas $V$ sets the envy bound whatever the mix.
+Its class envy is $390$~Mbit at $q=0.3$, twenty times that of \repay{}, and grows quickly with $q$; and its resistance to misreporting depends on the cap being tight for the traffic mix at hand: with $q=0.2$ or $0.3$ a misreporting device loses on average and $2\%$ or $25\%$ of the devices gain, fewer than under \repay{} on the same $60$ devices ($48\%$, median change $-0.5\%$); with $q=0.5$ the median device gains $69\%$.
+We expect the right cap to depend on the share of real-time traffic, which the operator does not know and which changes during the day, whereas $V$ sets the envy bound whatever the mix; we did not vary the mix to test this.
 We read this as follows. If an operator only needs calls to survive short shortages and can tune a cap, capped priority is a simple and effective answer, and the case for \repay{} rests on what it guarantees to each elastic device, not on average performance.
 
 \begin{figure}[t]
@@ -155,7 +155,7 @@ RT success counts slots, and a call that is cut for one second every few seconds
 Table~\ref{tab:continuity} reports the interruptions of genuine video calls on five traces.
 Under \repay{} a call is below its minimum rate in $14\%$ of its slots; outages last $3.9$~s on average and $14$~s at the 95th percentile, there are $3.7$ of them per $100$~s of call, and $42\%$ of the calls are never interrupted.
 Plain DPP is slightly better on each count, \textsc{WFQ} and \textsc{Priority} much better, and \textsc{PF} is worse in the way that matters most: its outages are rarer and last $17$~s on average.
-The rotation inside a partially admitted group is not the cause of the interruptions. Two variants, one that keeps incumbents admitted and one that rotates only every ten slots, give the same outage share, interruption rate and mean outage length to within $0.02$ (the 95th percentile differs by at most $0.4$~s), because a whole tier--class group is usually admitted or refused together.
+The rotation inside a partially admitted group is not the cause of the interruptions. Two variants of the admission order (rows \textsc{Repay}-sticky and \textsc{Repay}-block of the table), one that keeps incumbents admitted and one that rotates only every ten slots, give the same outage share, interruption rate and mean outage length to within $0.02$ (the 95th percentile differs by at most $0.4$~s), because a whole tier--class group is usually admitted or refused together.
 The interruptions come from the allocation itself, which stops admitting a group when its debt price is high, and reducing them would require a cost of interruption in the objective, which our model does not have.
 
 \begin{table}[t]
@@ -198,7 +198,7 @@ The bound of Theorem~\ref{thm:static} is a constant per stay, so it promises lit
 We repeat the experiment for $120$ elastic devices with stays of $5$ to $59$ slots on four traces (Table~\ref{tab:short}).
 Here misreporting does pay under \repay{} for most devices: $83\%$ of them gain and the median gain is $10\%$, although the pooled volume still falls by $6\%$ and no device gains more than $10.4$~Mbit, a quarter of its bound.
 The same devices gain a median of $59\%$ under plain DPP and about $140\%$ under \textsc{Priority} and \textsc{WFQ}.
-\repay{} therefore reduces the incentive of short-lived devices by an order of magnitude without removing it.
+\repay{} therefore reduces the size of the gain of short-lived devices by a factor of six to fourteen in the median, without reducing much the share of devices that gain ($83\%$ against $88\%$ under plain DPP).
 
 \begin{table}[t]
 \centering
@@ -240,9 +240,9 @@ Figure~\ref{fig:collapse} lets a fraction $\rho$ of the elastic devices declare 
 Under \textsc{Priority}, \textsc{WFQ} and plain DPP a misreporting device receives more than a truthful one at every interior $\rho$ we tested ($0.25$, $0.5$, $0.75$) (for instance $1.60$ against $0.63$~Mbit/s under \textsc{Priority} at $\rho=0.25$), so $\rho$ drifts to one.
 At $\rho=1$ the rules have nothing left to differentiate on. \textsc{WFQ} then serves $78\%$ of genuine RT slots, the same as \textsc{PF}, and plain DPP $84\%$; total utility falls from $72.3$ to $59.8$ under \textsc{WFQ} and from $70.7$ to $61.9$ under plain DPP.
 \textsc{Priority} with admission control degrades more gracefully: it still serves $95.8\%$ of genuine RT slots at $\rho=1$, because it admits flows at the minimum rate, but calls then run at lower quality (video utility $1.75$ per slot instead of $2.53$) and every elastic device, capped at the video rate, receives $0.97$~Mbit/s.
-Under \repay{} a misreporting device receives \emph{less} than a truthful one ($1.06$ against $1.24$~Mbit/s at $\rho=0.25$), so the truthful profile $\rho=0$ is stable.
+Under \repay{} a misreporting device receives \emph{less} than a truthful one ($1.06$ against $1.24$~Mbit/s at $\rho=0.25$), so in these runs no device has a reason to leave the truthful profile $\rho=0$. Part of this sign is due to the cap of the video bundle: under class-blind \textsc{PF}, where the declaration has no other effect, misreporters receive $0.26$~Mbit/s less than truthful devices, against $0.18$ less under \repay{}. (In this paragraph the rate of an elastic device is its volume divided by the length of its stay, idle periods included, hence the lower values than in Table~\ref{tab:compare}.)
 Comparing the points where each rule comes to rest, \repay{} at $\rho=0$ delivers a utility of $69.2$, an elastic rate of $1.28$~Mbit/s and a video utility of $1.86$, against $64.9$, $0.97$ and $1.75$ for \textsc{Priority} at $\rho=1$.
-\textsc{Priority} keeps the higher RT success rate ($95.8\%$ against $89.9\%$); it buys it with a quarter of the elastic rate ($0.97$ against $1.28$~Mbit/s).
+\textsc{Priority} keeps the higher RT success rate ($95.8\%$ against $89.9\%$); it buys it with an elastic rate that is $24\%$ lower ($0.97$ against $1.28$~Mbit/s).
 
 \begin{figure}[t]
 \centering
@@ -253,7 +253,7 @@ Comparing the points where each rule comes to rest, \repay{} at $\rho=0$ deliver
 
 \paragraph{The reverse deviation.}
 We also let $40$ video devices declare elastic, under \repay{} and under plain DPP.
-Every one of them loses utility (on average $33$ utility units over its stay under \repay{}), in line with Proposition~\ref{prop:reverse}.
+Every one of them loses utility (on average $33$ utility units over its stay under \repay{}), consistent with Proposition~\ref{prop:reverse}, which covers one slot without outstanding deficits.
 
 \paragraph{Switching strategies.}
 Finally we test dynamic declarations, on $40$ elastic devices that stay at least $200$ slots.
@@ -265,7 +265,7 @@ Under the price-taking hypothesis this strategy would gain $25$ to $43$~Mbit per
 In the actual system it loses (Table~\ref{tab:oracle}): the mean change is between $-0.05$ and $-0.07$~Mbit/s for $\tau$ from $1$ to $60$, and at most $23\%$ of the devices gain anything, the largest gain being $0.04$~Mbit/s.
 One rule of the implementation that the price-taking calculation ignores works against the attacker: a device that leaves the elastic class forfeits its deficits and restarts from zero when it returns.
 Table~\ref{tab:ablation} isolates it. If deficits are instead kept frozen while the device poses as video, the attack becomes profitable for most devices at $\tau=1$ ($85\%$ of them gain), though by little: $0.011$~Mbit/s on average, about $1\%$ of their volume, and at most $0.12$~Mbit/s for any device at any $\tau$. Admitting incumbents first in addition changes nothing material.
-Forfeiture is thus what makes slot-by-slot switching unprofitable in these runs, and it is a design choice that should be kept.
+Forfeiture is thus what makes slot-by-slot switching unprofitable in these runs (two traces; without it the mean gain is positive at $\tau=1$ only). It has a cost for an honest user who makes a call and then resumes a download: the credit accumulated before the call is lost.
 The experiments therefore do not show that a hold-down is needed in practice; in these experiments it is a restriction placed on the attacker, not something the allocation code enforces. Proposition~\ref{prop:commit} says that without one there is no guarantee, and we keep it as a safeguard.
 
 \begin{figure}[t]
