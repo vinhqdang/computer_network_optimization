@@ -1,0 +1,189 @@
+\section{Analysis}\label{sec:analysis}
+
+Throughout, $\Theta_{g,k}=V w_g\eta_k$ and $B_{g,k}=\Theta_{g,k}+\rmax_k$, with $\eta_k$ from \eqref{eq:eta}.
+We assume that the per-slot problem is solved exactly (Proposition~\ref{prop:solver}).
+
+\subsection{A deterministic bound on class envy}\label{sec:envy}
+
+\begin{theorem}[Deficit bound]\label{thm:bound}
+For every sequence of capacities, arrivals, departures and demand caps, and for arbitrary real tier prices $\beta_{g,t}$, \repay{} satisfies
+\[
+D_{i,k}(t)\le B_{g_i,k}=V w_{g_i}\eta_k+\rmax_k
+\]
+for every elastic device $i$, every class $k\in\cK$ and every slot $t$ of its sojourn.
+\end{theorem}
+
+\begin{proof}
+Fix $i$, $k$, a slot $t$, and write $g=g_i$, $D=D_{i,k}(t)$, $\lambda$ for the optimal capacity multiplier.
+We first show that $D\ge\Theta_{g,k}$ implies $r_{i,k,t}\le x_{i,t}$.
+
+If the group $(g,k)$ is empty or $a_{g,k}=0$, then $r_{i,k,t}=0\le x_{i,t}$.
+If $x_{i,t}=d_{i,t}$, then $r_{i,k,t}=a\min(z,d_{i,t})\le d_{i,t}=x_{i,t}$.
+Suppose then that $a_{g,k}>0$ and $x_{i,t}<d_{i,t}$.
+Since $x_i$ can be increased, stationarity of the Lagrangian in $x_i$ gives $Vw_gu'(x_i)+\beta_g+D_i-\lambda\le0$, and because $u'>0$ and $D_i\ge D$,
+\begin{equation}\label{eq:pf1}
+\lambda-\beta_g>D .
+\end{equation}
+The Lagrangian term of the group, $n\,Vw_g\,a\,u_k(y/a)+(n\beta_g-\pi-n\lambda)y-\zeta a$, is positively homogeneous in $(a,y)$ and is maximised over a cone intersected with $a\le1$; a maximiser with $a>0$ must therefore have a nonnegative value, that is, with $z=y/a$,
+\[
+n\,Vw_g\,u_k(z)\ \ge\ n(\lambda-\beta_g)z+\pi z+\zeta\ \ge\ n(\lambda-\beta_g)z ,
+\]
+where we used $\pi,\zeta\ge0$. Dividing by $nz>0$,
+\begin{equation}\label{eq:pf2}
+\lambda-\beta_g\le Vw_g\frac{u_k(z)}{z}\le\Theta_{g,k}.
+\end{equation}
+Combining \eqref{eq:pf1} and \eqref{eq:pf2} gives $D<\Theta_{g,k}$.
+So if $D\ge\Theta_{g,k}$ one of the first two cases applies and $r_{i,k,t}\le x_{i,t}$.
+Rounding does not alter this: it never lowers an elastic allocation, and the reference in \eqref{eq:D} is the fluid one.
+
+Now induct on $t$. The deficit starts at $0$. If $D_{i,k}(t)<\Theta_{g,k}$, then $D_{i,k}(t+1)\le D_{i,k}(t)+r_{i,k,t}<\Theta_{g,k}+\rmax_k$. If $\Theta_{g,k}\le D_{i,k}(t)\le B_{g,k}$, then $D_{i,k}(t+1)\le D_{i,k}(t)\le B_{g,k}$.
+\end{proof}
+
+Three features of the proof are worth pointing out.
+First, it uses no assumption on the inputs: the bound holds on adversarial sequences and for populations that change arbitrarily.
+Second, the tier price $\beta_g$ cancels because it multiplies the rate of elastic and RT flows of the tier alike; this is why we wrote the business constraints per unit of rate. A constraint that rewarded only RT admissions of a tier would add its multiplier to the bound.
+Third, only the elastic bonus is used. The debt price on RT groups is not needed for the envy bound; it is what makes the rule a true drift-plus-penalty method and hence near-optimal (Section~\ref{sec:opt}).
+
+\begin{remark}[A sharper constant]\label{rem:sharp}
+If the device is not rate-limited below the RT rate ($d_{i,t}\ge\rmax_k$, so $s_{i,k}=1$), then $\pi_{g,k}\ge D$ and the chain above gives $n\,Vw_gu_k(z)>(n+1)Dz$, hence growth stops already at $D\ge\Theta_{g,k}\,n_{g,k}/(n_{g,k}+1)$.
+\end{remark}
+
+\begin{corollary}[Window class-envy-freeness]\label{cor:window}
+On every sample path, for every elastic device $i$, class $k$ and slots $s\le t$ in its sojourn,
+\[
+\sum_{\tau=s}^{t}x_{i,\tau}\ \ge\ \sum_{\tau=s}^{t}r_{i,k,\tau}-\big(D_{i,k}(t+1)-D_{i,k}(s)\big)\ \ge\ \sum_{\tau=s}^{t}r_{i,k,\tau}-B_{g_i,k}.
+\]
+In particular \repay{} is $B$-class-envy-free with $B=\max_{g,k}B_{g,k}$, and over a sojourn of $L$ slots the envy per slot is at most $B/L$.
+\end{corollary}
+\begin{proof}
+By \eqref{eq:D}, $D_{i,k}(\tau+1)\ge D_{i,k}(\tau)+r_{i,k,\tau}-x_{i,\tau}$. Sum over $\tau=s,\dots,t$ and apply Theorem~\ref{thm:bound}.
+\end{proof}
+
+The bound is a constant in units of volume. With $V=20$, $w_g=1$ and $\rmin_V=0.5$~Mbit/s it equals $43$~Mbit, about fourteen seconds of a full-rate video call, whatever the length of the sojourn.
+
+\subsection{Incentives}\label{sec:ic}
+
+Envy-freeness compares what a device received with what the other class was offered \emph{on the realised path}.
+A misreport would change the path: the deviating device joins an RT group, and its own bonus and debt terms disappear.
+To pass from envy to incentives we follow the large-market approach of \citet{azevedo2019strategy}, who show that envy-freeness is what makes a mechanism strategy-proof in the large.
+
+\begin{definition}[Price-taking]\label{def:pt}
+A device is \emph{price-taking} if it evaluates a deviation assuming that the multipliers and offers $(\lambda_t,\beta_{g,t},a_{g,k,t},z_{g,k,t})_t$ of the truthful path stay unchanged, and that in each slot in which it declares class $k$ it receives the offer of group $(g,k)$, that is, an expected usable volume of at most $r_{i,k,t}$.
+\end{definition}
+
+The last clause is conservative: a newcomer to a partially admitted group is served after the incumbents.
+
+\begin{theorem}[Static misreport]\label{thm:static}
+Let $i$ be a price-taking elastic device with sojourn length $L$ and any nondecreasing preference over cumulative volume.
+Declaring an RT class $k$ for the whole sojourn instead of $E$ increases its volume by at most $B_{g_i,k}$, i.e.\ by at most $B_{g_i,k}/L$ per slot.
+\end{theorem}
+\begin{proof}
+The deviation yields at most $\sum_t r_{i,k,t}$, and truthful declaration yields at least $\sum_t r_{i,k,t}-B_{g_i,k}$ by Corollary~\ref{cor:window}.
+\end{proof}
+
+Without the price-taking hypothesis the same argument gives an identity with an explicit correction: if $R^{\mathrm{dev}}$ is the volume the device receives as a class-$k$ flow on the deviation path and $R^{\mathrm{tr}}=\sum_tr_{i,k,t}$ its reference on the truthful path, then the gain is at most $B_{g_i,k}+(R^{\mathrm{dev}}-R^{\mathrm{tr}})$.
+The correction term is the effect of one device on the offers of its tier. We do not bound it analytically; Section~\ref{sec:exp-strategic} measures the total gain exactly, by re-running the system with one device deviating.
+
+\paragraph{Changing class over time.}
+A device may also switch its declaration during its stay.
+
+\begin{theorem}[Dynamic declarations]\label{thm:dynamic}
+Let $i$ be a price-taking elastic device that declares RT classes during $K$ maximal intervals $J_1,\dots,J_K$ and $E$ otherwise.
+The volume it receives during $J_1\cup\dots\cup J_K$ exceeds what truthful declaration yields in the same slots by at most $\sum_{j}B_{g_i,k_j}\le K\max_kB_{g_i,k}$.
+If declarations are subject to a hold-down of $\tau$ slots, $K\le\lceil L/(2\tau)\rceil$.
+\end{theorem}
+\begin{proof}
+Apply Corollary~\ref{cor:window} to each window $J_j$ on the truthful path.
+\end{proof}
+
+\begin{proposition}[Commitment is necessary]\label{prop:commit}
+Consider any allocation rule and a price-taking elastic device that may re-declare its class in every slot.
+Its best strategy obtains $\sum_t\max(x_{i,t},r_{i,k,t})$, a gain of $\sum_t(r_{i,k,t}-x_{i,t})^{+}$ over truthful declaration.
+This gain is not controlled by the window envy bound: there are paths with class envy at most $1$ over every window on which it grows linearly in $L$.
+\end{proposition}
+\begin{proof}
+The first claim is immediate: declare $k$ exactly in the slots where $r_{i,k,t}>x_{i,t}$.
+For the second, let $r_{i,k,t}-x_{i,t}$ alternate between $+1$ and $-1$. Every window sum is at most $1$, and the positive parts add up to $L/2$.
+\end{proof}
+
+Proposition~\ref{prop:commit} is not specific to \repay{}.
+Any rule that gives RT flows more than their elastic tier-mates in some slots, which is the purpose of having RT classes, can be exploited by a device that is elastic in good slots and ``real-time'' in bad ones.
+Deferred compensation and free slot-by-slot re-declaration are incompatible, and some commitment, here the hold-down $\tau$, is the price of offering protection without payments.
+Theorem~\ref{thm:dynamic} shows that with commitment the exploitable amount is one envy bound per RT phase.
+
+Theorem~\ref{thm:dynamic} bounds the advantage collected while the device poses as RT. It does not compare the $E$-declared phases, in which the device re-enters with zero deficit while its truthful self would have carried a positive one.
+One might expect that less credit can only mean less volume.
+This is false: the elastic response \eqref{eq:xresp} is steep near $\lambda-\beta_g=D_i$, so a copy with slightly more credit can be served up to its cap, lose the excess through the reflection in \eqref{eq:D}, and fall behind.
+A random search over price-taking environments produced differences of either sign.
+We therefore make no analytical claim about these phases and measure the total effect of switching strategies in Section~\ref{sec:exp-strategic}.
+
+\paragraph{The reverse deviation.}
+An RT device could declare $E$.
+It would lose the guarantee of a rate in $[\rmin_k,\rmax_k]$ in every slot, which is what it values, but it might be served more in some slots.
+
+\begin{proposition}[RT flows do not pose as elastic]\label{prop:reverse}
+Assume $u_k'(z)\ge u'(z)$ on $[\rmin_k,\rmax_k]$ (vacuous if $\rmin_k=\rmax_k$) and $u_k(\rmin_k)>\rmin_k\,u'(\rmin_k)$; both hold for the utilities of Section~\ref{sec:model}.
+In a slot in which all deficits of tier $g$ are zero, a price-taking class-$k$ flow of tier $g$ obtains at least as much utility from the offer of its group as from the elastic allocation it would receive.
+\end{proposition}
+
+The proof is in Appendix~\ref{app:reverse}.
+When tier-mates hold positive deficits the RT offer carries a debt price and the statement can fail in a single slot; Section~\ref{sec:exp-strategic} reports the realised gains of this deviation.
+
+\paragraph{Other manipulations.}
+Demand caps are measured by the access point, so they are not a strategic variable for downlink traffic.
+A subscriber can still inflate its backlog with traffic it does not need, and so accumulate a deficit that it later redeems; since deficits never exceed $B_{g,k}$, so does the credit obtained in this way.
+Utilities, deficits and the hold-down are attached to the billing identity, so splitting traffic over several flows of one subscriber changes nothing, and a subscriber is entitled to one RT bundle per class.
+
+\subsection{Near-optimality and the business constraints}\label{sec:opt}
+
+We now show that \repay{} loses little utility relative to the best policy that satisfies the business constraints and is class-envy-free on average.
+The statement concerns the fluid allocation, in which a group with admission fraction $a$ earns $n\,a\,u_k(z)$.
+
+\begin{assumption}\label{ass:model}
+Let $\xi_t$ denote the \emph{population state} in slot $t$: the active devices with their tiers and declared classes, and the demand caps of the elastic ones.
+(i)~The process $(\xi_t)$ is exogenous, i.e.\ not influenced by the allocation, and otherwise arbitrary; at most $N_{\max}$ devices are active at a time.
+(ii)~Given $\xi_t=\xi$ and the whole past, $C_t$ is drawn from a distribution $F_\xi$.
+(iii)~$|e_{j,t}|\le e_j^{\max}$, demand caps are at most $\ell^{\max}\ge\max_k\rmax_k$, and $0\le U_t\le U^{\max}$.
+\end{assumption}
+
+No stationarity or mixing of the population is required; devices may arrive and leave in any pattern.
+For a state $\xi$ let $\Pi(\xi)$ be the set of (possibly randomised) maps from $C$ to feasible decisions $(a,y,x)$ of \eqref{eq:slot} such that
+\begin{equation}\label{eq:bench}
+\E_{F_\xi}[e_j]\le0\ \ \forall j,\qquad
+\E_{F_\xi}\big[a_{g_i,k}\,m_{d_i}(z_{g_i,k})-x_i\big]\le0\ \ \forall i\in\cE(\xi),\ k\in\cK,
+\end{equation}
+and let $U^*(\xi)=\sup_{\pi\in\Pi(\xi)}\E_{F_\xi}[U(\pi)]$.
+The second family of constraints is class-envy-freeness \emph{in expectation}: over the capacity fluctuations of a given state, each elastic device receives on average at least the RT offer of its tier.
+Policies in $\Pi(\xi)$ may give RT flows priority when capacity is low provided they compensate when it is high, which is precisely the kind of time-shifting that \repay{} performs online.
+
+\begin{theorem}[Utility and constraint violation]\label{thm:opt}
+Under Assumption~\ref{ass:model}, if $\Pi(\xi)\neq\emptyset$ for every reachable state, then for all $T\ge1$
+\begin{align*}
+\frac1T\sum_{t=1}^{T}\E[U_t]\ &\ge\ \frac1T\sum_{t=1}^{T}\E\big[U^*(\xi_t)\big]-\frac{B_0}{V},\\
+\frac1T\sum_{t=1}^{T}\E[e_{j,t}]\ &\le\ \sqrt{\frac{2\,(B_0+V\,U^{\max})}{T}}\qquad\text{for each }j,
+\end{align*}
+where $B_0=\tfrac12\sum_j(e_j^{\max})^2+\tfrac12N_{\max}|\cK|(\ell^{\max})^2$.
+\end{theorem}
+
+The proof (Appendix~\ref{app:opt}) uses the Lyapunov function $\tfrac12\sum_jQ_j^2+\tfrac12\sum_{i\in\cE_t}\sum_kD_{i,k}^2$, in which the second sum runs over the devices that are currently present.
+Churn is harmless for the drift: a departure removes a nonnegative term and an arrival adds zero.
+Together with Theorem~\ref{thm:bound} this gives the familiar trade-off of drift-plus-penalty methods with one difference in kind.
+The utility gap is $O(1/V)$ and the violation of the tier constraints vanishes as $O(\sqrt{V/T})$, both in expectation, whereas the envy bound $O(V)$ holds deterministically and for each device over its own, finite, sojourn.
+
+\subsection{What the standard rules do}\label{sec:baselines-theory}
+
+\begin{proposition}\label{prop:baselines}
+Consider one tier with one video flow and one saturated elastic device, and constant capacity $C$ with $\rmin_V<C<\min(2\rmin_V,1)$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item Strict priority for declared RT flows gives the video flow rate $C$ and the elastic device nothing; class envy grows by $C$ per slot, without bound. If the elastic device declares video, only one of the two flows can be served in a slot, so the genuine call is blocked whenever the impostor is served.
+\item Class-blind proportional fairness gives both $C/2<\rmin_V$: the call is useless in every slot.
+\item Drift-plus-penalty with the same utilities but no deficit queues serves the video flow at rate $C$ and the elastic device never; class envy is unbounded.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(a) and (b) are direct computations. For (c), if the call is admitted at rate $z$ the objective is $Vw\,[1+\log(z/\rmin_V)+\log(1+C-z)]$, which is increasing in $z$ on $[\rmin_V,C]$ because $C<1$; its value at $z=C$ is at least $Vw$, more than the $Vw\log(1+C)<Vw\log 2$ obtained by blocking the call.
+\end{proof}
+
+On the same instance \repay{} serves the call until the elastic device's deficit reaches the threshold of Theorem~\ref{thm:bound}, and from then on gives each side the same long-run volume, which under permanent overload means the call is admitted part of the time.
+Bounded class envy and unconditional RT protection cannot both hold when capacity is short forever.
+What \repay{} can do, and the three rules above cannot, is protect RT traffic through \emph{transient} shortages at no long-run cost to elastic users.

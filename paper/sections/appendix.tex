@@ -1,0 +1,67 @@
+\section{Proofs}\label{app:proofs}
+
+\subsection{Proof of Proposition~\ref{prop:reverse}}\label{app:reverse}
+
+Fix a slot and a tier $g$ whose deficits are all zero, so that $\pi_{g,k}=\zeta_{g,k}=0$ and elastic devices of the tier have no bonus.
+Write $\lambda'=\lambda-\beta_g$ and $w=w_g$.
+A class-$k$ flow that declared $E$ would receive at most $\hat x$, where $\hat x$ is the unconstrained elastic response: $\hat x=\infty$ if $\lambda'\le0$ and $Vw\,u'(\hat x)=\lambda'$ otherwise (with $\hat x=0$ if $\lambda'\ge Vw\,u'(0)$).
+Its true utility from a rate $x$ is $\tilde u_k(x)=u_k(\min(x,\rmax_k))\,\ind\{x\ge\rmin_k\}$, which is nondecreasing, so it suffices to show that the offer of group $(g,k)$ is worth at least $\tilde u_k(\hat x)$.
+
+If $\hat x<\rmin_k$ then $\tilde u_k(\hat x)=0$ and there is nothing to prove.
+Otherwise put $\bar x=\min(\hat x,\rmax_k)\ge\rmin_k$.
+Since $u'$ is decreasing, $\lambda'\le Vw\,u'(\hat x)\le Vw\,u'(\bar x)\le Vw\,u'(\rmin_k)$.
+
+\emph{Rate.} With zero debts, $\psi_{g,k}(z;\lambda)=n[Vw\,u_k(z)-\lambda'z]$. For $z\le\bar x$, concavity of $u_k$ and the first hypothesis give $Vw\,u_k'(z)\ge Vw\,u_k'(\bar x)\ge Vw\,u'(\bar x)\ge\lambda'$, so $\psi$ is nondecreasing on $[\rmin_k,\bar x]$ and $z^*\ge\bar x$. (If $\rmin_k=\rmax_k$ then $z^*=\bar x$ trivially.)
+
+\emph{Admission.} By the second hypothesis, $\max_z\psi\ge\psi(\rmin_k)=n[Vw\,u_k(\rmin_k)-\lambda'\rmin_k]>n\,\rmin_k[Vw\,u'(\rmin_k)-\lambda']\ge0$, so $a^*=1$.
+
+Hence the flow is admitted at rate $z^*\ge\bar x$ and its utility is $u_k(z^*)\ge u_k(\bar x)=\tilde u_k(\hat x)$.
+
+For $u(x)=\log(1+x)$ and $u_V(z)=1+\log(z/\rmin_V)$ the hypotheses read $1/z\ge1/(1+z)$ and $1>\rmin_V/(1+\rmin_V)$; for gaming, $1>r_G/(1+r_G)$. \qed
+
+\subsection{Proof of Theorem~\ref{thm:opt}}\label{app:opt}
+
+Let $L(t)=\tfrac12\sum_jQ_j(t)^2+\tfrac12\sum_{i\in\cE_t}\sum_{k\in\cK}D_{i,k}(t)^2$.
+
+\emph{One-slot drift.}
+From \eqref{eq:Q}, $Q_j(t+1)^2\le(Q_j(t)+e_{j,t})^2$, so
+$\tfrac12Q_j(t+1)^2-\tfrac12Q_j(t)^2\le Q_j(t)e_{j,t}+\tfrac12(e_j^{\max})^2$.
+From \eqref{eq:D}, in the same way and using $|r_{i,k,t}-x_{i,t}|\le\ell^{\max}$, $D_{i,k}(t)\ge0$ and $r_{i,k,t}\le a\,m_{d_{i,t}}(z)$,
+\[
+\tfrac12D_{i,k}(t+1)^2-\tfrac12D_{i,k}(t)^2\le D_{i,k}(t)\big(a_{g_i,k}\,m_{d_{i,t}}(z_{g_i,k})-x_{i,t}\big)+\tfrac12(\ell^{\max})^2 .
+\]
+Between slots $t$ and $t+1$ the population changes. A device that leaves removes the nonnegative term $\tfrac12\sum_kD_{i,k}^2$ from $L$, and a device that arrives contributes zero. Summing over the at most $N_{\max}$ elastic devices of slot $t$,
+\[
+L(t+1)-L(t)\le B_0+\sum_jQ_j(t)e_{j,t}+\sum_{i\in\cE_t}\sum_kD_{i,k}(t)\big(a\,m_{d_{i,t}}(z)-x_{i,t}\big).
+\]
+Subtracting $VU_t$ from both sides, the right-hand side becomes $B_0$ minus the expression \eqref{eq:dpp}, which is the objective of \eqref{eq:slot} up to a decision-independent constant. \repay{} maximises that objective over all feasible decisions, so for every $\pi\in\Pi(\xi_t)$, evaluated at the realised $C_t$,
+\begin{equation}\label{eq:app1}
+L(t+1)-L(t)-VU_t\le B_0+\sum_jQ_j(t)e^{\pi}_{j,t}+\sum_{i,k}D_{i,k}(t)\big(a^\pi m_{d_{i,t}}(z^\pi)-x^\pi_{i}\big)-VU^{\pi}_t .
+\end{equation}
+
+\emph{Comparison with the benchmark.}
+Let $\mathcal H_t$ consist of the history up to the start of slot $t$ together with $\xi_t$; the queues $Q(t)$ and $D(t)$ are $\mathcal H_t$-measurable.
+By Assumption~\ref{ass:model}(ii), $C_t$ has distribution $F_{\xi_t}$ conditionally on $\mathcal H_t$, and $\pi$ depends on $C_t$ only (and on independent randomisation).
+Taking conditional expectations in \eqref{eq:app1} and using \eqref{eq:bench},
+\[
+\E\big[L(t+1)-L(t)-VU_t\mid\mathcal H_t\big]\le B_0-V\,\E_{F_{\xi_t}}[U(\pi)],
+\]
+because the queues are nonnegative and multiply quantities with nonpositive conditional mean.
+Letting $\pi$ approach the supremum, the right-hand side becomes $B_0-VU^*(\xi_t)$.
+
+\emph{Telescoping.}
+Take expectations, sum over $t=1,\dots,T$, and use $L(1)=0$, $L(T+1)\ge0$:
+\[
+-V\sum_{t\le T}\E[U_t]\le TB_0-V\sum_{t\le T}\E[U^*(\xi_t)],
+\]
+which is the utility bound after dividing by $VT$.
+The same inequality with $U^*\ge0$ and $U_t\le U^{\max}$ gives $\E[L(T+1)]\le T(B_0+VU^{\max})$.
+Since $Q_j(T+1)\ge\sum_{t\le T}e_{j,t}$ by \eqref{eq:Q} and $\E[Q_j(T+1)]\le\sqrt{\E[Q_j(T+1)^2]}\le\sqrt{2\,\E[L(T+1)]}$,
+\[
+\frac1T\sum_{t\le T}\E[e_{j,t}]\le\frac{\E[Q_j(T+1)]}{T}\le\sqrt{\frac{2(B_0+VU^{\max})}{T}} .
+\]
+\qed
+
+\begin{remark}
+If the benchmark constraints hold with a uniform slack $\varepsilon>0$, the drift inequality gains a term $-\varepsilon\sum_jQ_j(t)$ and the standard argument for drift-plus-penalty methods~\citep{neely2010stochastic} yields $\E[Q_j(t)]=O(V/\varepsilon)$ uniformly in $t$, hence a violation of order $V/(\varepsilon T)$. We do not use this refinement.
+\end{remark}

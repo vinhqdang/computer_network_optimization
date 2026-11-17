@@ -1,0 +1,143 @@
+\section{The \repay{} algorithm}\label{sec:algorithm}
+
+\repay{} (\textsc{re}al-time \textsc{p}riority with el\textsc{a}stic pa\textsc{y}back) is a drift-plus-penalty rule with two families of virtual queues.
+Three \emph{tier queues} track the business constraints and persist as devices come and go.
+In addition, every elastic device carries, for the time it is present, one \emph{deficit queue} per RT class that records its outstanding class envy.
+
+\subsection{State}
+
+\paragraph{Tier queues.}
+For $j\in\{PS,YS,FF\}$, $Q_j(1)=0$ and
+\begin{equation}\label{eq:Q}
+Q_j(t+1)=\max\big(Q_j(t)+e_{j,t},\,0\big).
+\end{equation}
+They induce a per-unit \emph{tier price} $\beta_{P,t}=Q_{PS}(t)$, $\beta_{Y,t}=Q_{YS}(t)$, $\beta_{F,t}=Q_{FF}(t)$: the bonus that a unit of rate delivered to the tier earns in slot $t$.
+
+\paragraph{Deficit queues.}
+When an elastic device $i$ arrives, $D_{i,k}=0$ for every $k\in\cK$. While it is present,
+\begin{equation}\label{eq:D}
+D_{i,k}(t+1)=\max\big(D_{i,k}(t)+r_{i,k,t}-x_{i,t},\,0\big),
+\end{equation}
+with the reference $r_{i,k,t}$ of \eqref{eq:ref}. The deficits are discarded when the device leaves.
+Unrolling the recursion gives $D_{i,k}(t+1)=\max_{s\le t}\sum_{\tau=s}^{t}(r_{i,k,\tau}-x_{i,\tau})$ with the maximum taken over windows that start inside the sojourn (and the empty window): the deficit is exactly the largest class envy over all windows that end now.
+
+\subsection{Per-slot problem}
+
+The reference $a\min(z,d_i)$ is not linear in the decision, and putting it directly into the objective would destroy concavity.
+We replace $z\mapsto\min(z,d)$ on $[\rmin_k,\rmax_k]$ by the affine majorant
+\begin{equation}\label{eq:maj}
+m_d(z)=\sigma+s\,z,\qquad
+(s,\sigma)=\begin{cases}
+(1,0), & d\ge\rmax_k,\\
+(0,d), & d\le\rmin_k,\\
+\Big(\dfrac{d-\rmin_k}{\rmax_k-\rmin_k},\ (1-s)\,d\Big), & \text{otherwise,}
+\end{cases}
+\end{equation}
+which satisfies $m_d(z)\ge\min(z,d)$ on the interval, with equality whenever $d\notin(\rmin_k,\rmax_k)$.
+For device $i$ and class $k$ we write $(s_{i,k},\sigma_{i,k})$ for the coefficients obtained with $d=d_{i,t}$.
+Group $(g,k)$ then faces the \emph{debt coefficients}
+\begin{equation}\label{eq:debt}
+\pi_{g,k}=\sum_{i\in\cE_t:\,g_i=g}D_{i,k}\,s_{i,k},\qquad
+\zeta_{g,k}=\sum_{i\in\cE_t:\,g_i=g}D_{i,k}\,\sigma_{i,k},
+\end{equation}
+and device $i$ earns the \emph{bonus} $D_i=\sum_{k\in\cK}D_{i,k}$ per unit of rate.
+
+In slot $t$, \repay{} solves
+\begin{equation}\label{eq:slot}
+\begin{aligned}
+\max_{a,y,x}\quad &\sum_{(g,k):\,n_{g,k}\ge 1}\Big[V w_g\,n_{g,k}\,a_{g,k}\,u_k\!\big(y_{g,k}/a_{g,k}\big)+\big(n_{g,k}\beta_g-\pi_{g,k}\big)y_{g,k}-\zeta_{g,k}\,a_{g,k}\Big]\\
+&+\sum_{i\in\cE_t}\Big[V w_{g_i}\,u(x_i)+\big(\beta_{g_i}+D_i\big)x_i\Big]\\
+\text{s.t.}\quad &\textstyle\sum_{g,k}n_{g,k}y_{g,k}+\sum_i x_i\le C_t,\qquad 0\le x_i\le d_{i,t},\\
+&0\le a_{g,k}\le 1,\qquad a_{g,k}\rmin_k\le y_{g,k}\le a_{g,k}\rmax_k ,
+\end{aligned}
+\end{equation}
+where $a\,u_k(y/a)$ is taken to be $0$ at $a=0$ and $V>0$ is the usual drift-plus-penalty parameter.
+Up to terms that do not depend on the decision, the objective equals
+\begin{equation}\label{eq:dpp}
+V\,U_t-\sum_jQ_j(t)\,e_{j,t}-\sum_{i\in\cE_t}\sum_{k\in\cK}D_{i,k}(t)\,\big(a_{g_i,k}\,m_{d_{i,t}}(z_{g_i,k})-x_i\big).
+\end{equation}
+
+The three groups of terms have a direct reading.
+An RT group pays, per unit of rate, the sum of the deficits it has built up among its elastic tier-mates: priority is bought on credit, and the price of further priority rises with the outstanding debt.
+An elastic device that is owed volume bids $D_i$ above its marginal utility, so it is served before everything else once capacity returns.
+Tier prices shift capacity between tiers but, being per unit of rate, do not change the comparison between classes inside a tier.
+
+\begin{lemma}\label{lem:concave}
+Problem \eqref{eq:slot} is a concave maximisation over a polyhedron.
+\end{lemma}
+\begin{proof}
+$(a,y)\mapsto a\,u_k(y/a)$ is the perspective of the concave function $u_k$, hence jointly concave on $a>0$, and its closure takes the value $0$ at the origin.
+The debt terms are linear in $(a,y)$ because $a\,m_d(y/a)=\sigma a+s\,y$.
+The elastic terms are concave, and all constraints are linear.
+\end{proof}
+
+Writing the RT decision as $(a,z)$ would not work: $a\,u_k(z)$ is not jointly concave, and neither is $-D\min(az,d)$.
+The perspective variables and the majorant are what make the per-slot problem tractable.
+
+\subsection{Exact solution by bisection}
+
+Let $\lambda\ge 0$ be the multiplier of the capacity constraint.
+For a given $\lambda$ the problem separates.
+
+\emph{Elastic device.} With $p_i=\lambda-\beta_{g_i}-D_i$,
+\begin{equation}\label{eq:xresp}
+x_i(\lambda)=\begin{cases}d_i, & p_i\le 0,\\
+\min\big\{d_i,\ \max\big(0,\ V w_{g_i}/p_i-1\big)\big\}, & p_i>0 .\end{cases}
+\end{equation}
+
+\emph{RT group.} For fixed $z$ the group's Lagrangian is linear in $a$, equal to $a\,\psi_{g,k}(z;\lambda)$ with
+\begin{equation}\label{eq:psi}
+\psi_{g,k}(z;\lambda)=n_{g,k}\big[V w_g\,u_k(z)+(\beta_g-\lambda)z\big]-\pi_{g,k}z-\zeta_{g,k}.
+\end{equation}
+Hence $z^*(\lambda)=\arg\max_{z\in[\rmin_k,\rmax_k]}\psi_{g,k}(z;\lambda)$ and $a^*(\lambda)=\ind\{\psi_{g,k}(z^*;\lambda)>0\}$.
+For video, with $q=n_{g,k}(\lambda-\beta_g)+\pi_{g,k}$, $z^*=\rmax_V$ if $q\le 0$ and $z^*=\min\{\rmax_V,\max(\rmin_V,\,n_{g,k}Vw_g/q)\}$ otherwise; for gaming $z^*=r_G$.
+
+The load $S(\lambda)=\sum n\,a^*z^*+\sum_i x_i(\lambda)$ is nonincreasing in $\lambda$.
+If $S(0)\le C_t$ the solution is the one at $\lambda=0$.
+Otherwise we bisect on $\lambda$ until $S(\lambda_{lo})>C_t\ge S(\lambda_{hi})$ with $\lambda_{hi}-\lambda_{lo}$ below a tolerance, and take the allocation at $\lambda_{hi}$.
+A group that is admitted at $\lambda_{lo}$ and blocked at $\lambda_{hi}$ is \emph{marginal}: its $\psi$ vanishes at the optimal multiplier, so any $a\in[0,1]$ is optimal for it, and we give it the fraction that fills the remaining capacity.
+
+\begin{proposition}[Solver]\label{prop:solver}
+As the tolerance tends to zero, the procedure returns an optimal solution of \eqref{eq:slot}.
+One slot costs $O\big((N_t+|\cK|\cdot 3)\log(1/\epsilon)\big)$ operations for $N_t$ active devices and relative tolerance $\epsilon$.
+\end{proposition}
+\begin{proof}
+By Lemma~\ref{lem:concave} and Slater's condition (the zero allocation leaves capacity $C_t>0$ unused) strong duality holds with some $\lambda^*\ge0$, and a feasible point is optimal if and only if it maximises the Lagrangian at $\lambda^*$ and satisfies complementary slackness.
+The Lagrangian maximisers $x_i(\lambda)$ and $z^*(\lambda)$ are unique and continuous in $\lambda$ because $u$ and $u_V$ are strictly concave (and $z$ is fixed for gaming).
+The admission variable is free in $[0,1]$ exactly for groups with $\psi(z^*;\lambda^*)=0$.
+$S$ is nonincreasing: $x_i$ decreases in $\lambda$; $\psi$ has decreasing differences in $(z,\lambda)$, so $z^*$ decreases; and $\max_z\psi$ decreases, so $a^*$ decreases.
+Therefore either $S(0)\le C_t$ and $\lambda^*=0$, or $S(\lambda^*-)\ge C_t\ge S(\lambda^*+)$ and capacity can be met exactly by choosing the free admission fractions; this is what the procedure constructs as $\lambda_{hi}\downarrow\lambda^*$.
+Each evaluation of $S$ is linear in the number of devices and groups.
+\end{proof}
+
+\subsection{From fractions to flows}
+
+Only marginal groups have a fractional $a$, generically at most one per slot.
+For such a group \repay{} admits $M=\lfloor n a\rfloor$ flows at rate $z$, giving precedence to flows that were served in the previous slot so that ongoing calls are not interrupted, and then to earlier arrivals.
+The leftover capacity $(na-M)z$ serves one more flow if it is at least $\rmin_k$; otherwise it is handed to elastic devices that are below their cap, in decreasing order of marginal value.
+Rounding therefore never reduces an elastic allocation.
+The deficit update \eqref{eq:D} uses the fluid reference $a\min(z,d_i)$, which is at least the average rate of the admitted flows of the group and so errs in favour of the elastic device.
+
+\begin{algorithm}[t]
+\caption{\repay{}, slot $t$}\label{alg:repay}
+\begin{algorithmic}[1]
+\State observe $C_t$, the groups $n_{g,k}$, and for each elastic device its tier and verified demand cap $d_i$
+\State $\beta_g\gets$ tier prices from $Q$; \ $(s_{i,k},\sigma_{i,k})\gets$ majorant coefficients \eqref{eq:maj}; \ $\pi,\zeta\gets$ \eqref{eq:debt}; \ $D_i\gets\sum_kD_{i,k}$
+\State $(a,z,x,\lambda)\gets$ solve \eqref{eq:slot} by bisection on $\lambda$
+\State round admissions to whole flows (incumbents first) and serve
+\ForAll{elastic $i$, class $k$} $D_{i,k}\gets\max\big(D_{i,k}+a_{g_i,k}\min(z_{g_i,k},d_i)-x_i,\ 0\big)$ \EndFor
+\ForAll{$j$} $Q_j\gets\max(Q_j+e_j,\ 0)$ \EndFor
+\State arrivals start with $D=0$; departures drop their deficits; a device that changes its declared class keeps the new class for at least $\tau$ slots
+\end{algorithmic}
+\end{algorithm}
+
+The rule has four knobs: $V$, which trades utility against the size of the envy bound; the tier weights $w_g$; the commercial targets $(\theta_P,\theta_Y,\phi)$; and the \emph{hold-down} time $\tau$ that a subscriber must keep a declared class before changing it.
+Section~\ref{sec:analysis} explains why the hold-down is needed.
+
+\subsection{Variants}\label{sec:variants}
+
+We also evaluate three modifications.
+\textsc{Repay-E} (entrant offer) defines a reference even when the group $(g,k)$ is empty: the offer that a single new class-$k$ flow of tier $g$ would receive at the realised $\lambda$, obtained from \eqref{eq:psi} with $n=1$. It closes a loophole in thin markets, where a lone elastic device could become the only RT flow of its tier.
+\textsc{Repay-WC} (work-conserving) hands capacity that is left unused at $\lambda=0$ to RT groups, which the debt price may otherwise keep below $\rmax_k$ for a few slots after a congestion episode.
+\textsc{No-debt} drops the debt coefficients ($\pi=\zeta=0$) and keeps only the elastic bonus.
+The deterministic guarantees of Section~\ref{sec:envy} hold for all three; the optimality guarantee of Section~\ref{sec:opt} is proved for \repay{} itself.

@@ -1,0 +1,59 @@
+\section{Related work}\label{sec:related}
+
+\paragraph{Utility maximisation and fairness.}
+Network utility maximisation and proportional fairness go back to \citet{kelly1998rate}, and the $\alpha$-fair family to \citet{mo2000fair}; \citet{lan2010axiomatic} derive such families from axioms and \citet{bertsimas2011price} quantify the efficiency that fairness costs.
+The distinction between elastic and real-time applications is due to \citet{shenker1995fundamental}, and rate control with non-concave, inelastic utilities was studied by \citet{lee2005nonconvex} and \citet{hande2007distributed}.
+Weighted fair queueing and its practical approximations \citep{parekh1993generalized,shreedhar1996efficient} remain the deployed mechanisms, and airtime-fair scheduling is available on commodity Wi-Fi \citep{hoiland2017ending}.
+These frameworks take the set of flows and their classes as given.
+Closer to our setting, \citet{sisalem2023enabling} contrast fairness in every slot with fairness over the horizon and show that the latter cannot be learned against an unrestricted adversary, and \citet{elazzouni2020deadline} treat online, deadline-constrained allocation with fairness.
+
+\paragraph{Stochastic network optimisation and constrained online learning.}
+Our algorithm belongs to the drift-plus-penalty family \citep{georgiadis2006resource,neely2010stochastic}, which builds on the primal--dual and queue-based methods of \citet{stolyar2005maximizing}, \citet{eryilmaz2007fair} and \citet{neely2008fairness}.
+Deterministic bounds on virtual queues are a known device in this literature, for example for worst-case delay \citep{neely2011worstcase}; we do not claim the technique, only its use for a per-device fairness property.
+\citet{jaramillo2011elastic} combine elastic and real-time traffic in one Lyapunov scheme with per-flow deficit counters; there the deficit protects the delivery ratio of real-time flows, whereas ours protects elastic devices \emph{against} real-time priority, and their flow set is fixed.
+Online convex optimisation with long-term constraints \citep{mahdavi2012trading,yu2017online,yu2019low} and online allocation by dual descent \citep{balseiro2023best,balseiro2025regularized} give regret and violation guarantees for aggregate constraints; recent work relaxes Slater's condition and handles time-varying constraints \citep{yu2026slater,sarkar2026geometric,abdullah2026dynamic}.
+In these models the constrained quantities are properties of the system, not of agents who come and go.
+\citet{sinclair2021sequential} characterise the envy--efficiency trade-off when individuals arrive online, each for a single round, and \citet{li2020combinatorial} use virtual queues to guarantee minimum service to arms that may be unavailable.
+We found no drift-plus-penalty or constrained-online-learning result with guarantees per agent over a finite sojourn, nor one that enforces envy constraints through virtual queues.
+
+\paragraph{Pricing and screening by delay.}
+That delay can separate customer types is classical in queueing economics: \citet{mendelson1990optimal} price priorities incentive-compatibly and \citet{afeche2013incentive} shows that deliberately delaying patient customers can be optimal.
+Paris Metro Pricing applies the idea to networks \citep{odlyzko1999paris}, and \citet{sen2013survey} survey time- and usage-dependent data pricing.
+The economics of free versus paid public Wi-Fi is studied by \citet{yu2017public} and \citet{musacchio2006wifi}; \citet{johari2004efficiency} bound the efficiency loss when users of a shared link anticipate prices.
+All of these screen with payments.
+\repay{} screens with time alone: the elastic class is offered more volume later, and the tier, which is where money enters, is taken as fixed.
+
+\paragraph{Allocation without money and credit mechanisms.}
+A large literature allocates shared resources fairly without payments, starting with dominant resource fairness \citep{ghodsi2011dominant} and its dynamic extensions \citep{kash2014no,freeman2018dynamic,fikioris2021incentives}; \citet{cole2013mechanism} and \citet{gorokh2021monetary} obtain truthfulness without money, the latter through artificial currencies.
+The idea that underlies our deficit queues, serving urgent demand now and repaying the others later, is \emph{not} new.
+Karma \citep{vuppalapati2023karma} implements it with credits for a single elastic resource and proves online strategy-proofness; \citet{le2019bopf} give latency-sensitive queues bounded priority over throughput-sensitive ones in clusters; karma economies allocate road and charging capacity among agents with heterogeneous urgency \citep{elokda2024karma,elokda2025carma,elokda2026ev}; \citet{wong2013myob} distribute credits across home gateways of an ISP; and \citet{zahedi2026credit} formalise credit fairness and prove that no mechanism is at once anonymous, strategy-proof, credit-fair and Pareto efficient.
+Related guarantees for repeated allocation without money appear in \citet{balseiro2019nomoney}, \citet{banerjee2023pseudo}, \citet{fikioris2025dmmf} and \citet{lin2026spec}, and deficit-based rules with anytime fairness bounds in \citet{benade2018envy} and \citet{kahana2026perpetual}.
+These works assume agents of a single kind (they differ in demand or urgency, not in the shape of their utility), a fixed or heuristically handled population, and no operator-side constraints.
+Our contribution is narrower and complementary: we place the repayment idea inside a constrained stochastic optimisation with heterogeneous service classes and commercial tiers, and obtain a sample-path bound per device that is unaffected by churn.
+Consistent with the impossibility result of \citet{zahedi2026credit}, our incentive guarantee is approximate and holds in the large-market sense of \citet{azevedo2019strategy}.
+\citet{dai2025efficiency} show that the dual variables of primal--dual allocation rules are themselves a channel for manipulation and remove it with payments; our price-taking hypothesis sets this channel aside in the theory, and we measure it in the experiments.
+
+\paragraph{Robust and stochastic optimisation.}
+A different way to face uncertainty is to hedge against it at design time: robust network design under demand uncertainty \citep{benameur2005routing,bertsimas2004price}, robust network enhancement \citep{rezaei2026robust}, distributionally robust optimisation \citep{mohajerin2018data}, and stochastic programming for slice provisioning \citep{gholami2023mobile}.
+\citet{boyd2007dynamic} consider multi-period utility maximisation with delivery contracts that couple rates across time, the closest analogue of our long-run business constraints.
+These approaches fix the population and optimise capacity or routing decisions; they are complementary to an online rule that reacts slot by slot and needs no uncertainty set.
+
+\begin{table}[t]
+\centering
+\caption{Features covered by representative approaches. ``RT'' means that real-time classes are modelled as such; ``IC'' that class or demand reports are strategic; a dot means partially.}
+\label{tab:related}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & churn & RT classes & tiers / constraints & fairness & IC without money\\
+\midrule
+NUM, WFQ \citep{kelly1998rate,parekh1993generalized} & -- & -- & $\cdot$ & \checkmark & --\\
+Inelastic NUM \citep{lee2005nonconvex,hande2007distributed} & -- & \checkmark & -- & $\cdot$ & --\\
+Drift-plus-penalty \citep{neely2010stochastic,jaramillo2011elastic} & -- & \checkmark & \checkmark & \checkmark & --\\
+Constrained online learning \citep{yu2017online,balseiro2025regularized} & $\cdot$ & -- & \checkmark & $\cdot$ & --\\
+Priority pricing \citep{mendelson1990optimal,afeche2013incentive} & -- & \checkmark & $\cdot$ & -- & -- (payments)\\
+Credit mechanisms \citep{vuppalapati2023karma,zahedi2026credit} & $\cdot$ & -- & -- & \checkmark & \checkmark\\
+\repay{} (this paper) & \checkmark & \checkmark & \checkmark & \checkmark & approximate\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,37 @@
+\section{Introduction}\label{sec:intro}
+
+An Internet access point is shared by devices whose needs differ in kind.
+A video call needs a modest rate in every second and is worthless without it, although its picture quality can degrade.
+An online game needs very little rate but needs it immediately.
+A software update or a mailbox synchronisation needs volume and does not care when it arrives.
+The operator of a home broadband service or of public Wi-Fi in a caf\'e, a metro station or an airport also sells different products on the same link: a free tier, a premium subscription, pay-as-you-go access.
+And almost nothing is known in advance. Devices join and leave, sometimes dozens at once when a train arrives; demand switches on and off; the usable capacity moves with the backhaul and the radio channel.
+
+When capacity is short, the natural reaction is to protect the real-time traffic and let the delay-tolerant traffic wait.
+Doing this well runs into three difficulties at once.
+The first is \emph{incentives}. The access point usually cannot tell from encrypted packets what an application is, so the class of a flow is in effect declared by the device.
+If declaring ``real-time'' buys priority, every bulk transfer will declare it, and the protection disappears; we show that strict priority and standard utility-maximising schedulers both have this defect.
+The second is \emph{fairness under churn}. Guarantees stated as long-run averages are of little use to a device that stays for four minutes.
+The third is \emph{business constraints}: premium subscribers were promised a service level, pay-as-you-go traffic is revenue, and a venue that advertises free Wi-Fi must deliver some.
+
+This paper proposes a rule that protects real-time traffic \emph{on credit}.
+Real-time flows are served first during a shortage, and each elastic device that is passed over accumulates a deficit that records what it would have received had it claimed the real-time treatment.
+The deficit acts in two directions: it raises the priority of the creditor, and it raises the price of further priority for the real-time flows of the same tier.
+Elastic users care about volume, not timing, so being repaid later costs them nothing, while a real-time flow gets what it cares about, service now.
+The two classes are thus offered different bundles that each prefers to the other's, and telling the truth becomes (approximately) the best policy without any payment changing hands.
+
+Credit-based sharing is not a new idea; it underlies recent resource managers and ``karma'' economies (Section~\ref{sec:related}).
+What we add is a formulation of it inside online constrained optimisation, for service classes that differ in the shape of their utilities and for a population that changes continuously, together with guarantees that hold per device.
+
+\paragraph{Contributions.}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \emph{Model.} We formulate online capacity allocation with unknown arrivals, departures, demands and capacity, three service classes, three commercial tiers with long-run business constraints, and a volume-based notion of \emph{class envy} that captures the temptation to misreport (Section~\ref{sec:model}).
+\item \emph{Algorithm.} \repay{} is a drift-plus-penalty rule in which tier-level virtual queues persist across churn and per-device deficit queues are created at arrival. The per-slot problem is made concave by a perspective reformulation and an affine majorant, and is solved exactly by bisection in time linear in the number of devices (Section~\ref{sec:algorithm}).
+\item \emph{Deterministic envy bound.} On every sample path, including adversarial ones, each deficit is at most $V w_g\eta_k+\rmax_k$. Hence the class envy of every elastic device over every window of its sojourn is bounded by a constant, independently of the number of devices, of the churn, and of the tier prices (Theorem~\ref{thm:bound}).
+\item \emph{Incentives.} For price-taking devices the gain from a static misreport is at most this constant, and the gain collected while posing as real-time under dynamic strategies is at most the constant times the number of switches. We show that some commitment to a declared class is necessary for any rule that defers compensation (Theorems~\ref{thm:static}--\ref{thm:dynamic}, Proposition~\ref{prop:commit}).
+\item \emph{Near-optimality.} For an arbitrary exogenous population process, the time-average utility is within $O(1/V)$ of the best policy that meets the business constraints and is class-envy-free in expectation, and the violation of the business constraints is $O(\sqrt{V/T})$ (Theorem~\ref{thm:opt}).
+\item \emph{Evaluation.} In simulations of a public hotspot and a home network we compare \repay{} with proportional fairness, weighted fair queueing, strict priority, plain drift-plus-penalty and a Karma-style credit scheduler, both when devices are truthful and when they respond strategically (Section~\ref{sec:experiments}).
+\end{enumerate}
+
+We also state what the approach does not do. When capacity is short permanently, bounded envy forces real-time flows to be rationed; the benefit of \repay{} lies in transient shortages. The incentive guarantee is approximate and of the large-market type, and it presupposes that demand is measured by the access point, which is natural for downlink traffic only.
+Section~\ref{sec:discussion} discusses these limits.
