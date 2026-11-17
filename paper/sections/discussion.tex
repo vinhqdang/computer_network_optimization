@@ -1,1 +1,35 @@
-\section{Discussion and limitations}\label{sec:discussion} TBD
+\section{Discussion and limitations}\label{sec:discussion}
+
+\paragraph{What bounded envy costs.}
+Class-envy-freeness ties the volume of a real-time flow to that of its elastic tier-mates.
+When capacity per device stays below $\rmin_k$ for a long time, no rule can serve every call without making calls permanently better off than downloads, and \repay{} then admits calls part of the time.
+An operator who prefers to protect calls in such regimes can scale the reference by a factor $\gamma<1$, at the price of an incentive slack proportional to $1-\gamma$, or sell the protection: a premium tier with a larger weight $w_g$ has a larger envy bound and therefore a longer horizon over which its calls can borrow.
+
+\paragraph{The size of the bound.}
+The bound grows linearly in $V$ and the utility gap shrinks as $1/V$.
+For a device that stays $L$ slots the incentive to misreport is at most $B/L$ per slot, so short visits are weakly protected; this is unavoidable for any rule that settles accounts over time.
+The gaming class has a small rate, hence a large $\eta_G$ and a loose $B_{g,G}$, although the envy it can actually cause is small because its rate is small.
+
+\paragraph{Incentives.}
+Our guarantees are of three kinds, and they should not be confused.
+The envy bound is exact and holds on every path.
+The translation into incentives assumes price-taking devices; it is the right approximation for a hotspot with dozens of users and a poor one for a home with a single call, where the experiments, not the theorem, are the evidence.
+Finally, the approach relies on two operational assumptions: demand is measured by the access point, which holds for downlink traffic, and a subscriber cannot change its declared class more often than every $\tau$ slots.
+Uplink demand would have to be inferred from buffer reports, which a device can inflate; we showed that such inflation is worth at most one envy bound of credit, but we did not model its cost to others.
+We also proved that the simple monotonicity one would like for dynamic strategies fails, so for switching strategies our analytical statement covers only the phases in which the device poses as real-time.
+
+\paragraph{Modelling choices.}
+We treat a single bottleneck with slot-level rates.
+Latency inside a slot, which matters for gaming, is represented only through the requirement of service in every slot.
+Several access points that share a backhaul would add a second layer of capacity constraints; the per-slot problem remains concave, but the bisection on one price would become a small dual problem.
+The optimality theorem assumes that the population process does not react to the allocation, whereas real users leave when service is poor.
+The business constraints are stated per unit of rate; a commitment on the admission probability of premium calls would break the cancellation used in Theorem~\ref{thm:bound} and add the corresponding multiplier to the bound.
+The evaluation is by simulation with synthetic traces; we did not have access to operator traces, and a prototype on a real access point is the natural next step.
+
+\section{Conclusion}\label{sec:conclusion}
+
+Protecting real-time traffic on a shared access link invites every other application to claim to be real-time.
+We proposed to grant the protection on credit: priority now is paid back in volume later, through per-device deficit queues embedded in a drift-plus-penalty allocation with commercial tiers and long-run business constraints.
+The resulting rule bounds the envy between service classes by a constant on every sample path and for every device, whatever the churn, while remaining within $O(1/V)$ of the best envy-free policy in utility.
+The construction is not tied to Wi-Fi.
+It applies wherever an operator must differentiate users whose needs differ in timing rather than in quantity and cannot verify what they are, for instance in shared compute clusters with interactive and batch jobs or in charging infrastructure; adapting the analysis to several resources and to learned, rather than declared, classes are the directions we find most interesting.
