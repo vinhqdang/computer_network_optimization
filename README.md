@@ -49,6 +49,8 @@ python -m experiments.exp_frontier
 python -m experiments.exp_short_stays
 python -m experiments.exp_continuity
 python -m experiments.exp_oracle_ablation   # needs results/oracle.json
+python -m experiments.data_real    # downloads the public traces into data/raw (not in the repository)
+python -m experiments.exp_real     # trace-driven comparison and deviations
 python -m experiments.exp_runtime
 ```
 
@@ -62,6 +64,7 @@ python -m experiments.plots_a
 python -m experiments.plots_b
 python -m experiments.plots_dev   # after plots_b: writes the deviation table and figure
 python -m experiments.plots_c     # frontier figure, capped-priority and short-stay tables
+python -m experiments.plots_real  # tables of the trace-driven scenario
 ```
 
 Paper:
@@ -90,3 +93,7 @@ for mech in (Repay(p), PF(p)):
 ## Author
 
 Quang-Vinh Dang, British University Vietnam (vinh.dq4@buv.edu.vn), ORCID 0000-0002-3877-8024.
+
+## Data
+
+The trace-driven experiments use two public datasets that are downloaded by `experiments/data_real.py` and are not redistributed here: the session logs of the Paris public Wi-Fi network (City of Paris open data portal, dataset `paris-wi-fi-utilisation-des-hotspots-paris-wi-fi`, Open Database License) and the HSDPA commute-path bandwidth logs of Riiser, Vigmostad, Griwodz and Halvorsen (MMSys 2013). The Paris dataset is updated by its publisher, so a later download can contain more sessions; the windows used in the paper are the six busiest days between January 2025 and July 2026.

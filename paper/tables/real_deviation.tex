@@ -1,0 +1,13 @@
+% Source: results/real_deviation.json (experiments/exp_real.py); site PW0127, load 1.0, six traces, 20 true-elastic devices per trace.
+\begin{tabular}{lrrrrr}
+\toprule
+Mechanism & $n$ & Median rel.\ gain (\%) & Pooled volume gain (\%) & Devices gaining (\%) & 95th pct.\ gain (Mbit/s) \\
+\midrule
+REPAY & 120 & 1.36 & 0.58 & 74.2 & 0.0220 \\
+Plain DPP & 120 & 25.85 & 38.72 & 98.3 & 0.2951 \\
+Priority & 120 & 218.71 & 231.09 & 100.0 & 0.7020 \\
+WFQ & 120 & 162.48 & 171.86 & 100.0 & 0.5909 \\
+PF & 120 & 0.00 & -0.48 & 0.0 & 0.0000 \\
+Capped priority ($q=0.3$) & 120 & -15.66 & -31.73 & 0.8 & -0.0014 \\
+\bottomrule
+\end{tabular}

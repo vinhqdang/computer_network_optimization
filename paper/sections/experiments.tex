@@ -1,6 +1,6 @@
 \section{Experiments}\label{sec:experiments}
 
-We evaluate \repay{} by simulation.
+We evaluate \repay{} by simulation, first on synthetic traces and then on traces built from public measurements (Section~\ref{sec:exp-real}).
 The questions are whether the theoretical guarantees are visible at realistic scales (Sections~\ref{sec:exp-bound} and~\ref{sec:exp-opt}), how the rule compares with common schedulers when devices are truthful (Section~\ref{sec:exp-compare}) and when they are not (Section~\ref{sec:exp-strategic}), and what the business constraints and the solver cost (Sections~\ref{sec:exp-tiers} and~\ref{sec:exp-runtime}).
 All code, seeds and result files are in the repository that accompanies the paper.\footnote{\url{https://github.com/vinhqdang/computer_network_optimization}}
 
@@ -30,7 +30,7 @@ We also run the three variants of Section~\ref{sec:variants}.
 \emph{Class envy} is computed in the same way for every rule, from realised rates: for each elastic device we track the largest window sum of (mean rate of the RT flows of its tier, capped at its own demand, minus its own rate), and report the maximum over devices.
 Unless stated otherwise we report means over seeds with 95\% confidence intervals based on Student's $t$ quantiles; with three to ten seeds these intervals are indicative, and since all rules run on the same traces we also give paired differences where a comparison matters.
 The number of independent traces is $10$ for the comparison, $5$ for the bound, the variability sweep and the binding-constraint table, $3$ for the default business constraints and the optimality gap, $4$ for the collapse curves, $6$ for the unilateral deviations and $2$ for the reverse deviation and the switching and oracle attacks. Runs last $6000$ slots for the comparisons and $3000$ for the strategic experiments, from an empty system and without warm-up.
-Capacity noise is lognormal with $\sigma=0.15$ and sojourns last at least five slots. All traces are synthetic.
+Capacity noise is lognormal with $\sigma=0.15$ and sojourns last at least five slots. All traces are synthetic except in Section~\ref{sec:exp-real}.
 
 \subsection{The envy bound}\label{sec:exp-bound}
 
@@ -288,6 +288,68 @@ The experiments therefore do not show that a hold-down is needed in practice; in
 \label{tab:ablation}
 \input{tables/oracle_ablation}
 \end{table}
+
+\subsection{Trace-driven evaluation}\label{sec:exp-real}
+
+The experiments so far use synthetic arrivals, stays, demands and capacity.
+We now replace all four by measurements.
+Arrivals, stays and demand levels come from the session logs that the City of Paris publishes for its public Wi-Fi network \citep{pariswifi2026}, which give, for every session, its start, its duration and the bytes transferred.
+We take the site with the largest population (a youth centre, code PW0127), the six days with the most sessions since January 2025 and, in each, the two hours with the highest occupancy; a second, smaller site (a museum, PW0232) serves as a check.
+Capacity follows the per-second throughput logs that \citet{riiser2013commute} recorded on metro, tram, train, bus and ferry routes, concatenated in random order and scaled by a constant so that mean capacity is a multiple (the \emph{load}, $1$ by default) of the mean nominal demand.
+Table~\ref{tab:real-traces} describes the traces.
+They differ from our synthetic hotspot in ways that matter: about $120$ devices are present instead of $75$, stays last three quarters of an hour instead of four minutes, elastic demand is light (the demand cap of an elastic device is set so that its mean demand equals the mean rate observed for its session; the median cap is $0.3$ to $0.6$~Mbit/s, below the minimum video rate), and capacity is far more variable, with a coefficient of variation of $0.7$ to $0.8$ and outages in tunnels.
+The logs carry neither a service class nor a commercial tier, so these are drawn at random with the same probabilities as before, as are the on--off periods of elastic devices; all parameters of the rules, including $V=20$ and the cap $q=0.3$, are those of the synthetic experiments and were not retuned.
+
+\begin{table}[t]
+\centering
+\caption{Trace-driven scenario: two-hour windows of the Paris public Wi-Fi session logs, with capacity from 3G commute logs scaled to load $1$.}
+\label{tab:real-traces}
+\resizebox{\linewidth}{!}{\input{tables/real_traces}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Trace-driven scenario, site PW0127, load $1$, truthful devices (mean over six traces $\pm$ half-width of the 95\% interval).}
+\label{tab:real-compare}
+\resizebox{0.9\linewidth}{!}{\input{tables/real_compare}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Trace-driven scenario, site PW0127: RT success and elastic rate at three loads (mean over six traces).}
+\label{tab:real-load}
+\input{tables/real_load}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Trace-driven scenario, site PW0127, load $1$: one elastic device declares video for its whole stay ($120$ devices on six traces).}
+\label{tab:real-dev}
+\resizebox{0.9\linewidth}{!}{\input{tables/real_deviation}}
+\end{table}
+
+\paragraph{Truthful devices.}
+Table~\ref{tab:real-compare} repeats the comparison of Section~\ref{sec:exp-compare}.
+The ordering of the rules is the same as on synthetic traces.
+\repay{} serves $81.5\%$ of RT slots against $75.8\%$ for \textsc{PF}; the paired difference over the six traces is $5.7\pm1.3$ points, with an elastic rate lower by $0.010\pm0.004$~Mbit/s.
+Plain DPP serves $4.9\pm0.8$ points more than \repay{} with an elastic rate lower by a fifth and class envy of $2400$~Mbit, and \textsc{WFQ} and \textsc{Priority} serve more RT slots still while cutting the elastic rate to less than half and reaching envy above $5000$~Mbit.
+The class envy of \repay{} is $46$~Mbit on average and at most $57$~Mbit, and no deficit exceeds $0.64$ of its bound in any run, including those at other loads and with a misreporting device.
+The same holds at loads $0.7$ and $1.5$ (Table~\ref{tab:real-load}) and on the second site, where \repay{} serves $85.1\%$ of RT slots against $78.7\%$ for \textsc{PF}.
+
+The capped priority that looked best on the synthetic hotspot does not transfer.
+With the same cap $q=0.3$ it serves no more RT slots than \repay{} ($81.1\%$; paired difference $0.4\pm2.0$ points), its utility is lower by $15$ because premium calls are held near the minimum rate, and it delivers only $0.61$ of the committed premium demand, below the target of $0.8$ that \repay{} and \textsc{PF} meet ($1.01$ and $1.03$).
+In exchange it gives elastic devices more ($0.52$ against $0.42$~Mbit/s) and has the lowest envy of the class-aware rules ($9$~Mbit).
+A cap chosen for one traffic mix is thus not right for another, which is the weakness we anticipated in Section~\ref{sec:exp-compare}; we did not retune $q$ on these traces, and a retuned cap would do better.
+
+\paragraph{Misreporting.}
+Table~\ref{tab:real-dev} repeats the unilateral deviation of Section~\ref{sec:exp-strategic} for $20$ elastic devices per trace.
+Under \textsc{Priority} and \textsc{WFQ} every device gains, and the median device gains $219\%$ and $162\%$; under plain DPP $98\%$ gain and the median gain is $26\%$.
+Under \repay{} the median gain is $1.4\%$ and the pooled gain $0.6\%$.
+These gains are small, but two things are less favourable than on the synthetic traces.
+First, $74\%$ of the devices gain something, so on these traces truthful declaration is not a best response for most devices, only nearly one.
+Second, three of the $120$ devices gain more than the bound $B_{g,\mathrm{v}}$ of Theorem~\ref{thm:static}, by up to a factor $2.1$ ($92$~Mbit over a stay of two hours, or $2.4\%$ of the device's volume).
+This does not contradict the theorem, whose price-taking hypothesis is not satisfied here, but it shows that the correction term discussed after the theorem is not negligible for stays of this length: the gain per slot remains small (at most $0.05$~Mbit/s) and accumulates over thousands of slots.
+Capped priority leaves no gain to misreporting on these traces ($-16\%$ in the median), at the cost described above.
 
 \subsection{Business constraints}\label{sec:exp-tiers}
 
