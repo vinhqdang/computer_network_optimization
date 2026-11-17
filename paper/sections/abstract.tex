@@ -1,3 +1,13 @@
 \begin{abstract}
-TBD
+An Internet access point serves applications that differ in kind: video calls and games need a modest rate in every second, while downloads and mail need volume and can wait.
+The operator also sells free, premium and pay-as-you-go access on the same link, and knows neither who will arrive nor how much capacity or demand the next second brings.
+Protecting real-time traffic when capacity is short is the natural policy, but the class of a flow is in effect declared by the device, and any rule that rewards the declaration ``real-time'' invites every application to make it.
+We propose \repay{}, an online allocation rule that grants real-time priority on credit.
+Each delay-tolerant device that is passed over accumulates a deficit that raises its own priority and the price of further priority for the real-time flows of its tier, so that the volume is paid back when capacity returns.
+\repay{} is a drift-plus-penalty method in which tier-level virtual queues enforce long-run business constraints and per-device deficit queues, created at arrival, enforce fairness between service classes; each per-slot problem is solved exactly by bisection.
+We prove that every deficit is bounded by a constant on every sample path, for arbitrary arrivals, departures and capacities, so that no delay-tolerant device envies the real-time treatment by more than a fixed volume over any window of its stay; that the gain from misreporting the class is at most this constant for price-taking devices, provided declarations cannot be changed in every slot, a condition we show to be necessary; and that the average utility is within $O(1/V)$ of the best policy that satisfies the business constraints and is envy-free between classes on average.
+In simulations of a public hotspot with about $75$ devices, \repay{} serves $90\%$ of real-time slots against $82\%$ for proportional fairness at the same delay-tolerant throughput.
+A device that falsely declares video gains $320\%$ in volume under strict priority, $272\%$ under weighted fair queueing and $57\%$ under utility-maximising scheduling without deficits, and loses $3\%$ under \repay{}.
 \end{abstract}
+
+\noindent\textbf{Keywords:} online resource allocation; network utility maximisation; drift-plus-penalty; fairness; envy-freeness; incentive compatibility; quality of service; Wi-Fi.
