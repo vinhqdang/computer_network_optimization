@@ -43,7 +43,7 @@ The price is small: at $V=100$ \repay{} serves $93.8\%$ of RT slots against $94.
 
 \paragraph{How large is the bound?}
 Table~\ref{tab:bsize} puts the video bound next to what elastic devices actually receive, for the $180$ devices of Section~\ref{sec:exp-strategic} (stays of at least $60$ slots, median about $200$).
-At $V=20$ the bound is between a sixth and a quarter of the volume a device receives during a median stay, and the envy realised is three to twelve times smaller than the bound.
+At $V=20$ the bound is between a sixth and a quarter of the volume a device receives during a median stay, and the largest realised envy is three to twelve times smaller than the bound.
 For a stay of $60$ slots the bound is close to the whole volume received, and for the shortest stays it says nothing; Section~\ref{sec:exp-strategic} therefore tests short stays separately.
 An operator can read the choice of $V$ off this table: $V$ is the envy bound, in units of $w_g\eta_k$, that it is willing to tolerate, and it should be small compared with the volume of the stays it wants to protect.
 
@@ -155,7 +155,7 @@ RT success counts slots, and a call that is cut for one second every few seconds
 Table~\ref{tab:continuity} reports the interruptions of genuine video calls on five traces.
 Under \repay{} a call is below its minimum rate in $14\%$ of its slots; outages last $3.9$~s on average and $14$~s at the 95th percentile, there are $3.7$ of them per $100$~s of call, and $42\%$ of the calls are never interrupted.
 Plain DPP is slightly better on each count, \textsc{WFQ} and \textsc{Priority} much better, and \textsc{PF} is worse in the way that matters most: its outages are rarer and last $17$~s on average.
-The rotation inside a partially admitted group is not the cause of the interruptions. Two variants, one that keeps incumbents admitted and one that rotates only every ten slots, give the same figures to within $0.02$, because a whole tier--class group is usually admitted or refused together.
+The rotation inside a partially admitted group is not the cause of the interruptions. Two variants, one that keeps incumbents admitted and one that rotates only every ten slots, give the same outage share, interruption rate and mean outage length to within $0.02$ (the 95th percentile differs by at most $0.4$~s), because a whole tier--class group is usually admitted or refused together.
 The interruptions come from the allocation itself, which stops admitting a group when its debt price is high, and reducing them would require a cost of interruption in the objective, which our model does not have.
 
 \begin{table}[t]

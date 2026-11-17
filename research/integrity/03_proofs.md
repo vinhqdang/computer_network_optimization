@@ -1,7 +1,7 @@
 # Referee check of the theory (model.tex, algorithm.tex, analysis.tex, appendix.tex, intro/abstract)
 
 Scope: statement-by-statement verification of every lemma/proposition/theorem, adversarial numerical tests against the actual solver (`repay/solver.py`) and `Repay` (`repay/mechanisms.py`), and consistency with the abstract/introduction. Scratch scripts are in
-`/tmp/claude-0/-home-user-computer-network-optimization/11232ee3-33c1-51be-8f70-9872c1f5a077/scratchpad/proofs/`
+`(session scratch directory)`
 (`slot_test.py`, `tol_test.py`, `cvx_test.py`, `adv_path.py`, `baselines.py`, `commit_ex.py`, `dyn_gain.py`, `realdev.py`, `thin.py`).
 
 ## Summary table

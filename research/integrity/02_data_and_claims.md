@@ -1,7 +1,7 @@
 # Integrity verification, pre-review: Phases C-E and 7-mode failure checklist
 
 Paper: `paper/main.tex` (sections, tables, figures). Code: `repay/*.py`, `experiments/*.py`, `tests/`. Results: `results/*.json`.
-Scratch scripts (all re-runnable): `/tmp/claude-0/-home-user-computer-network-optimization/11232ee3-33c1-51be-8f70-9872c1f5a077/scratchpad/integrity/` (`v_compare.py`, `v_strat.py`, `repro.py`, `optgap_check.py`, `devfirst.py`, `oracle_abl.py`, `wfq_slot.py`).
+Scratch scripts (all re-runnable): `(session scratch directory)` (`v_compare.py`, `v_strat.py`, `repro.py`, `optgap_check.py`, `devfirst.py`, `oracle_abl.py`, `wfq_slot.py`).
 No git command was run. Nothing in the paper, code or results was edited.
 
 ## 1. Summary and verdict
