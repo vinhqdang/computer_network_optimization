@@ -51,7 +51,7 @@ An operator can read the choice of $V$ off this table: $V$ is the envy bound, in
 \centering
 \caption{The video bound $B_{g,\mathrm{v}}=Vw_g\eta_{\mathrm{v}}+\rmax_{\mathrm{v}}$ at $V=20$ against realised quantities ($180$ elastic devices on six traces, truthful declarations). The gaming bounds are $100$, $200$ and $150$~Mbit.}
 \label{tab:bsize}
-\begin{tabular}{lrrrrr}
+\resizebox{\linewidth}{!}{\begin{tabular}{lrrrrr}
 \toprule
 Tier & $B_{g,\mathrm{v}}$ (Mbit) & Median volume of a stay (Mbit) & Median $B/$volume & Median realised envy (Mbit) & Largest realised envy (Mbit) \\
 \midrule
@@ -59,7 +59,7 @@ Free & 43 & 189 & 0.23 & 6.9 & 14.1 \\
 Premium & 83 & 494 & 0.17 & 3.8 & 6.7 \\
 PAYG & 63 & 248 & 0.25 & 6.6 & 14.1 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \begin{figure}[t]
@@ -263,7 +263,9 @@ Under \repay{} it loses $0.03$ to $0.05$~Mbit/s on average, the best single devi
 The second attacker is an oracle built to exploit Proposition~\ref{prop:commit}: it observes, on the truthful path, the slots in which its video reference exceeds its own allocation, and declares video exactly in those slots, again subject to a hold-down.
 Under the price-taking hypothesis this strategy would gain $25$ to $43$~Mbit per device.
 In the actual system it loses (Table~\ref{tab:oracle}): the mean change is between $-0.05$ and $-0.07$~Mbit/s for $\tau$ from $1$ to $60$, and at most $23\%$ of the devices gain anything, the largest gain being $0.04$~Mbit/s.
-One rule of the implementation that the price-taking calculation ignores works against the attacker: a device that leaves the elastic class forfeits its deficits and restarts from zero when it returns. We did not separate its contribution from that of the attacker's effect on prices.
+One rule of the implementation that the price-taking calculation ignores works against the attacker: a device that leaves the elastic class forfeits its deficits and restarts from zero when it returns.
+Table~\ref{tab:ablation} isolates it. If deficits are instead kept frozen while the device poses as video, the attack becomes profitable for most devices at $\tau=1$ ($85\%$ of them gain), though by little: $0.011$~Mbit/s on average, about $1\%$ of their volume, and at most $0.12$~Mbit/s for any device at any $\tau$. Admitting incumbents first in addition changes nothing material.
+Forfeiture is thus what makes slot-by-slot switching unprofitable in these runs, and it is a design choice that should be kept.
 The experiments therefore do not show that a hold-down is needed in practice; in these experiments it is a restriction placed on the attacker, not something the allocation code enforces. Proposition~\ref{prop:commit} says that without one there is no guarantee, and we keep it as a safeguard.
 
 \begin{figure}[t]
@@ -278,6 +280,13 @@ The experiments therefore do not show that a hold-down is needed in practice; in
 \caption{Oracle slot-switching attack against \repay{} (40 devices): change in volume relative to truthful declaration.}
 \label{tab:oracle}
 \resizebox{\linewidth}{!}{\input{tables/oracle}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Oracle attack ($40$ devices on two traces) against \repay{}, against a variant in which deficits are kept frozen while a device declares video, and against that variant with incumbents-first admission.}
+\label{tab:ablation}
+\input{tables/oracle_ablation}
 \end{table}
 
 \subsection{Business constraints}\label{sec:exp-tiers}

@@ -45,6 +45,10 @@ python -m experiments.exp_switching
 python -m experiments.exp_oracle
 python -m experiments.exp_deviation   # needs results/strategic.json
 python -m experiments.exp_thin_market
+python -m experiments.exp_frontier
+python -m experiments.exp_short_stays
+python -m experiments.exp_continuity
+python -m experiments.exp_oracle_ablation   # needs results/oracle.json
 python -m experiments.exp_runtime
 ```
 
@@ -56,7 +60,8 @@ python -m experiments.plots_a
 
 ```bash
 python -m experiments.plots_b
-python -m experiments.plots_dev   # run last: writes the deviation table and figure
+python -m experiments.plots_dev   # after plots_b: writes the deviation table and figure
+python -m experiments.plots_c     # frontier figure, capped-priority and short-stay tables
 ```
 
 Paper:
