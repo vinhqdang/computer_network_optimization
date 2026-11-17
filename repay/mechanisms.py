@@ -262,8 +262,35 @@ class WFQ(PF):
         self.rt_mult = rt_mult
 
 
+def _waterfill(total, caps):
+    """Equal-level split of total over caps: min(caps_j, theta) with sum = min(total, sum caps)."""
+    caps = np.asarray(caps, float)
+    alloc = np.zeros(caps.size)
+    if caps.size == 0 or total <= 0.0:
+        return alloc
+    if total >= caps.sum():
+        return caps.copy()
+    order = np.argsort(caps, kind="stable")
+    remaining = float(total)
+    for pos, j in enumerate(order):
+        share = remaining / (caps.size - pos)
+        if caps[j] <= share:
+            alloc[j] = caps[j]
+            remaining -= caps[j]
+        else:
+            alloc[order[pos:]] = share
+            break
+    return alloc
+
+
 class Priority:
-    """Strict priority for declared-RT flows (P, Y, F; gaming before video), then weighted PF."""
+    """Strict priority with admission control for declared-RT flows, then weighted PF.
+
+    Order: tier (premium, PAYG, free), gaming before video, earlier arrival first. Each flow in
+    that order is admitted at rmin_k if the remaining capacity still covers it (flows that no
+    longer fit are skipped). Admitted video flows are then raised equally (water-fill) up to
+    rmax_V with the capacity left; the remainder goes to declared-E devices by weighted PF.
+    """
 
     def __init__(self, params: Params):
         self.p = params
@@ -272,7 +299,7 @@ class Priority:
         """Stateless."""
 
     def allocate(self, view):
-        """Admit RT flows at rmax while capacity lasts; remaining capacity to elastic."""
+        """Admission control in priority order, equal water-fill of video, then elastic PF."""
         p = self.p
         ids, tier, decl, cap, arr = _arrays(view)
         n = ids.size
@@ -282,14 +309,20 @@ class Priority:
         dec_rank = np.where(decl == 2, 0, 1)
         order = rt[np.lexsort((ids[rt], arr[rt], dec_rank[rt], tier_rank[rt]))]
         left = float(view.C)
+        admitted_video = []
         for j in order:
-            rn, rx = p.rmin(decl[j]), p.rmax(decl[j])
-            if left >= rx - 1e-12:
-                rate[j] = rx
-                left = max(left - rx, 0.0)
-            elif rx > rn and left >= rn - 1e-12:
-                rate[j] = left
-                left = 0.0
+            rn = p.rmin(decl[j])
+            if left >= rn - 1e-12:
+                rate[j] = rn
+                left = max(left - rn, 0.0)
+                if decl[j] == 1:
+                    admitted_video.append(j)
+        if admitted_video:
+            vid = np.asarray(admitted_video, dtype=np.int64)
+            extra = np.array([p.rmax(1) - p.rmin(1)] * vid.size, float)
+            raise_by = _waterfill(left, extra)
+            rate[vid] += raise_by
+            left = max(left - float(raise_by.sum()), 0.0)
         el = np.flatnonzero(decl == 0)
         if el.size:
             rate[el] = solve_pf(left, p.w_arr[tier[el]], cap[el])
