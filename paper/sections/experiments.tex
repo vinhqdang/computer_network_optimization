@@ -156,7 +156,30 @@ Comparing the points where each rule comes to rest, \repay{} at $\rho=0$ deliver
 We also let $40$ video devices declare elastic, under \repay{} and under plain DPP.
 Every one of them loses utility (on average $33$ utility units over its stay under \repay{}), in line with Proposition~\ref{prop:reverse}.
 
-SWITCHINGPLACEHOLDER
+\paragraph{Switching strategies.}
+Finally we test dynamic declarations, on $40$ elastic devices that stay at least $200$ slots.
+The first attacker declares video whenever capacity is below its 40th percentile and elastic otherwise, subject to a hold-down of $\tau$ slots (Figure~\ref{fig:switching}).
+Under plain DPP this strategy gains $0.15$ to $0.21$~Mbit/s for every $\tau$.
+Under \repay{} it loses $0.03$ to $0.05$~Mbit/s on average, the best single device gains $0.04$~Mbit/s, and no device exceeds the bound $KB$ of Theorem~\ref{thm:dynamic}.
+The second attacker is an oracle built to exploit Proposition~\ref{prop:commit}: it observes, on the truthful path, the slots in which its video reference exceeds its own allocation, and declares video exactly in those slots, again subject to a hold-down.
+Under the price-taking hypothesis this strategy would gain $25$ to $43$~Mbit per device.
+In the actual system it loses (Table~\ref{tab:oracle}): the mean change is between $-0.05$ and $-0.07$~Mbit/s for $\tau$ from $1$ to $60$, and at most one device in five gains anything.
+Two effects that the price-taking calculation ignores work against the attacker. Each return to the elastic class starts from a zero deficit, so the credit accumulated before the switch is forfeited, and a flow that has just declared video is admitted after the incumbents, so in exactly the slots in which video is rationed it is the one left out.
+The experiments therefore do not show that a hold-down is needed in practice; Proposition~\ref{prop:commit} says that without one there is no guarantee, and we keep it as a safeguard.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.45\linewidth]{figures/fig_switching.pdf}
+\caption{Mean gain per slot of the congestion-triggered switching strategy as a function of the hold-down $\tau$.}
+\label{fig:switching}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Oracle slot-switching attack against \repay{} (40 devices): change in volume relative to truthful declaration.}
+\label{tab:oracle}
+\input{tables/oracle}
+\end{table}
 
 \subsection{Business constraints}\label{sec:exp-tiers}
 
