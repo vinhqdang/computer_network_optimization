@@ -115,7 +115,7 @@ Each evaluation of $S$ is linear in the number of devices and groups.
 
 Only marginal groups have a fractional $a$, generically at most one per slot.
 For such a group \repay{} admits $M=\lfloor n a\rfloor$ flows at rate $z$, giving precedence to the flows that have so far been admitted in the smallest fraction of their slots; ties are broken in favour of flows served in the previous slot and then of earlier arrivals.
-This rotation gives every flow of the group the same long-run share of admissions, which the incentive analysis requires (Section~\ref{sec:ic}); it does interrupt calls during rationing, and an operator may prefer to rotate over longer periods.
+This rotation gives every flow of the group the same long-run share of admissions, which the incentive analysis requires (Section~\ref{sec:ic}); it can interrupt a call while its group is partially admitted, although in our experiments groups are almost always admitted or refused as a whole (Section~\ref{sec:exp-compare}).
 The leftover capacity $(na-M)z$ serves one more flow if it is at least $\rmin_k$; otherwise it is handed to elastic devices that are below their cap, in decreasing order of marginal value.
 Rounding therefore never reduces an elastic allocation.
 The deficit update \eqref{eq:D} uses the fluid reference $a\min(z,d_i)$. When the leftover is discarded this is at least the average usable rate of the flows of the group; when a leftover flow is served at a reduced rate the realised average can exceed it by at most $\min((na-M)z,d_i)/n$.
