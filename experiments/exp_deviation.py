@@ -51,7 +51,7 @@ def check_jobs(s, picks):
     return [("repay", s, "truth", ()), ("repay", s, f"dev:{i}", ((i, 1),))]
 
 
-def make_record(m, s, i, tier, L, vt, vd, max_env, ell, source, P):
+def make_record(m, s, i, tier, L, ell, vt, vd, max_env, source, P):
     gain = vd - vt
     rec = dict(mech=m, seed=s, dev=i, tier=tier, L=L, ell=ell, vol_truth=vt, vol_dev=vd, gain=gain,
                gain_per_slot=gain / L, rel_gain=(gain / vt) if vt > 0 else None,
@@ -166,6 +166,42 @@ def print_summary(title, rows):
               f"{s['p95_gain_per_slot']:12.4f}")
 
 
+def summarise(recs):
+    """Print and return the summaries of a list of per-device records."""
+    rng = np.random.default_rng(BOOT_SEED)
+    draws = rng.integers(0, len(SEEDS), size=(N_BOOT, len(SEEDS)))
+
+    summary, tier_summary, gain_over_B = {}, {}, {}
+    rows = []
+    for m in MECHS:
+        rm = [r for r in recs if r["mech"] == m]
+        summary[m] = with_ci(rm, draws)
+        rows.append((LABELS[m], summary[m]))
+    print_summary("Unilateral static deviation over 180 devices (six traces); CIs are 95% cluster bootstrap",
+                  rows)
+
+    rep = [r for r in recs if r["mech"] == "repay"]
+    trows = []
+    for g, name in enumerate(TIER_NAMES):
+        rg = [r for r in rep if r["tier"] == g]
+        tier_summary[name] = with_ci(rg, draws)  # trace bootstrap restricted to this tier
+        trows.append((name, tier_summary[name]))
+    print_summary("REPAY by tier (devices of the tier only; CIs from trace bootstrap restricted to the tier)", trows)
+
+    print("\nGain over bound B(g,1) (volume gain / B), per mechanism of the REPAY family")
+    for m in REPAY_FAMILY:
+        rm = [r for r in recs if r["mech"] == m]
+        ratios = np.array([r["gain"] / r["B"] for r in rm])
+        k = int(np.argmax(ratios))
+        best = rm[k]
+        gain_over_B[m] = dict(max_gain_over_B=float(ratios.max()), n_above_1=int(np.sum(ratios > 1.0)),
+                              n=len(rm), argmax=dict(seed=best["seed"], dev=best["dev"], tier=best["tier"],
+                                                     gain=best["gain"], B=best["B"]))
+        print(f"{LABELS[m]:<10s} max gain/B = {ratios.max():.4f} (seed {best['seed']}, device {best['dev']}, "
+              f"tier {TIER_NAMES[best['tier']]}); devices with gain > B: {int(np.sum(ratios > 1.0))} of {len(rm)}")
+    return summary, tier_summary, gain_over_B
+
+
 def main():
     t0 = time.time()
     P = Params()
@@ -208,37 +244,7 @@ def main():
             recs += fresh_records(s, res, tables[s], picks[s], ell[s], P)
     print(f"{len(recs)} records; runs done in {time.time() - t0:.0f}s", flush=True)
 
-    rng = np.random.default_rng(BOOT_SEED)
-    draws = rng.integers(0, len(SEEDS), size=(N_BOOT, len(SEEDS)))
-
-    summary, tier_summary, gain_over_B = {}, {}, {}
-    rows = []
-    for m in MECHS:
-        rm = [r for r in recs if r["mech"] == m]
-        summary[m] = with_ci(rm, draws)
-        rows.append((LABELS[m], summary[m]))
-    print_summary("Unilateral static deviation over 180 devices (six traces); CIs are 95% cluster bootstrap",
-                  rows)
-
-    rep = [r for r in recs if r["mech"] == "repay"]
-    trows = []
-    for g, name in enumerate(TIER_NAMES):
-        rg = [r for r in rep if r["tier"] == g]
-        tier_summary[name] = with_ci(rg, draws)  # trace bootstrap restricted to this tier
-        trows.append((name, tier_summary[name]))
-    print_summary("REPAY by tier (devices of the tier only; CIs from trace bootstrap restricted to the tier)", trows)
-
-    print("\nGain over bound B(g,1) (volume gain / B), per mechanism of the REPAY family")
-    for m in REPAY_FAMILY:
-        rm = [r for r in recs if r["mech"] == m]
-        ratios = np.array([r["gain"] / r["B"] for r in rm])
-        k = int(np.argmax(ratios))
-        best = rm[k]
-        gain_over_B[m] = dict(max_gain_over_B=float(ratios.max()), n_above_1=int(np.sum(ratios > 1.0)),
-                              n=len(rm), argmax=dict(seed=best["seed"], dev=best["dev"], tier=best["tier"],
-                                                     gain=best["gain"], B=best["B"]))
-        print(f"{LABELS[m]:<10s} max gain/B = {ratios.max():.4f} (seed {best['seed']}, device {best['dev']}, "
-              f"tier {TIER_NAMES[best['tier']]}); devices with gain > B: {int(np.sum(ratios > 1.0))} of {len(rm)}")
+    summary, tier_summary, gain_over_B = summarise(recs)
 
     print("\nReuse check (seeds reused from strategic.json):")
     for s in REUSE_SEEDS:

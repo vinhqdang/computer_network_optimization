@@ -65,7 +65,7 @@ This is $VU-\sum_jQ_je_j-\sum_{i,k}D_{i,k}\,(a\,m_{d_i}(z)-x_i)$ up to constants
   remaining residual (from the tolerance) is given to elastic devices below their cap.
 
 **Rounding to whole flows.** A group with $a<1$ admits $M=\lfloor na\rfloor$ flows at rate $z$
-(incumbents first, then by arrival order); the leftover $(na-M)z$ goes to one more flow if it is
+(flows served in the smallest fraction of their slots as real-time first, then incumbents, then arrival order; this rotation replaced an incumbents-first rule, which let a device in a three-device market gain volume linearly in its stay); the leftover $(na-M)z$ goes to one more flow if it is
 $\ge r^{\min}$, otherwise to elastic devices below their cap (largest marginal value first). Elastic
 allocations are never reduced by rounding, so Theorem 1 holds for the implemented allocation. The
 deficit update uses the fluid reference $a\min(z,d_i)$, which is at least the realised average.

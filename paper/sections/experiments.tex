@@ -38,7 +38,7 @@ Figure~\ref{fig:bound}(a) shows the largest deficit observed in any slot, for an
 Besides the hotspot scenario we use an adversarial capacity trace that alternates between $150$ and $15$~Mbit/s every $60$ slots.
 The ratio never exceeds $0.43$, in line with Theorem~\ref{thm:bound} and Remark~\ref{rem:sharp}.
 Figure~\ref{fig:bound}(b) shows what the bound buys.
-Without deficit queues the same drift-plus-penalty rule produces class envy between $270$ and $900$~Mbit; with them the envy stays between $2$ and $52$~Mbit and below the theoretical line.
+Without deficit queues the same drift-plus-penalty rule produces class envy between $110$ and $900$~Mbit; with them the envy stays between $2$ and $52$~Mbit and below the theoretical line.
 The price is small: at $V=100$ \repay{} serves $93.8\%$ of RT slots against $94.9\%$ for plain DPP, and at $V=20$ it serves $89.3\%$ against $92.0\%$, while elastic devices receive more ($1.67$ against $1.47$~Mbit/s at $V=20$).
 
 \begin{figure}[t]
@@ -118,20 +118,36 @@ This is the regime described at the end of Section~\ref{sec:baselines-theory}.
 \subsection{Strategic devices}\label{sec:exp-strategic}
 
 \paragraph{Unilateral deviations.}
-We take $30$ elastic devices per trace (two traces of $3000$ slots, devices present for at least $60$ slots) and, for each of them and each rule, re-run the whole simulation with that device declaring video for its entire stay.
+We take $30$ elastic devices per trace (six traces of $3000$ slots, devices present for at least $60$ slots, $180$ devices in all) and, for each of them and each rule, re-run the whole simulation with that device declaring video for its entire stay.
 This measures the exact gain, including the effect of the deviation on prices and offers that the price-taking analysis ignores.
-Table~\ref{tab:deviation} and Figure~\ref{fig:deviation} report the change in the volume the device receives.
-Under \textsc{Priority} and \textsc{WFQ} misreporting roughly quadruples the volume ($+320\%$ and $+272\%$ on average), and almost every device gains.
-Under plain DPP it adds $57\%$ on average.
-Under \repay{} the deviation \emph{loses} $3\%$ on average; the median change is $-0.008$~Mbit/s, $45\%$ of the devices gain a little, and the 95th percentile of the gain is $0.05$~Mbit/s.
-No device gains more than $0.39$ of its bound $B_{g,\mathrm{v}}$, so the externality term left open after Theorem~\ref{thm:static} is small here.
-\textsc{PF} and \textsc{Credit} are immune for a trivial reason: they ignore the declaration, and a device that declares video merely caps itself at $\rmax_{\mathrm{v}}$.
+Table~\ref{tab:deviation} and Figure~\ref{fig:deviation} report the change in the volume the device receives; since relative gains are skewed by devices that receive little when truthful, we give the median and the mean of the per-device relative gain and the pooled change in volume, with confidence intervals from a bootstrap over traces.
+Under \textsc{Priority} and \textsc{WFQ} misreporting pays for more than nine devices in ten: the median device gains $170\%$ and $154\%$, and the pooled volume doubles ($+105\%$ and $+100\%$).
+Under plain DPP the median gain is $62\%$ and the pooled gain $26\%$.
+Under \repay{} the median change is $+0.2\%$, with a confidence interval of $[-0.5,0.2]$, and the pooled volume falls by $11\%$.
+The deviation is not harmless for everyone: $51\%$ of the devices gain something, but the gains are small (the 95th percentile is $0.05$~Mbit/s, the largest gain over a whole stay is $12.7$~Mbit, and no device gains more than $0.30$ of its bound $B_{g,\mathrm{v}}$), so the externality term left open after Theorem~\ref{thm:static} is small here.
+The picture differs by tier. Free devices, whose fair share is often below the video rate, gain a median of $1.2\%$ and $71\%$ of them gain; premium and PAYG devices lose a median of $12\%$ and $3\%$.
+Part of the losses comes from the experiment itself: every sampled device has a link rate above $3$~Mbit/s, so declaring video caps it at $\rmax_{\mathrm{v}}$ whenever capacity is plentiful.
+This is why the pooled volume also falls under \textsc{PF} and \textsc{Credit}, which ignore the declaration altogether, and the comparison that matters is between \repay{} and the rules that do use the class.
+
+\paragraph{Thin markets.}
+Theorem~\ref{thm:static} assumes price-taking devices, so we also compute the exact gain in markets where one device is a large part of its tier.
+One tier holds the potential deviator, $n_E$ other saturated elastic devices and $n_V$ genuine video flows, all present for $L$ slots, and capacity alternates between $0.3$ and $1$~Mbit/s per device.
+Table~\ref{tab:thin} gives the gain of the deviator in Mbit.
+It does not grow with the length of the stay: it is either a constant of about $5$~Mbit, an eighth of the bound $B_{F,\mathrm{v}}=43$~Mbit, or negative and decreasing in $L$.
+With the incumbents-first rounding of an earlier version the gain in the three-device market grew linearly in $L$, which is what led us to the rotation of Section~\ref{sec:algorithm}.
 
 \begin{table}[t]
 \centering
-\caption{Exact gain of one elastic device that declares video for its whole stay (60 devices; volume per slot relative to truthful declaration).}
+\caption{Exact gain of one elastic device that declares video for its whole stay ($180$ devices on six traces). Relative gains are with respect to the volume under truthful declaration; brackets are 95\% bootstrap intervals over traces.}
 \label{tab:deviation}
-\input{tables/deviation}
+\resizebox{\linewidth}{!}{\input{tables/deviation}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Thin markets: exact gain in volume (Mbit) of one elastic device that declares video for $L$ slots under \repay{}, with $n_E$ other elastic devices and $n_V$ video flows in its tier.}
+\label{tab:thin}
+\input{tables/thin_market}
 \end{table}
 
 \begin{figure}[t]
@@ -168,9 +184,8 @@ Under plain DPP this strategy gains $0.15$ to $0.21$~Mbit/s for every $\tau$.
 Under \repay{} it loses $0.03$ to $0.05$~Mbit/s on average, the best single device gains $0.04$~Mbit/s, and no device exceeds the bound $KB$ of Theorem~\ref{thm:dynamic}.
 The second attacker is an oracle built to exploit Proposition~\ref{prop:commit}: it observes, on the truthful path, the slots in which its video reference exceeds its own allocation, and declares video exactly in those slots, again subject to a hold-down.
 Under the price-taking hypothesis this strategy would gain $25$ to $43$~Mbit per device.
-In the actual system it loses (Table~\ref{tab:oracle}): the mean change is between $-0.05$ and $-0.07$~Mbit/s for $\tau$ from $1$ to $60$, and at most one device in five gains anything.
-Two rules of the implementation that the price-taking calculation ignores work against the attacker. A device that leaves the elastic class forfeits its deficits and restarts from zero when it returns, and a flow that has just declared video is admitted after the incumbents, so in the slots in which video is rationed it is the one left out.
-An ablation on one trace ($\tau=5$) attributes most of the loss to the first rule: the mean change is $-0.062$~Mbit/s with forfeiture, $-0.010$ when deficits are frozen during video phases, and $-0.007$ when the attacker is in addition admitted first.
+In the actual system it loses (Table~\ref{tab:oracle}): the mean change is between $-0.05$ and $-0.07$~Mbit/s for $\tau$ from $1$ to $60$, and at most $23\%$ of the devices gain anything, the largest gain being $0.04$~Mbit/s.
+One rule of the implementation that the price-taking calculation ignores works against the attacker: a device that leaves the elastic class forfeits its deficits and restarts from zero when it returns. We did not separate its contribution from that of the attacker's effect on prices.
 The experiments therefore do not show that a hold-down is needed in practice; in these experiments it is a restriction placed on the attacker, not something the allocation code enforces. Proposition~\ref{prop:commit} says that without one there is no guarantee, and we keep it as a safeguard.
 
 \begin{figure}[t]
@@ -184,7 +199,7 @@ The experiments therefore do not show that a hold-down is needed in practice; in
 \centering
 \caption{Oracle slot-switching attack against \repay{} (40 devices): change in volume relative to truthful declaration.}
 \label{tab:oracle}
-\input{tables/oracle}
+\resizebox{\linewidth}{!}{\input{tables/oracle}}
 \end{table}
 
 \subsection{Business constraints}\label{sec:exp-tiers}
@@ -215,8 +230,8 @@ Meeting the commitment is costly in this configuration, since premium devices ta
 \subsection{Running time}\label{sec:exp-runtime}
 
 The solver performs about forty bisection steps per slot, each a vectorised pass over the devices.
-On single-slot instances with $10$ to $3000$ devices the median solve time grows from $1.5$ to $2.1$~ms on one core of a commodity server (Figure~\ref{fig:runtime}); a conic solver applied to the same problem takes $11$ to $23$~ms for $10$ to $300$ devices and agrees with the bisection to a relative difference of $10^{-8}$ in the objective (evaluated at the conic solver's primal point).
-The complete allocation step, including rounding and bookkeeping, takes $3.6$~ms per slot at $75$ devices in our simulator, so one-second slots leave more than two orders of magnitude of headroom.
+On single-slot instances with $10$ to $3000$ devices the median solve time stays between $1.4$ and $2.0$~ms on one core of a commodity server (Figure~\ref{fig:runtime}); a conic solver applied to the same problem takes $11$ to $27$~ms for $10$ to $300$ devices and agrees with the bisection to a relative difference of $10^{-8}$ in the objective (evaluated at the conic solver's primal point).
+The complete allocation step, including rounding and bookkeeping, takes $2.2$~ms per slot at $75$ devices in our simulator, so one-second slots leave more than two orders of magnitude of headroom.
 
 \begin{figure}[t]
 \centering

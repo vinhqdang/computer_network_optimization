@@ -49,7 +49,7 @@ def main():
     print(f"B = {B:.1f} Mbit")
     print(f"{'other E':>8s}{'video':>7s}" + "".join(f"{'gain L=' + str(L):>14s}" for L in LENGTHS))
     lines = [r"\begin{tabular}{rr" + "r" * len(LENGTHS) + "}", r"\toprule",
-             "Other elastic & Video flows & " + " & ".join(f"$L={L}$" for L in LENGTHS) + r" \\",
+             "$n_E$ & $n_V$ & " + " & ".join(f"$L={L}$" for L in LENGTHS) + r" \\",
              r"\midrule"]
     for n_el, n_vid in MARKETS:
         g = [next(r["gain"] for r in rows if (r["n_el"], r["n_vid"], r["L"]) == (n_el, n_vid, L))

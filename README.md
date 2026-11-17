@@ -16,7 +16,7 @@ misdeclaring the service class unprofitable (approximately, in the large-market 
 |---|---|
 | `repay/` | Library: per-slot solver (`solver.py`), REPAY and baselines (`mechanisms.py`), traces and simulator (`sim.py`), parameters (`params.py`) |
 | `tests/` | Unit tests: solver against a conic solver, the deficit bound under adversarial inputs, mechanism invariants, simulator smoke tests |
-| `experiments/` | One script per experiment (`exp_*.py`) and the plotting scripts (`plots_a.py`, `plots_b.py`) |
+| `experiments/` | One script per experiment (`exp_*.py`) and the plotting scripts (`plots_a.py`, `plots_b.py`, `plots_dev.py`) |
 | `results/` | JSON output of every experiment reported in the paper |
 | `paper/` | LaTeX source, figures, tables and the compiled `main.pdf` |
 | `research/` | Research question, literature notes with verification status, design documents, integrity and review reports |
@@ -43,6 +43,8 @@ python -m experiments.exp_tiers_binding
 python -m experiments.exp_strategic
 python -m experiments.exp_switching
 python -m experiments.exp_oracle
+python -m experiments.exp_deviation   # needs results/strategic.json
+python -m experiments.exp_thin_market
 python -m experiments.exp_runtime
 ```
 
@@ -54,6 +56,7 @@ python -m experiments.plots_a
 
 ```bash
 python -m experiments.plots_b
+python -m experiments.plots_dev   # run last: writes the deviation table and figure
 ```
 
 Paper:
