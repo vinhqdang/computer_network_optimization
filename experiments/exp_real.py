@@ -42,10 +42,10 @@ REPAY_MECHS = ("repay",)
 DEV_VARIANT = "main"
 
 VARIANTS = {
-    "main": dict(classes="log", tiers="free", rule=None,
+    "main": dict(classes="log", tiers="estimated", rule=None,
                  part1=[(MAIN_SITE, 0.7), (MAIN_SITE, 1.0), (MAIN_SITE, 1.5), (SECOND_SITE, 1.0)]),
-    "strict": dict(classes="log", tiers="free", rule=STRICT_RULE, part1=[(MAIN_SITE, 1.0)]),
-    "tiers": dict(classes="log", tiers="random", rule=None, part1=[(MAIN_SITE, 1.0)]),
+    "strict": dict(classes="log", tiers="estimated", rule=STRICT_RULE, part1=[(MAIN_SITE, 1.0)]),
+    "tiers": dict(classes="log", tiers="free", rule=None, part1=[(MAIN_SITE, 1.0)]),
 }
 
 

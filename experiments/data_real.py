@@ -58,7 +58,10 @@ NOMINAL_VIDEO = 1.5   # mean demand of a video device (Mbit/s), as in the design
 NOMINAL_GAMING = 0.2  # demand of a gaming device (Mbit/s)
 C_FLOOR = 0.01
 CLASS_MODES = ("log", "random")
-TIER_MODES = ("free", "random")
+# Estimated tier split: 11.6% of users pay (connectivity take rate, Gogo Inc. Form 10-K for 2018); of those,
+# 8% are pay-as-you-go (share of prepaid users, ARCEP mobile observatory, Q3 2026) and 92% subscribers.
+TIER_P_EST = (0.884, 0.107, 0.009)
+TIER_MODES = ("free", "random", "estimated")
 
 DEFAULT_RULE = dict(sym_lo=1 / 3, sym_hi=3.0, up_min=0.1, game_up_min=0.01, game_pkt_max=700.0)
 STRICT_RULE = dict(sym_lo=0.5, sym_hi=2.0, up_min=0.2)
@@ -375,7 +378,12 @@ def make_real_trace(site, k, T, load=1.0, seed=None, classes="log", tiers="free"
     rng = np.random.default_rng(5000 + 100 * site_index + k)
     devices = []
     for j in sel:
-        tier = int(rng.choice(3, p=TIER_P)) if tiers == "random" else F_TIER
+        if tiers == "random":
+            tier = int(rng.choice(3, p=TIER_P))
+        elif tiers == "estimated":
+            tier = int(rng.choice(3, p=TIER_P_EST))
+        else:
+            tier = F_TIER
         if classes == "random":
             cls = int(rng.choice(3, p=CLS_P))
         else:

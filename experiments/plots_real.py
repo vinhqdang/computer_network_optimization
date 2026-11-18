@@ -73,10 +73,10 @@ def compare_table(c):
     lines = [
         f"% Source: results/real_compare.json, variant {MAIN_VARIANT} (experiments/exp_real.py); "
         f"site {MAIN_SITE}, load 1.0; mean $\\pm$ 95% Student-t half-width over six traces.",
-        r"\begin{tabular}{lrrrrr}",
+        r"\begin{tabular}{lrrrrrr}",
         r"\toprule",
         r"Mechanism & Utility & RT success (\%) & Video success (\%) & Elastic rate (Mbit/s) & "
-        r"Max class envy (Mbit) \\",
+        r"Max class envy (Mbit) & Premium served ratio \\",
         r"\midrule",
     ]
     for m in MECH_ORDER:
@@ -87,6 +87,7 @@ def compare_table(c):
             _ci([100 * r["rt_success"]["V"] for r in rs], "{:.1f}"),
             _ci([r["el_rate"] for r in rs], "{:.2f}"),
             _ci([r["max_env"] for r in rs], "{:.2f}"),
+            _ci([(r["served_ratio"] or {}).get("P") for r in rs], "{:.2f}"),
         ]
         lines.append(f"{LAB[m]} & " + " & ".join(cells) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}"]
@@ -136,13 +137,13 @@ def variants_table(c):
     lines = [
         f"% Source: results/real_compare.json (experiments/exp_real.py); site {MAIN_SITE}, load 1.0; "
         "mean $\\pm$ 95% Student-t half-width over six traces. Strict rule: sym in [0.5, 2], up_min 0.2. "
-        "Random tiers: tiers drawn per device with probabilities (0.6, 0.25, 0.15).",
-        r"\begin{tabular}{lrrrrrrr}",
+        "All free: every device in the free tier (as in the logged network).",
+        r"\begin{tabular}{lrrrrrr}",
         r"\toprule",
-        r" & \multicolumn{3}{c}{strict rule} & \multicolumn{4}{c}{random tiers} \\",
-        r"\cmidrule(lr){2-4}\cmidrule(lr){5-8}",
+        r" & \multicolumn{3}{c}{strict rule} & \multicolumn{3}{c}{all devices free} \\",
+        r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}",
         r"Mechanism & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) & "
-        r"RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) & Premium served ratio \\",
+        r"RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) \\",
         r"\midrule",
     ]
     for m in MECH_ORDER:
@@ -155,7 +156,6 @@ def variants_table(c):
             _ci([100 * r["rt_success"]["all"] for r in rs_t], "{:.1f}"),
             _ci([r["el_rate"] for r in rs_t], "{:.2f}"),
             _ci([r["max_env"] for r in rs_t], "{:.2f}"),
-            _ci([(r["served_ratio"] or {}).get("P") for r in rs_t], "{:.3f}"),
         ]
         lines.append(f"{LAB[m]} & " + " & ".join(cells) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}"]
