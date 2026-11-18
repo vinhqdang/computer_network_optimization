@@ -45,7 +45,7 @@
     "free_floor_ratio": 3.9147970476525202,
     "max_env": 7.993605777301127e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.4530184921666963,
+    "ms_per_slot": 0.36146479950002686,
     "max_env_el_mean": 1.4288544080518563e-15,
     "max_env_el_p95": 4.6629367034256575e-15,
     "util_per_slot_video": 1.7838597394913016
@@ -73,7 +73,7 @@
     "free_floor_ratio": 3.887806405327364,
     "max_env": 1.6986412276764895e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.4739211365000907,
+    "ms_per_slot": 0.36674732966639567,
     "max_env_el_mean": 1.6861789964473104e-15,
     "max_env_el_p95": 4.6629367034256575e-15,
     "util_per_slot_video": 1.8280627901702104
@@ -101,7 +101,7 @@
     "free_floor_ratio": 4.0792662239204285,
     "max_env": 8.43769498715119e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.42730173866660454,
+    "ms_per_slot": 0.37607669233329943,
     "max_env_el_mean": 1.3734686631353816e-15,
     "max_env_el_p95": 4.440892098500626e-15,
     "util_per_slot_video": 1.724733798152076
@@ -129,7 +129,7 @@
     "free_floor_ratio": 4.2491221743642935,
     "max_env": 8.493206138382448e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.4443232883333318,
+    "ms_per_slot": 0.37155180566636165,
     "max_env_el_mean": 1.6793658662276783e-15,
     "max_env_el_p95": 5.329070518200751e-15,
     "util_per_slot_video": 1.7291192011981968
@@ -157,7 +157,7 @@
     "free_floor_ratio": 4.206168898266201,
     "max_env": 6.217248937900877e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.4195505080000051,
+    "ms_per_slot": 0.265988365499652,
     "max_env_el_mean": 1.3763883016762044e-15,
     "max_env_el_p95": 3.885780586188048e-15,
     "util_per_slot_video": 1.8284819411034332
@@ -185,7 +185,7 @@
     "free_floor_ratio": 3.8419038866994097,
     "max_env": 6.217248937900877e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.3988218676666596,
+    "ms_per_slot": 0.28218226600013924,
     "max_env_el_mean": 1.2828868034739433e-15,
     "max_env_el_p95": 3.1086244689504383e-15,
     "util_per_slot_video": 1.6811697475072467
@@ -213,7 +213,7 @@
     "free_floor_ratio": 3.8959555485557957,
     "max_env": 8.43769498715119e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.404820498500006,
+    "ms_per_slot": 0.30322632516678516,
     "max_env_el_mean": 1.4495927120095242e-15,
     "max_env_el_p95": 4.6629367034256575e-15,
     "util_per_slot_video": 1.9358942334875087
@@ -241,7 +241,7 @@
     "free_floor_ratio": 3.782750946065489,
     "max_env": 6.661338147750939e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.41329962050000785,
+    "ms_per_slot": 0.31293265349995636,
     "max_env_el_mean": 1.4329674274341855e-15,
     "max_env_el_p95": 3.9968028886505635e-15,
     "util_per_slot_video": 1.7549179865594733
@@ -269,7 +269,7 @@
     "free_floor_ratio": 4.080678948251257,
     "max_env": 5.773159728050814e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.41262613549997695,
+    "ms_per_slot": 0.3107931896665832,
     "max_env_el_mean": 1.1979125911636394e-15,
     "max_env_el_p95": 3.552713678800501e-15,
     "util_per_slot_video": 2.1175031030401175
@@ -297,7 +297,7 @@
     "free_floor_ratio": 3.9187544563579304,
     "max_env": 6.661338147750939e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.4467127995000434,
+    "ms_per_slot": 0.2882820951672329,
     "max_env_el_mean": 1.272496847122409e-15,
     "max_env_el_p95": 3.9968028886505635e-15,
     "util_per_slot_video": 1.9594299320999624
@@ -325,7 +325,7 @@
     "free_floor_ratio": 3.057325630310709,
     "max_env": 9.992007221626409e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.4884757153333036,
+    "ms_per_slot": 0.3422630468333713,
     "max_env_el_mean": 1.4039859372283969e-15,
     "max_env_el_p95": 4.440892098500626e-15,
     "util_per_slot_video": 1.7434115342364267
@@ -353,7 +353,7 @@
     "free_floor_ratio": 3.0459423801184116,
     "max_env": 1.0658141036401503e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.44933536400003504,
+    "ms_per_slot": 0.3399885541669695,
     "max_env_el_mean": 1.5927567067050334e-15,
     "max_env_el_p95": 4.9182879990894384e-15,
     "util_per_slot_video": 1.8095303373789733
@@ -381,7 +381,7 @@
     "free_floor_ratio": 3.216377246785772,
     "max_env": 8.881784197001252e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.4928727928333198,
+    "ms_per_slot": 0.2997350041672083,
     "max_env_el_mean": 1.2897047569745078e-15,
     "max_env_el_p95": 3.9968028886505635e-15,
     "util_per_slot_video": 1.6433585685686496
@@ -409,7 +409,7 @@
     "free_floor_ratio": 3.4171787055997696,
     "max_env": 1.0880185641326534e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.5516055483332518,
+    "ms_per_slot": 0.3095771693333518,
     "max_env_el_mean": 1.491383848568806e-15,
     "max_env_el_p95": 4.6629367034256575e-15,
     "util_per_slot_video": 1.6782245927853434
@@ -437,7 +437,7 @@
     "free_floor_ratio": 3.393166190047494,
     "max_env": 8.881784197001252e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.44391836749991853,
+    "ms_per_slot": 0.33798800766635395,
     "max_env_el_mean": 1.3613249742064157e-15,
     "max_env_el_p95": 4.884981308350689e-15,
     "util_per_slot_video": 1.749224466412371
@@ -465,7 +465,7 @@
     "free_floor_ratio": 2.952676332633493,
     "max_env": 1.0325074129013956e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.49197152283340984,
+    "ms_per_slot": 0.3600563028333757,
     "max_env_el_mean": 1.276629644005378e-15,
     "max_env_el_p95": 3.8635761256955145e-15,
     "util_per_slot_video": 1.6683291921560817
@@ -493,7 +493,7 @@
     "free_floor_ratio": 3.04063932921678,
     "max_env": 1.021405182655144e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.4655745449999813,
+    "ms_per_slot": 0.2550562078334527,
     "max_env_el_mean": 1.368637004494805e-15,
     "max_env_el_p95": 4.6629367034256575e-15,
     "util_per_slot_video": 1.849402057703284
@@ -521,7 +521,7 @@
     "free_floor_ratio": 2.935952311367974,
     "max_env": 1.509903313490213e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.4558723623332904,
+    "ms_per_slot": 0.2709248171662087,
     "max_env_el_mean": 1.3596909357051348e-15,
     "max_env_el_p95": 4.218847493575595e-15,
     "util_per_slot_video": 1.6797680118608347
@@ -549,7 +549,7 @@
     "free_floor_ratio": 3.24671594345679,
     "max_env": 1.0658141036401503e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.4284344169999107,
+    "ms_per_slot": 0.2783558551667132,
     "max_env_el_mean": 1.3716218766019413e-15,
     "max_env_el_p95": 4.884981308350689e-15,
     "util_per_slot_video": 2.037208191215285
@@ -577,7 +577,7 @@
     "free_floor_ratio": 3.0612221371118644,
     "max_env": 7.993605777301127e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.48034813200001736,
+    "ms_per_slot": 0.28377533866720717,
     "max_env_el_mean": 1.2681919007003932e-15,
     "max_env_el_p95": 4.440892098500626e-15,
     "util_per_slot_video": 1.853340564039465
@@ -605,7 +605,7 @@
     "free_floor_ratio": 2.9533552858132626,
     "max_env": 933.0398113767907,
     "cap_violations": 0,
-    "ms_per_slot": 0.46695067716655103,
+    "ms_per_slot": 0.2903521483331133,
     "max_env_el_mean": 85.11558478773362,
     "max_env_el_p95": 279.8644855738132,
     "util_per_slot_video": 1.3255992379875048
@@ -633,7 +633,7 @@
     "free_floor_ratio": 2.757353003099451,
     "max_env": 719.932870661631,
     "cap_violations": 0,
-    "ms_per_slot": 0.5083014874999208,
+    "ms_per_slot": 0.31646100399969634,
     "max_env_el_mean": 78.30653155095862,
     "max_env_el_p95": 243.43650952609192,
     "util_per_slot_video": 1.3534138681285077
@@ -661,7 +661,7 @@
     "free_floor_ratio": 2.9220273448715113,
     "max_env": 566.4057642723881,
     "cap_violations": 0,
-    "ms_per_slot": 0.49408336299999667,
+    "ms_per_slot": 0.33958334633340803,
     "max_env_el_mean": 81.59388009749665,
     "max_env_el_p95": 266.7893497308525,
     "util_per_slot_video": 1.2864063156681178
@@ -689,7 +689,7 @@
     "free_floor_ratio": 3.080919626406152,
     "max_env": 743.6575159369806,
     "cap_violations": 0,
-    "ms_per_slot": 0.5074414101666965,
+    "ms_per_slot": 0.3323302011661629,
     "max_env_el_mean": 86.97074803566117,
     "max_env_el_p95": 287.83172563069263,
     "util_per_slot_video": 1.3090311231115328
@@ -717,7 +717,7 @@
     "free_floor_ratio": 2.878082138092648,
     "max_env": 750.9585049095485,
     "cap_violations": 0,
-    "ms_per_slot": 0.444273837833407,
+    "ms_per_slot": 0.28916002966676996,
     "max_env_el_mean": 77.15389270873946,
     "max_env_el_p95": 244.1439902138857,
     "util_per_slot_video": 1.3416122739635439
@@ -745,7 +745,7 @@
     "free_floor_ratio": 2.2706278088806875,
     "max_env": 713.9973558775598,
     "cap_violations": 0,
-    "ms_per_slot": 0.4697589783333266,
+    "ms_per_slot": 0.32904988883334835,
     "max_env_el_mean": 86.66878562163868,
     "max_env_el_p95": 262.4300417980936,
     "util_per_slot_video": 1.3062170011208594
@@ -773,7 +773,7 @@
     "free_floor_ratio": 2.686586897346404,
     "max_env": 713.2535758697517,
     "cap_violations": 0,
-    "ms_per_slot": 0.4789381730000362,
+    "ms_per_slot": 0.35236018933331553,
     "max_env_el_mean": 77.04741417320692,
     "max_env_el_p95": 260.3499480193486,
     "util_per_slot_video": 1.3215871940366206
@@ -801,7 +801,7 @@
     "free_floor_ratio": 2.450928721106647,
     "max_env": 625.478744874872,
     "cap_violations": 0,
-    "ms_per_slot": 0.4519145289999263,
+    "ms_per_slot": 0.3402264883334283,
     "max_env_el_mean": 77.70145847251857,
     "max_env_el_p95": 252.65315764643293,
     "util_per_slot_video": 1.3147502560096498
@@ -829,7 +829,7 @@
     "free_floor_ratio": 2.7717589457637035,
     "max_env": 933.1737768524939,
     "cap_violations": 0,
-    "ms_per_slot": 0.44861343383324004,
+    "ms_per_slot": 0.37869493733342097,
     "max_env_el_mean": 74.49011171087328,
     "max_env_el_p95": 245.7868656054989,
     "util_per_slot_video": 1.3519476746378523
@@ -857,7 +857,7 @@
     "free_floor_ratio": 2.6656998565739256,
     "max_env": 1119.5713346203909,
     "cap_violations": 0,
-    "ms_per_slot": 0.4752633133333196,
+    "ms_per_slot": 0.37409818700022396,
     "max_env_el_mean": 76.99196973868209,
     "max_env_el_p95": 238.44956834451887,
     "util_per_slot_video": 1.3087162989515067
@@ -885,7 +885,7 @@
     "free_floor_ratio": 2.965643365348966,
     "max_env": 135.6732436235323,
     "cap_violations": 0,
-    "ms_per_slot": 0.5651947823333405,
+    "ms_per_slot": 0.46881304916678346,
     "max_env_el_mean": 7.877544868850506,
     "max_env_el_p95": 30.355440011522855,
     "util_per_slot_video": 1.5392813805747543
@@ -913,7 +913,7 @@
     "free_floor_ratio": 2.963747503954942,
     "max_env": 150.43568492973986,
     "cap_violations": 0,
-    "ms_per_slot": 0.5470406356665384,
+    "ms_per_slot": 0.4811900218331478,
     "max_env_el_mean": 8.43681759191565,
     "max_env_el_p95": 32.2692240674367,
     "util_per_slot_video": 1.605075200063213
@@ -941,7 +941,7 @@
     "free_floor_ratio": 3.136961493897191,
     "max_env": 205.42423377954637,
     "cap_violations": 0,
-    "ms_per_slot": 0.5711664743333434,
+    "ms_per_slot": 0.36726472666668997,
     "max_env_el_mean": 8.235638208434308,
     "max_env_el_p95": 36.13267385624858,
     "util_per_slot_video": 1.454276753118604
@@ -969,7 +969,7 @@
     "free_floor_ratio": 3.3604124625523726,
     "max_env": 196.13055349584727,
     "cap_violations": 0,
-    "ms_per_slot": 0.5573231545001059,
+    "ms_per_slot": 0.3614074496666338,
     "max_env_el_mean": 7.953760108781995,
     "max_env_el_p95": 31.11631898034578,
     "util_per_slot_video": 1.4865056025500818
@@ -997,7 +997,7 @@
     "free_floor_ratio": 3.307165978180322,
     "max_env": 200.9181696218431,
     "cap_violations": 0,
-    "ms_per_slot": 0.549559406500066,
+    "ms_per_slot": 0.45374743500057474,
     "max_env_el_mean": 9.72259614677562,
     "max_env_el_p95": 39.86595161366911,
     "util_per_slot_video": 1.526486055625897
@@ -1025,7 +1025,7 @@
     "free_floor_ratio": 2.9136484780674143,
     "max_env": 140.15982258759544,
     "cap_violations": 0,
-    "ms_per_slot": 0.5704845893333186,
+    "ms_per_slot": 0.52760973999951,
     "max_env_el_mean": 7.516308355794185,
     "max_env_el_p95": 27.507981594675666,
     "util_per_slot_video": 1.4618698133091697
@@ -1053,7 +1053,7 @@
     "free_floor_ratio": 2.9362713254338653,
     "max_env": 426.47674286639403,
     "cap_violations": 0,
-    "ms_per_slot": 0.542679341166604,
+    "ms_per_slot": 0.4888374471665884,
     "max_env_el_mean": 11.179844149013842,
     "max_env_el_p95": 42.53276885211646,
     "util_per_slot_video": 1.6381818382064293
@@ -1081,7 +1081,7 @@
     "free_floor_ratio": 2.818482857308963,
     "max_env": 171.5493050669836,
     "cap_violations": 0,
-    "ms_per_slot": 0.5407548474998596,
+    "ms_per_slot": 0.4646419739995811,
     "max_env_el_mean": 8.352686127168294,
     "max_env_el_p95": 33.630100938406656,
     "util_per_slot_video": 1.4901552391860133
@@ -1109,7 +1109,7 @@
     "free_floor_ratio": 3.140316055178587,
     "max_env": 435.59490637618154,
     "cap_violations": 0,
-    "ms_per_slot": 0.5925379223332735,
+    "ms_per_slot": 0.44361062633288384,
     "max_env_el_mean": 11.714072745384208,
     "max_env_el_p95": 44.816104053705835,
     "util_per_slot_video": 1.832103383644174
@@ -1137,7 +1137,7 @@
     "free_floor_ratio": 2.978243474980137,
     "max_env": 205.7704486296074,
     "cap_violations": 0,
-    "ms_per_slot": 0.5387242953332437,
+    "ms_per_slot": 0.4372557141668949,
     "max_env_el_mean": 9.728377686074426,
     "max_env_el_p95": 37.05837223210304,
     "util_per_slot_video": 1.6423365667540555
@@ -1165,7 +1165,7 @@
     "free_floor_ratio": 3.908577241170599,
     "max_env": 492.9964494706492,
     "cap_violations": 0,
-    "ms_per_slot": 0.47722002916664985,
+    "ms_per_slot": 0.31512496666679607,
     "max_env_el_mean": 68.28107343078659,
     "max_env_el_p95": 210.4999518276173,
     "util_per_slot_video": 2.181984736069044
@@ -1193,7 +1193,7 @@
     "free_floor_ratio": 3.869486476540372,
     "max_env": 637.7050035308133,
     "cap_violations": 0,
-    "ms_per_slot": 0.47836485199998907,
+    "ms_per_slot": 0.3042497045001558,
     "max_env_el_mean": 63.58471045100045,
     "max_env_el_p95": 208.9813419092531,
     "util_per_slot_video": 2.196099847765474
@@ -1221,7 +1221,7 @@
     "free_floor_ratio": 4.097096237266469,
     "max_env": 414.61470370842846,
     "cap_violations": 0,
-    "ms_per_slot": 0.4604873853333326,
+    "ms_per_slot": 0.2979079431667439,
     "max_env_el_mean": 65.14370697979794,
     "max_env_el_p95": 202.7599843777629,
     "util_per_slot_video": 2.144155971547876
@@ -1249,7 +1249,7 @@
     "free_floor_ratio": 4.233965383772783,
     "max_env": 502.99164866818927,
     "cap_violations": 0,
-    "ms_per_slot": 0.46262239949995393,
+    "ms_per_slot": 0.34716413866711565,
     "max_env_el_mean": 72.65360788021495,
     "max_env_el_p95": 230.03903355633312,
     "util_per_slot_video": 2.146272601930255
@@ -1277,7 +1277,7 @@
     "free_floor_ratio": 4.2047291559210285,
     "max_env": 426.70329565428074,
     "cap_violations": 0,
-    "ms_per_slot": 0.4549771021665947,
+    "ms_per_slot": 0.38095659133311227,
     "max_env_el_mean": 56.67944186610901,
     "max_env_el_p95": 180.10778339999337,
     "util_per_slot_video": 2.1803040058177956
@@ -1305,7 +1305,7 @@
     "free_floor_ratio": 3.8206097991620234,
     "max_env": 542.5106094318448,
     "cap_violations": 0,
-    "ms_per_slot": 0.502767175333247,
+    "ms_per_slot": 0.41810656300003757,
     "max_env_el_mean": 69.23569125412372,
     "max_env_el_p95": 197.1616235178066,
     "util_per_slot_video": 2.1432992212464694
@@ -1333,7 +1333,7 @@
     "free_floor_ratio": 3.910070839999648,
     "max_env": 551.8819200880381,
     "cap_violations": 0,
-    "ms_per_slot": 0.5051198768333052,
+    "ms_per_slot": 0.36353117249988526,
     "max_env_el_mean": 57.05482573351558,
     "max_env_el_p95": 179.49756026724012,
     "util_per_slot_video": 2.2545630356301367
@@ -1361,7 +1361,7 @@
     "free_floor_ratio": 3.806870572584944,
     "max_env": 433.61666578904294,
     "cap_violations": 0,
-    "ms_per_slot": 0.44541008333332377,
+    "ms_per_slot": 0.28943658416695445,
     "max_env_el_mean": 62.20873036351431,
     "max_env_el_p95": 197.04319626328774,
     "util_per_slot_video": 2.1526617020563363
@@ -1389,7 +1389,7 @@
     "free_floor_ratio": 4.084957497142124,
     "max_env": 557.4014322734158,
     "cap_violations": 0,
-    "ms_per_slot": 0.48939711299999544,
+    "ms_per_slot": 0.28605146066668874,
     "max_env_el_mean": 52.60610014774079,
     "max_env_el_p95": 159.4819303724647,
     "util_per_slot_video": 2.3760383584389944
@@ -1417,7 +1417,7 @@
     "free_floor_ratio": 3.935424378335125,
     "max_env": 488.0032228293302,
     "cap_violations": 0,
-    "ms_per_slot": 0.5107083234999361,
+    "ms_per_slot": 0.26565301400053914,
     "max_env_el_mean": 55.97184244261171,
     "max_env_el_p95": 166.82217354091355,
     "util_per_slot_video": 2.2707415963281052
@@ -1445,7 +1445,7 @@
     "free_floor_ratio": 2.9799795238681934,
     "max_env": 136.32346878827866,
     "cap_violations": 0,
-    "ms_per_slot": 0.5409265498333298,
+    "ms_per_slot": 0.3826902810002745,
     "max_env_el_mean": 8.237238731507023,
     "max_env_el_p95": 34.71700184729917,
     "util_per_slot_video": 1.5384575741305402
@@ -1473,7 +1473,7 @@
     "free_floor_ratio": 2.9680077884340905,
     "max_env": 180.90771874275495,
     "cap_violations": 0,
-    "ms_per_slot": 0.5439302241666155,
+    "ms_per_slot": 0.38714229766628705,
     "max_env_el_mean": 9.070471743859335,
     "max_env_el_p95": 34.87598854774057,
     "util_per_slot_video": 1.6077293218321982
@@ -1501,7 +1501,7 @@
     "free_floor_ratio": 3.1433700003478497,
     "max_env": 135.71018839388884,
     "cap_violations": 0,
-    "ms_per_slot": 0.5992013978332883,
+    "ms_per_slot": 0.3865745743332809,
     "max_env_el_mean": 8.028306515176007,
     "max_env_el_p95": 35.083699763897286,
     "util_per_slot_video": 1.4536734466539045
@@ -1529,7 +1529,7 @@
     "free_floor_ratio": 3.360409713234258,
     "max_env": 196.0285858338953,
     "cap_violations": 0,
-    "ms_per_slot": 0.6010239656667787,
+    "ms_per_slot": 0.38430275466635067,
     "max_env_el_mean": 7.954339848480654,
     "max_env_el_p95": 31.11540672249265,
     "util_per_slot_video": 1.4866853346660458
@@ -1557,7 +1557,7 @@
     "free_floor_ratio": 3.3081366970674906,
     "max_env": 202.70054358975457,
     "cap_violations": 0,
-    "ms_per_slot": 0.5472433928333278,
+    "ms_per_slot": 0.3632670009998643,
     "max_env_el_mean": 9.796546815699264,
     "max_env_el_p95": 40.18448016889966,
     "util_per_slot_video": 1.5264722321327828
@@ -1585,7 +1585,7 @@
     "free_floor_ratio": 2.9215877506930177,
     "max_env": 115.68175653237743,
     "cap_violations": 0,
-    "ms_per_slot": 0.6067043504999674,
+    "ms_per_slot": 0.4076458871665333,
     "max_env_el_mean": 7.2412235269320515,
     "max_env_el_p95": 27.18932521337552,
     "util_per_slot_video": 1.4597736826476964
@@ -1613,7 +1613,7 @@
     "free_floor_ratio": 2.9360668808854355,
     "max_env": 413.4119853887173,
     "cap_violations": 0,
-    "ms_per_slot": 0.55721391683331,
+    "ms_per_slot": 0.39541399416702916,
     "max_env_el_mean": 11.192957247154322,
     "max_env_el_p95": 41.21373888752208,
     "util_per_slot_video": 1.6387634425850355
@@ -1641,7 +1641,7 @@
     "free_floor_ratio": 2.822129434715638,
     "max_env": 229.18485697212506,
     "cap_violations": 0,
-    "ms_per_slot": 0.5830924131666204,
+    "ms_per_slot": 0.40363410099962493,
     "max_env_el_mean": 8.676185826983671,
     "max_env_el_p95": 34.15415231792964,
     "util_per_slot_video": 1.4901912625525953
@@ -1669,7 +1669,7 @@
     "free_floor_ratio": 3.1403698262006032,
     "max_env": 435.06396741725285,
     "cap_violations": 0,
-    "ms_per_slot": 0.6106020076666331,
+    "ms_per_slot": 0.3635095843334663,
     "max_env_el_mean": 11.642832081832426,
     "max_env_el_p95": 44.28857232459972,
     "util_per_slot_video": 1.8318153518096953
@@ -1697,7 +1697,7 @@
     "free_floor_ratio": 2.98009016189366,
     "max_env": 207.43835801801413,
     "cap_violations": 0,
-    "ms_per_slot": 0.5007143958332563,
+    "ms_per_slot": 0.3060267621670695,
     "max_env_el_mean": 9.760411024591031,
     "max_env_el_p95": 37.17445686806689,
     "util_per_slot_video": 1.642709019197705
@@ -1717,7 +1717,7 @@
     "cap_violations": 0
    }
   },
-  "elapsed_s": 107.92298078536987
+  "elapsed_s": 75.73106336593628
  },
  "part2": {
   "T": 3000,
@@ -5438,7 +5438,7 @@
    }
   },
   "cap_violations": 0,
-  "elapsed_s": 225.84650540351868
+  "elapsed_s": 142.49171328544617
  },
  "part3": {
   "T": 7200,
@@ -5487,8 +5487,8 @@
     "free_floor_ratio": 4.931932900973506,
     "max_env": 8.049116928532385e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.26543607319442547,
-    "run_s": 1.912978942999871,
+    "ms_per_slot": 0.24298160277743996,
+    "run_s": 1.752082988001348,
     "max_env_el_mean": 2.49264777228456e-16,
     "max_env_el_p95": 9.242606680004423e-16,
     "util_per_slot_video": 1.661760689398058
@@ -5518,8 +5518,8 @@
     "free_floor_ratio": 4.65118482438862,
     "max_env": 4.9960036108132044e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.24305075902778603,
-    "run_s": 1.7518283620001966,
+    "ms_per_slot": 0.23867474027813132,
+    "run_s": 1.7209234340007242,
     "max_env_el_mean": 5.014070647845162e-16,
     "max_env_el_p95": 1.9984014443252818e-15,
     "util_per_slot_video": 1.5223319681097598
@@ -5549,8 +5549,8 @@
     "free_floor_ratio": 4.235693083634696,
     "max_env": 7.438494264988549e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.256147489166728,
-    "run_s": 1.8460325010000815,
+    "ms_per_slot": 0.22689708597226854,
+    "run_s": 1.635865552998439,
     "max_env_el_mean": 6.970244401557694e-16,
     "max_env_el_p95": 3.0503377601576154e-15,
     "util_per_slot_video": 1.5810321890468233
@@ -5580,8 +5580,8 @@
     "free_floor_ratio": 4.685839658050675,
     "max_env": 5.218048215738236e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.22513128388886294,
-    "run_s": 1.6222041219998573,
+    "ms_per_slot": 0.1898720152778171,
+    "run_s": 1.3682173160013917,
     "max_env_el_mean": 5.707325271428204e-16,
     "max_env_el_p95": 2.3231416790281397e-15,
     "util_per_slot_video": 1.744894313967774
@@ -5611,8 +5611,8 @@
     "free_floor_ratio": 4.956230836325351,
     "max_env": 1.0880185641326534e-14,
     "cap_violations": 0,
-    "ms_per_slot": 0.23601134097222914,
-    "run_s": 1.7008423320003203,
+    "ms_per_slot": 0.2022556895836816,
+    "run_s": 1.4578131079979357,
     "max_env_el_mean": 9.162782295055182e-16,
     "max_env_el_p95": 4.019007349143059e-15,
     "util_per_slot_video": 1.7937149829385193
@@ -5642,8 +5642,8 @@
     "free_floor_ratio": 4.599884872733564,
     "max_env": 5.329070518200751e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.2503780280555172,
-    "run_s": 1.8044812860007369,
+    "ms_per_slot": 0.2188950269444629,
+    "run_s": 1.5779152020004403,
     "max_env_el_mean": 5.995055835246385e-16,
     "max_env_el_p95": 2.886579864025407e-15,
     "util_per_slot_video": 1.7585085767195316
@@ -5673,8 +5673,8 @@
     "free_floor_ratio": 4.820951336783133,
     "max_env": 2.4424906541753444e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.24725693958329328,
-    "run_s": 1.7824702449997858,
+    "ms_per_slot": 0.2064362498610232,
+    "run_s": 1.48797497799751,
     "max_env_el_mean": 1.425487248618316e-16,
     "max_env_el_p95": 6.661338147750939e-16,
     "util_per_slot_video": 1.6957633145518347
@@ -5704,8 +5704,8 @@
     "free_floor_ratio": 4.57780327131814,
     "max_env": 3.4416913763379853e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.23682181527773435,
-    "run_s": 1.7068502160000207,
+    "ms_per_slot": 0.2023379113890971,
+    "run_s": 1.458455068001058,
     "max_env_el_mean": 4.572633909368118e-16,
     "max_env_el_p95": 1.887379141862766e-15,
     "util_per_slot_video": 1.4974390649782656
@@ -5735,8 +5735,8 @@
     "free_floor_ratio": 4.059517725381302,
     "max_env": 6.994405055138486e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.26403423624995215,
-    "run_s": 1.9029346110000915,
+    "ms_per_slot": 0.2145439986113868,
+    "run_s": 1.546435313000984,
     "max_env_el_mean": 8.242697774849722e-16,
     "max_env_el_p95": 3.852473895449292e-15,
     "util_per_slot_video": 1.626174171805978
@@ -5766,8 +5766,8 @@
     "free_floor_ratio": 4.607143711101071,
     "max_env": 4.107825191113079e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.2501327941666255,
-    "run_s": 1.8022159610000017,
+    "ms_per_slot": 0.18759985472216714,
+    "run_s": 1.3521350740011258,
     "max_env_el_mean": 5.241251205172731e-16,
     "max_env_el_p95": 2.267630527796882e-15,
     "util_per_slot_video": 1.7070389370478138
@@ -5797,8 +5797,8 @@
     "free_floor_ratio": 4.890908795632681,
     "max_env": 8.881784197001252e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.3287228027777979,
-    "run_s": 2.368417855000189,
+    "ms_per_slot": 0.20462953555579588,
+    "run_s": 1.4751180070015835,
     "max_env_el_mean": 8.007537775217565e-16,
     "max_env_el_p95": 2.8976820942716548e-15,
     "util_per_slot_video": 1.7697682034040092
@@ -5828,8 +5828,8 @@
     "free_floor_ratio": 4.478882818318312,
     "max_env": 4.884981308350689e-15,
     "cap_violations": 0,
-    "ms_per_slot": 0.27935677736107006,
-    "run_s": 2.0131112240005677,
+    "ms_per_slot": 0.21585683666671684,
+    "run_s": 1.556159485000535,
     "max_env_el_mean": 6.248438523510292e-16,
     "max_env_el_p95": 2.6645352591003757e-15,
     "util_per_slot_video": 1.7624297012843158
@@ -5859,8 +5859,8 @@
     "free_floor_ratio": 4.68015718428174,
     "max_env": 2197.2334943759997,
     "cap_violations": 0,
-    "ms_per_slot": 0.3580942602777921,
-    "run_s": 2.580567747000714,
+    "ms_per_slot": 0.28474440694430486,
+    "run_s": 2.0522806819972175,
     "max_env_el_mean": 219.33603169435406,
     "max_env_el_p95": 925.8476908460045,
     "util_per_slot_video": 2.0127288157713212
@@ -5890,8 +5890,8 @@
     "free_floor_ratio": 4.5161626957789505,
     "max_env": 1936.6383105532134,
     "cap_violations": 0,
-    "ms_per_slot": 0.34841622305558906,
-    "run_s": 2.5105370029996266,
+    "ms_per_slot": 0.2765654290275658,
+    "run_s": 1.993429305999598,
     "max_env_el_mean": 269.43173872002063,
     "max_env_el_p95": 1216.2701968471222,
     "util_per_slot_video": 1.8574159986713703
@@ -5921,8 +5921,8 @@
     "free_floor_ratio": 3.808690097218961,
     "max_env": 2476.0514817700982,
     "cap_violations": 0,
-    "ms_per_slot": 0.3710352572222241,
-    "run_s": 2.6739452490000986,
+    "ms_per_slot": 0.2950059555557042,
+    "run_s": 2.1260404500026198,
     "max_env_el_mean": 337.78314655328273,
     "max_env_el_p95": 1516.6953333078393,
     "util_per_slot_video": 2.0131570864187074
@@ -5952,8 +5952,8 @@
     "free_floor_ratio": 4.54810660452836,
     "max_env": 2007.4938189005716,
     "cap_violations": 0,
-    "ms_per_slot": 0.30475892527773696,
-    "run_s": 2.1958502229999795,
+    "ms_per_slot": 0.23931941347250862,
+    "run_s": 1.7244564479988185,
     "max_env_el_mean": 207.53152047064674,
     "max_env_el_p95": 815.9904659357552,
     "util_per_slot_video": 1.9607747730067882
@@ -5983,8 +5983,8 @@
     "free_floor_ratio": 4.86152417204088,
     "max_env": 1885.6138738054476,
     "cap_violations": 0,
-    "ms_per_slot": 0.3465967569444375,
-    "run_s": 2.497348064999642,
+    "ms_per_slot": 0.2648219174999314,
+    "run_s": 1.9082832200001576,
     "max_env_el_mean": 208.5341029904394,
     "max_env_el_p95": 937.1178943609423,
     "util_per_slot_video": 1.9890831602035084
@@ -6014,8 +6014,8 @@
     "free_floor_ratio": 4.375119131803959,
     "max_env": 2382.6797390264196,
     "cap_violations": 0,
-    "ms_per_slot": 0.37217498319440284,
-    "run_s": 2.6821189510001204,
+    "ms_per_slot": 0.29010324930519954,
+    "run_s": 2.0906332170015958,
     "max_env_el_mean": 233.08484576818043,
     "max_env_el_p95": 1060.0822248877464,
     "util_per_slot_video": 2.0164407642697344
@@ -6045,8 +6045,8 @@
     "free_floor_ratio": 4.820823322031258,
     "max_env": 65.44739800106274,
     "cap_violations": 0,
-    "ms_per_slot": 0.4297847665278217,
-    "run_s": 3.096212424999976,
+    "ms_per_slot": 0.3404505705556302,
+    "run_s": 2.452996879001148,
     "max_env_el_mean": 3.850165595033811,
     "max_env_el_p95": 20.70911322072059,
     "util_per_slot_video": 1.3559366864694833
@@ -6076,8 +6076,8 @@
     "free_floor_ratio": 4.54788007482967,
     "max_env": 69.84473377304505,
     "cap_violations": 0,
-    "ms_per_slot": 0.4014890112499516,
-    "run_s": 2.892545675999827,
+    "ms_per_slot": 0.35373684166643216,
+    "run_s": 2.5485514139982115,
     "max_env_el_mean": 6.026772774989055,
     "max_env_el_p95": 32.25493553426714,
     "util_per_slot_video": 1.2516526672683255
@@ -6107,8 +6107,8 @@
     "free_floor_ratio": 4.073623727699513,
     "max_env": 111.55597793604844,
     "cap_violations": 0,
-    "ms_per_slot": 0.44924913652784604,
-    "run_s": 3.236861479000254,
+    "ms_per_slot": 0.3525587476390986,
+    "run_s": 2.540200489998824,
     "max_env_el_mean": 4.906155218993489,
     "max_env_el_p95": 22.71120089872423,
     "util_per_slot_video": 1.2134888365733445
@@ -6138,8 +6138,8 @@
     "free_floor_ratio": 4.569885409798746,
     "max_env": 120.36195964516337,
     "cap_violations": 0,
-    "ms_per_slot": 0.3717149441666202,
-    "run_s": 2.6777164660006747,
+    "ms_per_slot": 0.31037582611133985,
+    "run_s": 2.2359571079978195,
     "max_env_el_mean": 3.7977325901743164,
     "max_env_el_p95": 18.111507746696848,
     "util_per_slot_video": 1.423137325204668
@@ -6169,8 +6169,8 @@
     "free_floor_ratio": 4.8547970195322385,
     "max_env": 230.84413185660304,
     "cap_violations": 0,
-    "ms_per_slot": 0.4370877266666816,
-    "run_s": 3.1493529029994534,
+    "ms_per_slot": 0.33992457680546473,
+    "run_s": 2.4492195780003385,
     "max_env_el_mean": 6.512676802047711,
     "max_env_el_p95": 34.629543829395814,
     "util_per_slot_video": 1.4869709683731174
@@ -6200,8 +6200,8 @@
     "free_floor_ratio": 4.439815552023588,
     "max_env": 347.09434703232273,
     "cap_violations": 0,
-    "ms_per_slot": 0.5171854548610908,
-    "run_s": 3.7257042250002996,
+    "ms_per_slot": 0.3354657008336896,
+    "run_s": 2.417454763002752,
     "max_env_el_mean": 6.1466792743564564,
     "max_env_el_p95": 17.44323690532624,
     "util_per_slot_video": 1.4067009187995445
@@ -6231,8 +6231,8 @@
     "free_floor_ratio": 4.890168020864746,
     "max_env": 1404.2029490618424,
     "cap_violations": 0,
-    "ms_per_slot": 0.3890141354166745,
-    "run_s": 2.8029118889999154,
+    "ms_per_slot": 0.3025499061110774,
+    "run_s": 2.180044265001925,
     "max_env_el_mean": 172.77922551857927,
     "max_env_el_p95": 603.9413012269251,
     "util_per_slot_video": 2.0541085444119305
@@ -6262,8 +6262,8 @@
     "free_floor_ratio": 4.676838625755708,
     "max_env": 1235.0270688519374,
     "cap_violations": 0,
-    "ms_per_slot": 0.3619857252777416,
-    "run_s": 2.6082105590003266,
+    "ms_per_slot": 0.28108210611157525,
+    "run_s": 2.025409784000658,
     "max_env_el_mean": 199.83516592935902,
     "max_env_el_p95": 789.9688755698402,
     "util_per_slot_video": 1.9527026300971475
@@ -6293,8 +6293,8 @@
     "free_floor_ratio": 4.1855607957650145,
     "max_env": 1550.0908460938385,
     "cap_violations": 0,
-    "ms_per_slot": 0.38771151875001425,
-    "run_s": 2.7933929040000294,
+    "ms_per_slot": 0.2948321941666007,
+    "run_s": 2.12442979700063,
     "max_env_el_mean": 241.62743731858023,
     "max_env_el_p95": 1049.6691796709642,
     "util_per_slot_video": 2.038292450536597
@@ -6324,8 +6324,8 @@
     "free_floor_ratio": 4.718594222662296,
     "max_env": 1276.46839063338,
     "cap_violations": 0,
-    "ms_per_slot": 0.3397992541666402,
-    "run_s": 2.4483591090001937,
+    "ms_per_slot": 0.2466662025002127,
+    "run_s": 1.7772471250027593,
     "max_env_el_mean": 157.16847781118096,
     "max_env_el_p95": 619.0576958498377,
     "util_per_slot_video": 2.1103154255874266
@@ -6355,8 +6355,8 @@
     "free_floor_ratio": 4.980242334166722,
     "max_env": 1174.385126107714,
     "cap_violations": 0,
-    "ms_per_slot": 0.32859585486120424,
-    "run_s": 2.3675709740000457,
+    "ms_per_slot": 0.26916226263892895,
+    "run_s": 1.9396091469970997,
     "max_env_el_mean": 158.16608116247644,
     "max_env_el_p95": 683.2056159701006,
     "util_per_slot_video": 2.128192069549635
@@ -6386,8 +6386,8 @@
     "free_floor_ratio": 4.586800373197155,
     "max_env": 1446.9408828427186,
     "cap_violations": 0,
-    "ms_per_slot": 0.3616246083333863,
-    "run_s": 2.605605395000566,
+    "ms_per_slot": 0.29603024902775765,
+    "run_s": 2.1332659910003713,
     "max_env_el_mean": 178.74445798596517,
     "max_env_el_p95": 786.3913793845853,
     "util_per_slot_video": 2.0934429209843475
@@ -6417,8 +6417,8 @@
     "free_floor_ratio": 4.821527381099289,
     "max_env": 65.45384190056937,
     "cap_violations": 0,
-    "ms_per_slot": 0.3594926651389111,
-    "run_s": 2.5902390159999413,
+    "ms_per_slot": 0.28036382944467025,
+    "run_s": 2.0202711739984807,
     "max_env_el_mean": 3.8632603466966615,
     "max_env_el_p95": 21.013174457087583,
     "util_per_slot_video": 1.3534025489254125
@@ -6448,8 +6448,8 @@
     "free_floor_ratio": 4.545492989895793,
     "max_env": 69.82236052541283,
     "cap_violations": 0,
-    "ms_per_slot": 0.32952989791662424,
-    "run_s": 2.3748692140006824,
+    "ms_per_slot": 0.26957549277792875,
+    "run_s": 1.9425819589996536,
     "max_env_el_mean": 6.276017430454927,
     "max_env_el_p95": 26.350127007505158,
     "util_per_slot_video": 1.2496409701500715
@@ -6479,8 +6479,8 @@
     "free_floor_ratio": 4.0779489074677855,
     "max_env": 104.23577639724421,
     "cap_violations": 0,
-    "ms_per_slot": 0.36102076763894625,
-    "run_s": 2.601289550999354,
+    "ms_per_slot": 0.28505890041641474,
+    "run_s": 2.05423708699891,
     "max_env_el_mean": 5.117904245380864,
     "max_env_el_p95": 22.420493609780358,
     "util_per_slot_video": 1.2030707195001782
@@ -6510,8 +6510,8 @@
     "free_floor_ratio": 4.568855584457242,
     "max_env": 106.95411060583916,
     "cap_violations": 0,
-    "ms_per_slot": 0.2976513179166634,
-    "run_s": 2.1444523740001387,
+    "ms_per_slot": 0.24367353458324537,
+    "run_s": 1.7557354409982509,
     "max_env_el_mean": 3.754405220102919,
     "max_env_el_p95": 16.405820435125147,
     "util_per_slot_video": 1.4161495320353485
@@ -6541,8 +6541,8 @@
     "free_floor_ratio": 4.856102586787698,
     "max_env": 196.9659793319133,
     "cap_violations": 0,
-    "ms_per_slot": 0.35255178097233714,
-    "run_s": 2.540710945999308,
+    "ms_per_slot": 0.2745632269448429,
+    "run_s": 1.97831390400097,
     "max_env_el_mean": 9.63243370755902,
     "max_env_el_p95": 39.95202748233391,
     "util_per_slot_video": 1.4755619167655876
@@ -6572,8 +6572,8 @@
     "free_floor_ratio": 4.443770086403831,
     "max_env": 341.0497326006651,
     "cap_violations": 0,
-    "ms_per_slot": 0.3686944741665836,
-    "run_s": 2.6565344540003935,
+    "ms_per_slot": 0.27844357250008517,
+    "run_s": 2.007146564003051,
     "max_env_el_mean": 7.2200302745243325,
     "max_env_el_p95": 18.443439211070405,
     "util_per_slot_video": 1.3954298599727686
@@ -6791,7 +6791,7 @@
    "mismatches": 0,
    "cap_violations": 0
   },
-  "elapsed_s": 51.84668970108032
+  "elapsed_s": 42.142003774642944
  },
  "part4": {
   "T": 7200,
@@ -14188,7 +14188,7 @@
    }
   },
   "cap_violations": 0,
-  "elapsed_s": 804.7210981845856
+  "elapsed_s": 679.6775934696198
  },
  "checks": {
   "part1_reproduction": {
@@ -14229,5 +14229,5 @@
   "part4_truth_vs_part3_util_max_abs_diff": 0.0
  },
  "capacity_violations_total": 0,
- "elapsed_s": 1190.3711466789246
+ "elapsed_s": 940.0716853141785
 }
