@@ -223,7 +223,7 @@ class Repay:
         eps = np.array([p.theta_P * com[1] - rho[1],
                         p.theta_Y * com[2] - rho[2],
                         min(p.phi * C, dem[0]) - rho[0]])
-        self.Q = np.maximum(self.Q + eps, 0.0)
+        self.Q = np.maximum(self.Q + p.queue_scale * eps, 0.0)
 
         Dmat = np.zeros((n, 2))
         if ne:
