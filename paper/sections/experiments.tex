@@ -368,9 +368,37 @@ Capped priority with the untuned cap $q=0.3$ sits in between, with $9.3\pm3.0$ p
 The premium service level is met on average by every rule; \textsc{Priority} falls below the target on two of the six traces, and \textsc{WFQ} and \textsc{Credit} on one each.
 The pattern is the same at loads $0.7$ and $1.5$ (Table~\ref{tab:real-load}), on the second site ($82.5\%$ for \repay{} against $76.7\%$ for \textsc{PF} and $92.5\%$ for plain DPP), under the stricter classification rule and with all devices free (Table~\ref{tab:real-variants}).
 
-Two observations go against \repay{} as we configured it.
-With a realistic share of real-time traffic the envy bound at $V=20$ is costly: \repay{} gives up twelve to fifteen points of RT success to keep envy below its bound, and whether that is a good trade depends on how much the operator values the guarantee to each elastic device.
-And the variant without the debt price (No-debt) serves $6.5\pm1.5$ points more RT slots than \repay{} at the same elastic rate and with the same average envy ($43$ against $42$~Mbit, and less with all devices free), so on these traces the debt price costs RT success without a clear benefit; it does help under the stricter rule, where envy is $16$ against $45$~Mbit.
+\paragraph{The role of $V$ and of the debt price.}
+On these traces \repay{} gives up twelve to fifteen points of RT success relative to the priority rules, and one may ask whether a larger $V$, which loosens the envy bound, would recover them.
+It does not (Table~\ref{tab:real-sweep} and Figure~\ref{fig:real-frontier}).
+Between $V=5$ and $V=500$ the RT success of \repay{} rises only from $81.0\%$ to $86.8\%$, while its class envy grows from $24$ to $189$~Mbit; plain DPP stays between $93\%$ and $96\%$ over the same range.
+What holds \repay{} back is the debt price, the part of the deficit that is charged to the RT group.
+The variant without it (No-debt), which keeps the deficit queues and the bonus of the creditor, serves $86.7\%$ of RT slots at $V=5$ with a class envy of $18$~Mbit and $95.5\%$ at $V=500$ with $459$~Mbit: for a given level of envy it serves about six points more RT slots than \repay{}, at the same elastic rate, and its deficits also stay below their bound (at most $0.82$ of it in any run).
+Capped priority traces a similar curve when its cap is varied ($87.4\%$ at $q=0.2$ with envy of $239$~Mbit), with no bound behind it.
+The debt price is not without effect, as the next paragraph shows: it is what keeps the gain from misreporting near zero.
+On these traces, then, the operator chooses between the full rule, which is the most resistant to misreporting and the weakest on RT success, and the variant without the debt price, which protects more calls for the same envy and leaves a small but systematic incentive to misreport.
+We had taken the full rule as the default on the strength of the synthetic experiments, where the difference between the two was one point of RT success; the traces show that this choice is not innocuous.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.75\linewidth]{figures/fig_real_frontier.pdf}
+\caption{Trace-driven scenario, site PW0127, load $1$: RT success against elastic rate when the parameter of each rule is varied (mean over six traces). For the families swept over $V$ only the smallest and the largest value are labelled.}
+\label{fig:real-frontier}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Trace-driven scenario: effect of $V$ (mean over six traces). The class envy reported is the largest over tiers and RT classes; the bound shown is that of the free tier and the video class, and the bounds of the premium tier and of the gaming class are larger.}
+\label{tab:real-sweep}
+\resizebox{0.9\linewidth}{!}{\input{tables/real_sweep}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Trace-driven scenario: unilateral misreport under \repay{} and under the variant without the debt price, for several $V$ ($120$ devices on six traces). The bound is $B_{g,\mathrm{v}}$ at that $V$ for the tier of the device.}
+\label{tab:real-sweep-dev}
+\resizebox{0.9\linewidth}{!}{\input{tables/real_sweep_dev}}
+\end{table}
 
 \paragraph{Misreporting.}
 Table~\ref{tab:real-dev} repeats the unilateral deviation of Section~\ref{sec:exp-strategic} for $20$ elastic devices per trace.
@@ -382,6 +410,10 @@ Nine of them are in the free tier and gain between $1.0$ and $1.8$ times $B_{F,\
 The tenth is a premium device that gains $812$~Mbit, almost ten times its bound and $13\%$ of its volume.
 The premium tier of that trace has $25$ devices and two video flows, so the device is often the only video flow of its tier and its reference on the truthful path is zero: this is the empty-group case in which the price-taking hypothesis fails outright (Section~\ref{sec:ic}).
 With the entrant offer of \textsc{Repay-E} the same device gains $197$~Mbit, still more than twice its bound.
+Table~\ref{tab:real-sweep-dev} shows how these gains move with $V$ and what the debt price contributes.
+Under \repay{} the median gain rises from $-0.2\%$ at $V=20$ to $2.8\%$ at $V=200$ and the share of devices that gain from $48\%$ to $76\%$; since the bound grows with $V$, only the premium device above remains over it for $V\ge50$.
+Without the debt price the incentive is clearly larger: at $V=20$ the median gain is $2.0\%$ and $86\%$ of the devices gain, and at $V=200$ the median gain is $19\%$ and every device gains, which approaches the $24\%$ of plain DPP.
+The debt price thus buys incentive resistance and costs RT success.
 None of this contradicts the theorem, whose hypothesis is not satisfied, and every deficit stays below its bound as Theorem~\ref{thm:bound} requires; but it shows that in thin tiers and over long stays the incentive guarantee is weaker than the bound suggests, and that the gains, although small relative to those under the other class-aware rules, are not confined to the constant $B$.
 
 \subsection{Business constraints}\label{sec:exp-tiers}

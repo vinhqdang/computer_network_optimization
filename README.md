@@ -51,6 +51,7 @@ python -m experiments.exp_continuity
 python -m experiments.exp_oracle_ablation   # needs results/oracle.json
 python -m experiments.data_real    # downloads the public traces into data/raw (not in the repository)
 python -m experiments.exp_real     # trace-driven comparison and deviations
+python -m experiments.exp_real_sweep   # sweep of V, cap and weight on the trace-driven scenario (needs results/real_*.json)
 python -m experiments.exp_runtime
 ```
 
@@ -65,6 +66,7 @@ python -m experiments.plots_b
 python -m experiments.plots_dev   # after plots_b: writes the deviation table and figure
 python -m experiments.plots_c     # frontier figure, capped-priority and short-stay tables
 python -m experiments.plots_real  # tables of the trace-driven scenario
+python -m experiments.plots_real_sweep  # frontier figure and sweep tables of the trace-driven scenario
 ```
 
 Paper:

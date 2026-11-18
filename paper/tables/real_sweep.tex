@@ -1,0 +1,30 @@
+% Source: results/real_sweep.json, variant main (experiments/exp_real_sweep.py); site PW0127, load 1.0; means over 6 traces. Envy bound: Params(V).B(0, 1), free tier, video; -- for Plain DPP, which keeps no deficits.
+\begin{tabular}{llrrrrr}
+\toprule
+Mechanism & $V$ & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) & Envy bound $B$ (Mbit) & Premium served ratio \\
+\midrule
+REPAY & 5 & 81.0 & 0.44 & 24.41 & 13.0 & 1.038 \\
+REPAY & 10 & 81.5 & 0.44 & 36.03 & 23.0 & 1.036 \\
+REPAY & 20 & 82.0 & 0.44 & 42.33 & 43.0 & 1.035 \\
+REPAY & 50 & 82.8 & 0.44 & 52.16 & 103.0 & 1.034 \\
+REPAY & 100 & 83.6 & 0.44 & 67.78 & 203.0 & 1.033 \\
+REPAY & 200 & 84.7 & 0.44 & 100.31 & 403.0 & 1.033 \\
+REPAY & 500 & 86.8 & 0.43 & 188.61 & 1003.0 & 1.033 \\
+\midrule
+No-debt & 5 & 86.7 & 0.45 & 18.38 & 13.0 & 0.987 \\
+No-debt & 10 & 87.6 & 0.44 & 28.57 & 23.0 & 0.981 \\
+No-debt & 20 & 88.5 & 0.44 & 43.22 & 43.0 & 0.975 \\
+No-debt & 50 & 90.2 & 0.44 & 78.64 & 103.0 & 0.967 \\
+No-debt & 100 & 91.8 & 0.44 & 124.62 & 203.0 & 0.962 \\
+No-debt & 200 & 93.8 & 0.43 & 232.00 & 403.0 & 0.962 \\
+No-debt & 500 & 95.5 & 0.43 & 458.87 & 1003.0 & 0.973 \\
+\midrule
+Plain DPP & 5 & 93.3 & 0.40 & 2437.85 & -- & 1.071 \\
+Plain DPP & 10 & 93.6 & 0.40 & 2448.35 & -- & 1.069 \\
+Plain DPP & 20 & 93.9 & 0.40 & 2460.87 & -- & 1.066 \\
+Plain DPP & 50 & 94.4 & 0.40 & 2480.50 & -- & 1.061 \\
+Plain DPP & 100 & 94.9 & 0.40 & 2496.72 & -- & 1.057 \\
+Plain DPP & 200 & 95.3 & 0.40 & 2513.61 & -- & 1.052 \\
+Plain DPP & 500 & 95.8 & 0.39 & 2536.71 & -- & 1.046 \\
+\bottomrule
+\end{tabular}

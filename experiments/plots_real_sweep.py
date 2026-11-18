@@ -59,7 +59,10 @@ def fig_real_frontier(plt, s):
             ys.append(100 * _avg([r["rt_success"]["all"] for r in rs]))
         col = COLORS[fam]
         ax.plot(xs, ys, color=col, marker=MARKERS[fam], lw=1.2, label=LABELS[fam])
-        for v, x, y in zip(values, xs, ys):
+        ends = {0, len(values) - 1} if len(values) > 5 else set(range(len(values)))
+        for j, (v, x, y) in enumerate(zip(values, xs, ys)):
+            if j not in ends:
+                continue
             ax.annotate(text(v), (x, y), xytext=(4, 3), textcoords="offset points", fontsize=6.5,
                         color=col, ha="left")
     for fam in ("pf", "priority"):
