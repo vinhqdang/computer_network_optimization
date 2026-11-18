@@ -34,7 +34,7 @@ Q_VALUES = (0.05, 0.1, 0.2, 0.3, 0.5)
 WFQ_MULTS = (1, 2, 4, 8)
 V_FAMILIES = ("repay", "no-debt", "dpp")
 BOUND_FAMILIES = ("repay", "no-debt")
-DEV_CONFIGS = (("repay", 50), ("repay", 100), ("repay", 200),
+DEV_CONFIGS = (("repay", 5), ("no-debt", 5), ("repay", 50), ("repay", 100), ("repay", 200),
                ("no-debt", 20), ("no-debt", 50), ("no-debt", 100), ("no-debt", 200))
 REF_DEV = ("repay", 20)
 REF_SOURCE = "results/real_deviation.json"
@@ -200,7 +200,7 @@ def part2(t0):
 
     recs = []
     for fam, V in DEV_CONFIGS:
-        B_val = float(Params(V=float(V)).B(0, 1))
+        P_V = Params(V=float(V))
         for k in K_VALUES:
             T0 = truth[(fam, V, k)]
             idx0 = _by_id(T0["dev"])
@@ -217,7 +217,7 @@ def part2(t0):
                 recs.append(dict(
                     family=fam, V=V, source="sweep", variant=VARIANT, k=k, dev=i, tier=tier, L=L,
                     ell=float(devs[i]["ell"]), vol_truth=vt, vol_dev=vd, gain=gain, gain_per_slot=gain / L,
-                    rel_gain=(gain / vt) if vt > 0 else None, B=B_val))
+                    rel_gain=(gain / vt) if vt > 0 else None, B=float(P_V.B(tier, 1))))
 
     # Reference records: REPAY at V = 20 from results/real_deviation.json (same picks, same protocol).
     ref_recs = [dict(family="repay", V=20, source=REF_SOURCE, variant=r["variant"], k=r["k"], dev=r["dev"],
