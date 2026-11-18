@@ -4,7 +4,7 @@
 
 | Date | Venue | Event | Notes |
 |---|---|---|---|
-| 2026-11-18 | Computer Networks (Elsevier) | Submission package prepared and submitted by the author | Manuscript ID: to be added when the system issues it |
+| 2026-11-18 | Computer Networks (Elsevier) | Submitted by the author (confirmed by the author after upload) | Manuscript ID: to be added when the system issues it |
 
 ### Submitted files (2026-11-18)
 
