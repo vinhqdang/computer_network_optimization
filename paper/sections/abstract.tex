@@ -4,8 +4,8 @@ Protecting real-time traffic during shortages is natural, but the class is in ef
 We propose \repay{}, an online rule that grants real-time priority on credit: a delay-tolerant device that is passed over accumulates a deficit that raises its priority and the price of real-time priority in its tier.
 \repay{} is a drift-plus-penalty method with tier queues for business constraints and per-device deficit queues for fairness between classes.
 We prove that every deficit, hence class envy, is bounded on every sample path; that for price-taking devices a misreport gains at most the bound per switch; and that utility is within $O(1/V)$ of an envy-free benchmark.
-In simulations of a public hotspot, \repay{} serves $95\%$ of real-time slots against $82\%$ for proportional fairness, at a delay-tolerant throughput within $3\%$ of it, while the median misreporting device gains $1.3\%$, against $77\%$ to $170\%$ under other class-aware rules.
-On public Wi-Fi traces, where real-time sessions are rare, \repay{} gains $7$ points over proportional fairness but priority rules serve $12$ to $15$ points more, at a class envy $58$ to $122$ times larger; some devices in thin tiers exceed the incentive bound.
+In simulations of a public hotspot, \repay{} serves $95\%$ of real-time slots against $82\%$ for proportional fairness, at a delay-tolerant throughput within $3\%$ of it, while the median misreporting device gains $1.3\%$, against $77\%$ to $170\%$ under uncapped class-aware rules.
+On public Wi-Fi traces, where real-time sessions are rare, \repay{} gains $5$ to $14$ points over proportional fairness but priority rules serve $3$ to $15$ points more, at a class envy $10$ to $161$ times larger; a few devices on long stays exceed the incentive bound.
 Of six further baselines from the literature, those that serve more real-time traffic reward misreporting.
 \end{abstract}
 
