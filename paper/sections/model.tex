@@ -59,7 +59,8 @@ The operator's commercial commitments are long-run constraints on tier rates:
 Constraint~\eqref{eq:ps} says that the premium tier receives on average at least a fraction $\theta_P$ of its committed demand.
 PAYG subscribers pay a price $p$ per unit of volume, so the revenue rate is $p\,\rho_{Y,t}$ and \eqref{eq:ys} guarantees that the operator captures at least a fraction $\theta_Y$ of the PAYG revenue that the committed rates put on offer.
 Constraint~\eqref{eq:ff} reserves a share $\phi$ of the capacity for the free tier whenever free users want it, as venues that advertise free access typically must.
-We write $e_{j,t}$, $j\in\{PS,YS,FF\}$, for the three summands, so that each constraint reads ``the time average of $e_j$ is nonpositive''; we take $\theta_P,\theta_Y,\phi\in[0,1]$.
+We write $e_{j,t}$, $j\in\{PS,YS,FF\}$, for the three summands divided by a constant $\bar C>0$, the nominal capacity of the link, so that each constraint reads ``the time average of $e_j$ is nonpositive''; we take $\theta_P,\theta_Y,\phi\in[0,1]$.
+The division by $\bar C$ does not change the constraints, but it makes $e_j$ a fraction of the link rather than a number of Mbit/s, which matters for the algorithm (Section~\ref{sec:algorithm}).
 All three are linear in the tier rates. This matters for the analysis: the price that such a constraint puts on a unit of rate is the same for every class inside a tier.
 
 \paragraph{Strategic behaviour and class envy.}

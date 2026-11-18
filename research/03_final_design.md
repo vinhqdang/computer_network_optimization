@@ -185,3 +185,13 @@ variability sweep; E7 ablations (REPAY-E, REPAY-WC, no debt price); E8 runtime s
 - Hotspot scenario: $C_{mean}=150$ with multipliers (1.0, 0.6, 0.2).
 - Priority baseline: strict priority with admission control (admit RT flows at $r^{\min}$ in priority
   order, then raise video rates equally).
+
+## Revision: normalised tier queues
+
+The tier-queue update is now Q_j <- max(Q_j + e_j / C_nom, 0), where C_nom is the nominal capacity of the link
+(in the simulations, the mean capacity of the trace; Params.queue_scale overrides it, and queue_scale = 1
+reproduces the earlier unnormalised rule). With e_j in Mbit/s the tier prices grew with the size of the system and
+rose during every shortage even when the service levels were slack, which cost free-tier calls several points of
+RT success at the default scale and about twenty points at four times the default population
+(research/diagnostics/queue_scale_*.py). The deficit bound is unaffected because tier prices cancel in its proof;
+the utility theorem holds with e_j measured in units of C_nom.

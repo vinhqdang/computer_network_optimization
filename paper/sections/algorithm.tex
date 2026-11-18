@@ -12,6 +12,8 @@ For $j\in\{PS,YS,FF\}$, $Q_j(1)=0$ and
 Q_j(t+1)=\max\big(Q_j(t)+e_{j,t},\,0\big).
 \end{equation}
 They induce a per-unit \emph{tier price} $\beta_{P,t}=Q_{PS}(t)$, $\beta_{Y,t}=Q_{YS}(t)$, $\beta_{F,t}=Q_{FF}(t)$: the bonus that a unit of rate delivered to the tier earns in slot $t$.
+Because $e_{j,t}$ is measured as a fraction of the nominal capacity $\bar C$, the tier prices are comparable with the marginal utilities $Vw_gu'(x)$ whatever the size of the link.
+An earlier version of the rule used $e_{j,t}$ in Mbit/s. The prices then grew with the size of the system, and in our experiments they also rose during every shortage, even when the service levels were met with a wide margin, and diverted capacity from free-tier calls to paid elastic traffic; at four times the default population the share of RT slots served fell from about $89\%$ to $69\%$. We found this after the first round of experiments and report all results with the normalised queues; in the simulations $\bar C$ is the mean capacity of the trace.
 
 \paragraph{Deficit queues.}
 When an elastic device $i$ arrives, $D_{i,k}=0$ for every $k\in\cK$. While it is present,
