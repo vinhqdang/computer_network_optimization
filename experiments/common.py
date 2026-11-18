@@ -7,6 +7,7 @@ import numpy as np
 from scipy.stats import t as _t
 
 from repay.mechanisms import PF, WFQ, Credit, PlainDPP, Priority, PriorityCap, Repay
+from repay.baselines_extra import DMMF, FQ, JS, LendRecoup, Potential
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS = os.path.join(ROOT, "results")
@@ -24,24 +25,36 @@ MECHS = {
     "priority": lambda p: Priority(p),
     "credit": lambda p: Credit(p),
     "priority-cap": lambda p: PriorityCap(p),
+    "fq": lambda p: FQ(p),
+    "fq-w": lambda p: FQ(p, weighted=True),
+    "js": lambda p: JS(p, kappa=0.0),
+    "lendrecoup": lambda p: LendRecoup(p),
+    "potential": lambda p: Potential(p),
+    "dmmf": lambda p: DMMF(p),
 }
 
 LABELS = {
     "repay": "REPAY", "repay-wc": "REPAY-WC", "repay-e": "REPAY-E", "no-debt": "No-debt",
     "dpp": "Plain DPP", "pf": "PF", "wfq": "WFQ", "priority": "Priority", "credit": "Credit",
     "priority-cap": "Capped priority",
+    "fq": "FQ", "fq-w": "FQ-w", "js": "JS", "lendrecoup": "LendRecoup", "potential": "Potential",
+    "dmmf": "DMMF",
 }
 
-# Okabe-Ito colour-blind-safe palette (plus one purple for the capped priority baseline)
+# Okabe-Ito colour-blind-safe palette (plus one purple for the capped priority baseline); the six
+# additional baselines (research/04) use brown, teal, magenta, slate, leaf green and dark gold.
 COLORS = {
     "repay": "#0072B2", "repay-wc": "#56B4E9", "repay-e": "#009E73", "no-debt": "#999999",
     "dpp": "#E69F00", "pf": "#CC79A7", "wfq": "#D55E00", "priority": "#000000", "credit": "#F0E442",
     "priority-cap": "#6A3D9A",
+    "fq": "#8C564B", "fq-w": "#17BECF", "js": "#E7298A", "lendrecoup": "#7570B3",
+    "potential": "#66A61E", "dmmf": "#A6761D",
 }
 MARKERS = {
     "repay": "o", "repay-wc": "v", "repay-e": "^", "no-debt": "x",
     "dpp": "s", "pf": "D", "wfq": "P", "priority": "*", "credit": "h",
     "priority-cap": "p",
+    "fq": "<", "fq-w": ">", "js": "d", "lendrecoup": "H", "potential": "+", "dmmf": "X",
 }
 
 
