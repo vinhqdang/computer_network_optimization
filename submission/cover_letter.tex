@@ -1,0 +1,31 @@
+\documentclass[11pt]{letter}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathptmx}
+\signature{Quang-Vinh Dang\\British University Vietnam\\ORCID 0000-0002-3877-8024}
+\address{Quang-Vinh Dang\\British University Vietnam\\Hung Yen, Vietnam\\vinh.dq4@buv.edu.vn}
+\date{November 18, 2026}
+\begin{document}
+\begin{letter}{The Editors\\\textit{Computer Networks}}
+\opening{Dear Editors,}
+
+I submit for consideration in \textit{Computer Networks} the manuscript ``Priority Now, Payback Later: Online Capacity Allocation with Bounded Class Envy for Tiered Internet Access''.
+
+An access point such as a public hotspot or a home gateway carries video calls and games, which need a modest rate in every second, together with downloads, which need volume and can wait. The operator also sells free, premium and pay-as-you-go access on the same link, and knows neither future arrivals nor future capacity. Protecting real-time traffic during shortages is the natural policy, but the class of a flow is in effect declared by the device, so any rule that rewards the declaration ``real-time'' invites every application to make it.
+
+The manuscript proposes \textsc{Repay}, an online allocation rule that grants real-time priority on credit. A delay-tolerant device that is passed over accumulates a deficit that raises its own priority and the price of further priority for real-time flows in its tier. \textsc{Repay} is a drift-plus-penalty method with tier-level virtual queues for business constraints and per-device deficit queues for fairness between classes; each per-slot problem is solved exactly by bisection in about two milliseconds. The main contributions are:
+\begin{itemize}
+\item a bound on every deficit that holds on every sample path, for arbitrary arrivals, departures and capacities, so that class envy over any window is bounded by a constant;
+\item a bound on the gain from misreporting the class (for price-taking devices, and per switch for switching strategies), and an $O(1/V)$ optimality gap with respect to an envy-free benchmark for the fluid allocation with capacity that is independent across slots;
+\item an evaluation against twelve baselines, including classical schedulers and recent proposals from 2025--2026, on synthetic traffic and on trace-driven scenarios built from three public Wi-Fi session logs with public cellular throughput logs, with the exact gain from misreporting computed by re-running the whole simulation for each deviating device.
+\end{itemize}
+
+The evaluation reports the limits of the method as well. When real-time traffic is rare, priority rules serve more real-time slots than \textsc{Repay} at a much larger class envy, and they reward misreporting. In the thin tiers of the trace-driven scenarios a few devices gain more than the bound, which the price-taking analysis does not exclude. The study is simulation-based; it has no packet-level testbed, and the tier shares are estimated from public figures, not measured. These points are stated in the paper.
+
+The manuscript is original, is not under consideration elsewhere, and has not been published. The author has no competing interests to declare. Code, seeds and result files are available at \texttt{https://github.com/vinhqdang/computer\_network\_optimization}.
+
+I believe the work fits the journal's interest in resource management, quality of service and the performance evaluation of network mechanisms, and I thank you for considering it.
+
+\closing{Sincerely,}
+\end{letter}
+\end{document}

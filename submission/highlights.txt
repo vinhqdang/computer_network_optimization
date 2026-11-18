@@ -1,0 +1,5 @@
+Real-time priority is granted on credit and repaid to delay-tolerant devices
+Every per-device deficit is bounded on every sample path, for any capacity
+Misreporting the traffic class gains at most a constant volume per switch
+Evaluated against twelve baselines on synthetic and public Wi-Fi traces
+Priority rules serve more real-time traffic but reward misreporting
