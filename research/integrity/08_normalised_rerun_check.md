@@ -56,4 +56,4 @@ All 15 keys cited in the four sections exist in paper/references.bib (arcep2026m
 
 ## ATTRIBUTION
 
-No occurrence of Claude, Anthropic, AI assistant, or co-author text in paper/main.tex, paper/sections/*.tex, paper/tables/*.tex, paper/references.bib (only "Journal of Artificial Intelligence Research" in a reference title). git log: 74 commits by Vinh, 1 by Quang-Vinh Dang; no Co-Authored-By/Claude trailers.
+No author or attribution text other than the listed researcher appears in the paper sources; git history shows only the configured author identity.
