@@ -16,7 +16,7 @@ from repay.params import Params
 from repay.sim import make_trace, run
 
 T = 3000
-SEEDS = (0, 1)
+SEEDS = (0, 1, 2, 3, 4, 5)
 MECH_NAMES = ("repay", "dpp")
 N_PICK = 20
 MIN_L = 200
@@ -92,7 +92,7 @@ def main():
         for m in MECH_NAMES:
             plan.append((m, s, "truth", None, None))
     print(f"{len(plan)} runs queued", flush=True)
-    res = pmap(_worker, plan, procs=4)
+    res = pmap(_worker, plan, procs=2)
     print(f"runs done in {time.time() - t0:.0f}s", flush=True)
 
     truth = {(r["mech"], r["seed"]): r for r in res if r["tag"] == "truth"}

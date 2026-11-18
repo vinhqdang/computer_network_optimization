@@ -21,7 +21,7 @@ from repay.params import Params
 from repay.sim import make_trace, run
 
 T = 3000
-SEEDS = (0, 1)
+SEEDS = (0, 1, 2, 3, 4, 5)
 N_PICK = 20
 MIN_L = 200
 TAUS = (1, 5, 20, 60)
@@ -92,7 +92,7 @@ def _attack_job(job):
 def main():
     t0 = time.time()
     p = Params()
-    truth = pmap(_truth_job, list(SEEDS), procs=4)
+    truth = pmap(_truth_job, list(SEEDS), procs=2)
     print(f"truthful runs done in {time.time() - t0:.0f}s", flush=True)
 
     jobs, decls, meta = [], {}, {}
@@ -108,7 +108,7 @@ def main():
                 decls[(s, tau, q["dev"])] = decl
                 jobs.append((s, tau, q["dev"], decl))
     print(f"{len(jobs)} attacked runs queued", flush=True)
-    att = pmap(_attack_job, jobs, procs=4)
+    att = pmap(_attack_job, jobs, procs=2)
     print(f"all runs done in {time.time() - t0:.0f}s", flush=True)
     vol_att = {(a["seed"], a["tau"], a["dev"]): a["vol"] for a in att}
 
@@ -131,7 +131,7 @@ def main():
             ))
 
     summary = {}
-    print("\noracle hold-down sweep (hotspot, REPAY, seeds 0 and 1, 20 devices per seed)")
+    print("\noracle hold-down sweep (hotspot, REPAY, six traces: seeds 0 to 5, 20 devices per trace, 120 devices)")
     print(f"{'tau':>4s} {'mean g/slot':>12s} {'median':>9s} {'max':>9s} {'mean rel %':>11s} "
           f"{'pos %':>7s} {'mean K':>7s} {'#>K*B':>6s} {'PT pred':>9s}")
     for tau in TAUS:
@@ -169,7 +169,7 @@ def main():
         tex_rows.append(f"{tau} & {e['mean_gain_per_slot']:.3f} & {e['max_gain_per_slot']:.3f} & {rel} & "
                         f"{e['share_positive_pct']:.1f} & {e['mean_K']:.2f} \\\\")
     tex = "\n".join([
-        "% Source: results/oracle.json, scenario hotspot, seeds 0 and 1, 20 devices per seed",
+        "% Source: results/oracle.json, scenario hotspot, six traces (seeds 0 to 5), 20 devices per trace, 120 devices in total",
         "\\begin{tabular}{rrrrrr}",
         "\\toprule",
         "Hold-down $\\tau$ & Mean gain per slot (Mbit/s) & Max gain per slot (Mbit/s) & "

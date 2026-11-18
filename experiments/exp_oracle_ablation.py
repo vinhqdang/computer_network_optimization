@@ -19,8 +19,10 @@ import numpy as np
 
 from experiments.common import ROOT, RESULTS, pmap, save
 from experiments.exp_continuity import RepayKeep, RepayKeepSticky
-from experiments.exp_oracle import MIN_L, N_PICK, SEEDS, T, trace_of
+from experiments.exp_oracle import MIN_L, N_PICK, T, trace_of
 from experiments.exp_switching import congestion_declaration, count_phases
+
+SEEDS = (0, 1)  # pinned: the ablation stays on the two original traces
 from repay.mechanisms import Repay
 from repay.params import Params
 from repay.sim import run
