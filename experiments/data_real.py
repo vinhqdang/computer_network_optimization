@@ -9,7 +9,7 @@
 The session logs carry no service class or tier. With classes="log" the class of a device is the class
 that classify_sessions assigns to its session from the session's own logged traffic; with classes="random"
 it is drawn with the probabilities of the synthetic hotspot. Tiers are all free (tiers="free") or drawn at
-random (tiers="random"). Draws are made in a fixed documented order (see make_real_trace).
+random (tiers="random" with the synthetic split, tiers="estimated" with TIER_P_EST). Draws are made in a fixed documented order (see make_real_trace).
 
 classify_sessions is a heuristic on session averages (two-way traffic at call-like rates is video, two-way
 traffic at low rates with small downlink packets is gaming). It is not a validated classifier.

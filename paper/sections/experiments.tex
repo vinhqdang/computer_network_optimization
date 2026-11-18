@@ -297,22 +297,23 @@ We now build them from public logs. The result is a trace-driven scenario, not t
 \paragraph{Construction.}
 Arrivals, stays, demand levels and service classes come from the session logs that the City of Paris publishes for its public Wi-Fi network \citep{pariswifi2026}, which give, for every session, its start, its duration and the bytes and packets transferred in each direction.
 We take a site with a large population (code PW0127, ``Quartier Jeunes'' in the data), the six days with the most sessions since January 2025 and, in each, the two hours with the highest occupancy; a second, smaller site (PW0232, the Petit Palais museum) serves as a check.
-These are the busiest days by construction and four of the six are consecutive Thursdays, so the traces are not an independent sample of days.
+These are the busiest days by construction and all six are Thursdays, four of them consecutive, so the traces are not an independent sample of days.
 A device is a session: the network limits connections to two hours, so a user who reconnects counts as a new device, and the roughly one hundred sessions already open at the start of a window enter with zero deficits and are observed only for the part of their stay that falls in the window.
 
 The \emph{class} of a device is inferred from the traffic of its session.
-A session is taken to be a video call if its traffic is two-way, with a ratio of uplink to downlink bytes between $1/3$ and $3$, and its mean uplink rate is at least $0.1$~Mbit/s; to be a game if it is two-way at a lower rate with a mean downlink packet below $700$ bytes; and to be elastic otherwise.
-This is a heuristic on session averages and not a validated classifier, so we also report a stricter rule (ratio between $1/2$ and $2$, uplink at least $0.2$~Mbit/s).
+A session is taken to be a video call if its traffic is two-way, with a ratio of uplink to downlink bytes between $1/3$ and $3$, and its mean uplink rate is at least $0.1$~Mbit/s; to be a game if it is two-way at a lower uplink rate (at least $0.01$~Mbit/s) with a mean downlink packet below $700$ bytes; and to be elastic otherwise.
+This is a heuristic on session averages and not a validated classifier, so we also report a stricter rule (ratio between $1/2$ and $2$ for both classes, uplink at least $0.2$~Mbit/s for video).
+Only the class is taken from the log: a device classified as real-time has the rate requirements of the model ($\rmin_{\mathrm{v}}$, $\rmax_{\mathrm{v}}$, $r_{\mathrm{g}}$), not its logged rate.
 Table~\ref{tab:real-classes} gives the resulting shares: $8\%$ of the sessions of the main site are video-like and $2\%$ game-like, against the $25\%$ and $10\%$ that we assumed in the synthetic hotspot.
 For an elastic device the demand cap is set so that its mean demand equals the mean downlink rate observed for its session (median cap $0.29$ to $0.52$~Mbit/s), with on--off periods as before.
 
 The logs contain no \emph{tier}, since the network is free.
-We draw tiers at random from an estimate assembled from two public figures: $11.6\%$ of the passengers of a commercial in-flight Wi-Fi service bought a session in 2018 \citep{gogo2019tenk}, which we take as the share of paying users, and $8\%$ of mobile users in metropolitan France are on prepaid cards \citep{arcep2026mobile}, which we take as the share of pay-as-you-go among paying users.
+We draw tiers at random from an estimate assembled from two public figures: the connectivity sessions of a commercial in-flight Wi-Fi service equalled $11.6\%$ of its passengers in North America in 2018, sessions paid by third parties or airlines included \citep{gogo2019tenk}, which we take as a proxy for the share of paying users, and $8\%$ of mobile users in metropolitan France are on prepaid cards \citep{arcep2026mobile}, which we take as the share of pay-as-you-go among paying users.
 This gives $88.4\%$ free, $10.7\%$ premium and $0.9\%$ PAYG. It is a rough estimate from unrelated markets; a variant with every device in the free tier is reported as well.
 
 \emph{Capacity} follows the throughput logs, at roughly one sample per second, that \citet{riiser2013commute} recorded in a 3G network on metro, tram, train, bus and ferry routes in Oslo, which has nothing to do with the Paris network; we treat each sample as one slot (gaps in the logs are skipped), concatenate the logs in random order and scale them by a constant so that mean capacity is a multiple (the \emph{load}, $1$ by default) of the mean nominal demand.
 Table~\ref{tab:real-traces} describes the traces.
-Compared with the synthetic hotspot, about $120$ devices are present instead of $75$, stays last three quarters of an hour instead of four minutes, real-time traffic is three times rarer, elastic demand is light, and capacity is far more variable, with a coefficient of variation of $0.70$ to $0.84$ and deep fades.
+Compared with the synthetic hotspot, about $120$ devices are present instead of $75$, the median stay in the window is $35$ to $48$ minutes instead of a mean of four minutes, real-time traffic is three times rarer, elastic demand is light, and capacity is far more variable, with a coefficient of variation of $0.70$ to $0.84$ and deep fades.
 All parameters of the rules, including $V=20$ and the cap $q=0.3$, are those of the synthetic experiments and were not retuned.
 
 \begin{table}[t]
@@ -360,11 +361,11 @@ All parameters of the rules, including $V=20$ and the cap $q=0.3$, are those of 
 \paragraph{Truthful devices.}
 Table~\ref{tab:real-compare} repeats the comparison of Section~\ref{sec:exp-compare}.
 \repay{} serves $82.0\%$ of RT slots against $75.4\%$ for \textsc{PF}; the paired difference over the six traces is $6.6\pm0.9$ points, at an elastic rate lower by $0.004\pm0.002$~Mbit/s.
-Its class envy is $42$~Mbit on average and at most $67$~Mbit, and no deficit exceeds $0.39$ of its bound in any run.
-The rules that give RT flows priority do much better on RT success here than on the synthetic traces: plain DPP serves $11.9\pm2.5$ points more RT slots than \repay{}, \textsc{WFQ} $12.1\pm3.4$ and \textsc{Priority} $15.0\pm3.8$, while the elastic rate falls by only $0.04$ to $0.12$~Mbit/s.
-The reason is the traffic mix. When one device in ten is real-time, serving all of them first costs the other nine little on average, although the cost is concentrated: class envy under these rules is $2500$ to $5400$~Mbit.
+Its class envy is $42$~Mbit on average and at most $67$~Mbit, and no deficit exceeds $0.38$ of its bound in any run.
+The rules that give RT flows priority do much better on RT success here than on the synthetic traces: plain DPP serves $11.9\pm2.5$ points more RT slots than \repay{}, \textsc{WFQ} $12.1\pm3.4$ and \textsc{Priority} $15.0\pm3.8$, while the elastic rate falls by $0.04$ to $0.12$~Mbit/s, that is by $9\%$ under plain DPP and $27$--$28\%$ under \textsc{WFQ} and \textsc{Priority}.
+The reason is the traffic mix. When one device in ten is real-time, serving all of them first costs the other nine less on average than in the synthetic hotspot, and the cost is concentrated: class envy under these rules is $2500$ to $5400$~Mbit.
 Capped priority with the untuned cap $q=0.3$ sits in between, with $9.3\pm3.0$ points more RT slots than \repay{} at the same elastic rate and class envy of $1160$~Mbit.
-The premium service level is met on average by every rule; \textsc{Priority} falls below the target on two of the six traces.
+The premium service level is met on average by every rule; \textsc{Priority} falls below the target on two of the six traces, and \textsc{WFQ} and \textsc{Credit} on one each.
 The pattern is the same at loads $0.7$ and $1.5$ (Table~\ref{tab:real-load}), on the second site ($82.5\%$ for \repay{} against $76.7\%$ for \textsc{PF} and $92.5\%$ for plain DPP), under the stricter classification rule and with all devices free (Table~\ref{tab:real-variants}).
 
 Two observations go against \repay{} as we configured it.

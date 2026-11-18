@@ -2,10 +2,11 @@
 
 Traces come from experiments.data_real (Paris Wi-Fi sessions for PW0127 and PW0232, HSDPA capacity logs).
 Each trace is a 7200-slot day window, k = 0 to 5. Three variants differ in how classes and tiers are set:
-  main:   classes from the logged traffic (classify_sessions, default rule), all devices on the free tier.
+  main:   classes from the logged traffic (classify_sessions, default rule), tiers drawn from the estimated
+          split of experiments.data_real.TIER_P_EST.
           Part 1 at PW0127 loads 0.7, 1.0, 1.5 and at PW0232 load 1.0.
   strict: as main, with the strict rule (sym in [0.5, 2], up_min 0.2). Part 1 at PW0127 load 1.0.
-  tiers:  as main, with tiers drawn at random (0.6, 0.25, 0.15). The tier split is an assumption.
+  tiers:  as main, with every device on the free tier (as in the logged network).
           Part 1 at PW0127 load 1.0.
 
 Part 1 (truthful devices): REPAY, no-debt, plain DPP, PF, WFQ, Priority, capped priority with q = 0.3, and
