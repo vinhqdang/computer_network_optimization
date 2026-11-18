@@ -1,17 +1,17 @@
-% Source: results/real_compare.json (experiments/exp_real.py); site PW0127, load 1.0; mean $\pm$ 95% Student-t half-width over six traces. Strict rule: sym in [0.5, 2], up_min 0.2. Random tiers: tiers drawn per device with probabilities (0.6, 0.25, 0.15).
-\begin{tabular}{lrrrrrrr}
+% Source: results/real_compare.json (experiments/exp_real.py); site PW0127, load 1.0; mean $\pm$ 95% Student-t half-width over six traces. Strict rule: sym in [0.5, 2], up_min 0.2. All free: every device in the free tier (as in the logged network).
+\begin{tabular}{lrrrrrr}
 \toprule
- & \multicolumn{3}{c}{strict rule} & \multicolumn{4}{c}{random tiers} \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-8}
-Mechanism & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) & Premium served ratio \\
+ & \multicolumn{3}{c}{strict rule} & \multicolumn{3}{c}{all devices free} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Mechanism & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) \\
 \midrule
-REPAY & 87.3 $\pm$ 2.2 & 0.44 $\pm$ 0.08 & 13.12 $\pm$ 8.50 & 81.4 $\pm$ 2.8 & 0.43 $\pm$ 0.08 & 24.03 $\pm$ 4.93 & 0.987 $\pm$ 0.017 \\
-No-debt & 93.6 $\pm$ 1.7 & 0.45 $\pm$ 0.08 & 34.92 $\pm$ 7.02 & 86.8 $\pm$ 2.6 & 0.44 $\pm$ 0.07 & 53.67 $\pm$ 9.60 & 0.964 $\pm$ 0.016 \\
-Plain DPP & 98.7 $\pm$ 1.0 & 0.42 $\pm$ 0.07 & 2472.93 $\pm$ 399.79 & 90.8 $\pm$ 2.8 & 0.39 $\pm$ 0.07 & 2142.79 $\pm$ 281.51 & 1.012 $\pm$ 0.021 \\
-PF & 78.4 $\pm$ 3.6 & 0.45 $\pm$ 0.08 & 0.00 $\pm$ 0.00 & 77.2 $\pm$ 2.9 & 0.44 $\pm$ 0.07 & 0.00 $\pm$ 0.00 & 0.983 $\pm$ 0.014 \\
-WFQ & 97.7 $\pm$ 1.7 & 0.40 $\pm$ 0.08 & 4752.11 $\pm$ 1483.99 & 93.5 $\pm$ 2.3 & 0.33 $\pm$ 0.07 & 4761.39 $\pm$ 946.31 & 0.951 $\pm$ 0.045 \\
-Priority & 98.7 $\pm$ 1.0 & 0.40 $\pm$ 0.08 & 4745.05 $\pm$ 1484.87 & 97.0 $\pm$ 1.3 & 0.32 $\pm$ 0.07 & 5557.55 $\pm$ 1337.06 & 0.886 $\pm$ 0.046 \\
-Capped priority ($q=0.3$) & 95.8 $\pm$ 1.9 & 0.42 $\pm$ 0.07 & 3161.33 $\pm$ 240.75 & 91.2 $\pm$ 2.1 & 0.43 $\pm$ 0.07 & 1398.66 $\pm$ 422.10 & 0.883 $\pm$ 0.027 \\
-Credit & 69.6 $\pm$ 3.8 & 0.45 $\pm$ 0.08 & 235.38 $\pm$ 186.26 & 60.6 $\pm$ 4.7 & 0.46 $\pm$ 0.07 & 326.39 $\pm$ 248.71 & 0.853 $\pm$ 0.042 \\
+REPAY & 87.0 $\pm$ 3.1 & 0.44 $\pm$ 0.08 & 15.78 $\pm$ 4.53 & 83.7 $\pm$ 3.6 & 0.45 $\pm$ 0.07 & 56.00 $\pm$ 14.80 \\
+No-debt & 92.7 $\pm$ 2.8 & 0.44 $\pm$ 0.08 & 45.15 $\pm$ 5.80 & 90.4 $\pm$ 2.6 & 0.45 $\pm$ 0.07 & 34.84 $\pm$ 3.65 \\
+Plain DPP & 96.7 $\pm$ 3.1 & 0.42 $\pm$ 0.08 & 2223.60 $\pm$ 420.08 & 97.1 $\pm$ 1.2 & 0.40 $\pm$ 0.07 & 2664.79 $\pm$ 233.44 \\
+PF & 79.8 $\pm$ 5.4 & 0.44 $\pm$ 0.08 & 0.00 $\pm$ 0.00 & 76.1 $\pm$ 4.2 & 0.45 $\pm$ 0.07 & 0.00 $\pm$ 0.00 \\
+WFQ & 97.3 $\pm$ 2.0 & 0.40 $\pm$ 0.08 & 4226.98 $\pm$ 907.16 & 95.0 $\pm$ 2.0 & 0.32 $\pm$ 0.07 & 5367.10 $\pm$ 1073.94 \\
+Priority & 98.6 $\pm$ 1.0 & 0.40 $\pm$ 0.08 & 4433.03 $\pm$ 915.53 & 97.1 $\pm$ 1.2 & 0.32 $\pm$ 0.07 & 5363.43 $\pm$ 1073.40 \\
+Capped priority ($q=0.3$) & 95.6 $\pm$ 2.2 & 0.42 $\pm$ 0.08 & 3194.39 $\pm$ 363.56 & 91.5 $\pm$ 2.2 & 0.43 $\pm$ 0.07 & 991.82 $\pm$ 365.81 \\
+Credit & 71.4 $\pm$ 4.5 & 0.45 $\pm$ 0.08 & 284.40 $\pm$ 161.43 & 59.0 $\pm$ 5.3 & 0.47 $\pm$ 0.07 & 149.32 $\pm$ 150.79 \\
 \bottomrule
 \end{tabular}
