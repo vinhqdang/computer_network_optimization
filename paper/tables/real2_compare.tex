@@ -1,0 +1,22 @@
+% Source: results/real2_compare.json (experiments/exp_real2.py); load 1.0; mean $\pm$ 95% Student-t half-width over six traces per scenario.
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Grand Paris Sud / Ghent 4G logs} & \multicolumn{3}{c}{City of Mesa / RACA 4G traces} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Mechanism & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) & RT success (\%) & Elastic rate (Mbit/s) & Max class envy (Mbit) \\
+\midrule
+REPAY & 89.3 $\pm$ 5.8 & 0.31 $\pm$ 0.07 & 16.03 $\pm$ 15.98 & 54.2 $\pm$ 12.9 & 0.05 $\pm$ 0.01 & 10.40 $\pm$ 4.44 \\
+No-debt ($V=5$) & 94.0 $\pm$ 3.4 & 0.32 $\pm$ 0.07 & 8.40 $\pm$ 4.33 & 54.2 $\pm$ 12.4 & 0.05 $\pm$ 0.01 & 6.03 $\pm$ 2.88 \\
+Plain DPP & 97.5 $\pm$ 1.1 & 0.29 $\pm$ 0.08 & 1451.26 $\pm$ 1188.41 & 58.6 $\pm$ 14.4 & 0.05 $\pm$ 0.01 & 99.52 $\pm$ 93.42 \\
+PF & 84.5 $\pm$ 7.1 & 0.32 $\pm$ 0.07 & 0.00 $\pm$ 0.00 & 40.0 $\pm$ 11.7 & 0.05 $\pm$ 0.01 & 0.00 $\pm$ 0.00 \\
+WFQ & 96.8 $\pm$ 2.2 & 0.26 $\pm$ 0.10 & 2498.33 $\pm$ 2010.18 & 57.3 $\pm$ 12.3 & 0.04 $\pm$ 0.02 & 181.80 $\pm$ 136.43 \\
+Priority & 97.7 $\pm$ 0.9 & 0.25 $\pm$ 0.10 & 2585.37 $\pm$ 2117.20 & 60.5 $\pm$ 12.3 & 0.04 $\pm$ 0.02 & 169.22 $\pm$ 133.82 \\
+Capped priority ($q=0.3$) & 93.4 $\pm$ 4.0 & 0.32 $\pm$ 0.08 & 621.23 $\pm$ 882.82 & 26.8 $\pm$ 12.5 & 0.06 $\pm$ 0.02 & 0.56 $\pm$ 0.86 \\
+Credit & 65.6 $\pm$ 15.1 & 0.33 $\pm$ 0.07 & 263.71 $\pm$ 185.95 & 31.3 $\pm$ 12.3 & 0.06 $\pm$ 0.02 & 10.22 $\pm$ 11.32 \\
+FQ-w & 84.9 $\pm$ 7.1 & 0.32 $\pm$ 0.07 & 0.00 $\pm$ 0.00 & 33.3 $\pm$ 13.0 & 0.06 $\pm$ 0.02 & 0.00 $\pm$ 0.00 \\
+JS & 90.1 $\pm$ 1.0 & 0.30 $\pm$ 0.08 & 940.91 $\pm$ 890.88 & 58.6 $\pm$ 12.8 & 0.05 $\pm$ 0.02 & 102.92 $\pm$ 111.56 \\
+LendRecoup & 69.2 $\pm$ 15.0 & 0.33 $\pm$ 0.07 & 131.47 $\pm$ 87.15 & 33.0 $\pm$ 13.0 & 0.06 $\pm$ 0.02 & 3.11 $\pm$ 4.05 \\
+Potential & 97.7 $\pm$ 0.9 & 0.31 $\pm$ 0.08 & 750.86 $\pm$ 592.17 & 60.5 $\pm$ 12.2 & 0.05 $\pm$ 0.02 & 86.40 $\pm$ 87.46 \\
+DMMF & 69.0 $\pm$ 15.0 & 0.33 $\pm$ 0.07 & 130.63 $\pm$ 87.68 & 33.0 $\pm$ 13.0 & 0.06 $\pm$ 0.02 & 2.73 $\pm$ 3.99 \\
+\bottomrule
+\end{tabular}

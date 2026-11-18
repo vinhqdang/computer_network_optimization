@@ -1,0 +1,15 @@
+% Source: results/real2_deviation.json (experiments/exp_real2.py); load 1.0; six traces per scenario, 20 true-elastic devices per trace (stay of at least 60 slots). Devices above bound: gain greater than B (REPAY family only).
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Grand Paris Sud / Ghent 4G logs} & \multicolumn{3}{c}{City of Mesa / RACA 4G traces} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Mechanism & Median rel.\ gain (\%) & Devices gaining (\%) & Devices above bound & Median rel.\ gain (\%) & Devices gaining (\%) & Devices above bound \\
+\midrule
+REPAY & 0.08 & 50.8 & 5 & -7.01 & 23.3 & 0 \\
+No-debt ($V=5$) & 3.09 & 80.8 & 13 & -8.50 & 24.2 & 2 \\
+Plain DPP & 3.27 & 85.8 & -- & 0.00 & 40.8 & -- \\
+Priority & 17.20 & 95.8 & -- & 4.42 & 58.3 & -- \\
+Capped priority ($q=0.3$) & -2.12 & 27.5 & -- & -59.47 & 0.0 & -- \\
+PF & 0.00 & 0.0 & -- & 0.00 & 0.0 & -- \\
+\bottomrule
+\end{tabular}
