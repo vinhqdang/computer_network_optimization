@@ -52,11 +52,31 @@ class Repay:
         self.debt_price = debt_price
         self.deficits = deficits
         self.beta_override = beta_override
+        self.C_nom = None
         self.reset()
+
+    def set_nominal_capacity(self, C_nom):
+        """Nominal link capacity used to normalise the tier-queue updates (see Params.queue_scale)."""
+        self.C_nom = float(C_nom) if C_nom else None
+
+    def _queue_factor(self):
+        p = self.p
+        if p.queue_scale is not None:
+            return float(p.queue_scale)
+        if self.C_nom:
+            return 1.0 / self.C_nom
+        return 1.0 / max(self._C_sum / max(self._C_n, 1), 1e-9)
+
+    def _update_Q(self, eps, C):
+        """Tier-queue update with normalised violations."""
+        self._C_sum += float(C)
+        self._C_n += 1
+        self.Q = np.maximum(self.Q + self._queue_factor() * eps, 0.0)
 
     def reset(self):
         """Clear all state (queues, deficits, incumbents)."""
         self.Q = np.zeros(3)  # order [PS, YS, FF]
+        self._C_sum, self._C_n = 0.0, 0
         self.D = {}
         self.prev_decl = {}
         self.incumbents = set()
@@ -223,7 +243,7 @@ class Repay:
         eps = np.array([p.theta_P * com[1] - rho[1],
                         p.theta_Y * com[2] - rho[2],
                         min(p.phi * C, dem[0]) - rho[0]])
-        self.Q = np.maximum(self.Q + p.queue_scale * eps, 0.0)
+        self._update_Q(eps, C)
 
         Dmat = np.zeros((n, 2))
         if ne:

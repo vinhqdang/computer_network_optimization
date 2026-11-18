@@ -32,7 +32,10 @@ class Params:
     commit: tuple = (float("inf"), 2.0, 1.5)  # committed rate per device, by tier
     varpi: float = 0.0
     price: float = 1.0
-    queue_scale: float = 1.0  # tier-queue updates are multiplied by this factor (1 = original rule)
+    # Tier-queue updates are multiplied by queue_scale. None (default): divide by the nominal capacity of the
+    # link, set by repay.sim.run to the mean capacity of the trace (or, if unset, the running mean of the
+    # capacities observed so far). 1.0 reproduces the unnormalised rule of earlier versions.
+    queue_scale: float = None
 
     def __post_init__(self):
         if self.alpha != 1.0:

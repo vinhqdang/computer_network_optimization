@@ -158,7 +158,7 @@ def _allocate_repay(self, view):
     eps = np.array([p.theta_P * com[1] - rho[1],
                     p.theta_Y * com[2] - rho[2],
                     min(p.phi * C, dem[0]) - rho[0]])
-    self.Q = np.maximum(self.Q + eps, 0.0)
+    self._update_Q(eps, C)
 
     Dmat = np.zeros((n, 2))
     if ne:

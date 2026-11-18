@@ -160,6 +160,11 @@ def run(trace, mech, params: Params, declare=None, record_series=False):
     Bmat = np.array([[p.B(g, k) for k in (1, 2)] for g in range(3)])
 
     mech.reset()
+    m_ = mech
+    while m_ is not None:
+        if hasattr(m_, "set_nominal_capacity"):
+            m_.set_nominal_capacity(float(np.mean(Cs)) if T else None)
+        m_ = getattr(m_, "inner", None)
     t0 = time.perf_counter()
     for t in range(T):
         act = np.flatnonzero((t_arr <= t) & (t < tend))
