@@ -291,17 +291,36 @@ The experiments therefore do not show that a hold-down is needed in practice; in
 
 \subsection{Trace-driven evaluation}\label{sec:exp-real}
 
-The experiments so far use synthetic arrivals, stays, demands and capacity.
+The experiments so far use synthetic arrivals, stays, demands, classes and capacity.
 We now build them from public logs. The result is a trace-driven scenario, not the trace of one operator.
-Arrivals, stays and demand levels come from the session logs that the City of Paris publishes for its public Wi-Fi network \citep{pariswifi2026}, which give, for every session, its start, its duration and the bytes transferred.
+
+\paragraph{Construction.}
+Arrivals, stays, demand levels and service classes come from the session logs that the City of Paris publishes for its public Wi-Fi network \citep{pariswifi2026}, which give, for every session, its start, its duration and the bytes and packets transferred in each direction.
 We take a site with a large population (code PW0127, ``Quartier Jeunes'' in the data), the six days with the most sessions since January 2025 and, in each, the two hours with the highest occupancy; a second, smaller site (PW0232, the Petit Palais museum) serves as a check.
 These are the busiest days by construction and four of the six are consecutive Thursdays, so the traces are not an independent sample of days.
 A device is a session: the network limits connections to two hours, so a user who reconnects counts as a new device, and the roughly one hundred sessions already open at the start of a window enter with zero deficits and are observed only for the part of their stay that falls in the window.
-Capacity follows the throughput logs, at roughly one sample per second, that \citet{riiser2013commute} recorded in a 3G network on metro, tram, train, bus and ferry routes in Oslo, which has nothing to do with the Paris network; we treat each sample as one slot (gaps in the logs are skipped), concatenate the logs in random order and scale them by a constant so that mean capacity is a multiple (the \emph{load}, $1$ by default) of the mean nominal demand.
+
+The \emph{class} of a device is inferred from the traffic of its session.
+A session is taken to be a video call if its traffic is two-way, with a ratio of uplink to downlink bytes between $1/3$ and $3$, and its mean uplink rate is at least $0.1$~Mbit/s; to be a game if it is two-way at a lower rate with a mean downlink packet below $700$ bytes; and to be elastic otherwise.
+This is a heuristic on session averages and not a validated classifier, so we also report a stricter rule (ratio between $1/2$ and $2$, uplink at least $0.2$~Mbit/s).
+Table~\ref{tab:real-classes} gives the resulting shares: $8\%$ of the sessions of the main site are video-like and $2\%$ game-like, against the $25\%$ and $10\%$ that we assumed in the synthetic hotspot.
+For an elastic device the demand cap is set so that its mean demand equals the mean downlink rate observed for its session (median cap $0.29$ to $0.52$~Mbit/s), with on--off periods as before.
+
+The logs contain no \emph{tier}, since the network is free.
+We draw tiers at random from an estimate assembled from two public figures: $11.6\%$ of the passengers of a commercial in-flight Wi-Fi service bought a session in 2018 \citep{gogo2019tenk}, which we take as the share of paying users, and $8\%$ of mobile users in metropolitan France are on prepaid cards \citep{arcep2026mobile}, which we take as the share of pay-as-you-go among paying users.
+This gives $88.4\%$ free, $10.7\%$ premium and $0.9\%$ PAYG. It is a rough estimate from unrelated markets; a variant with every device in the free tier is reported as well.
+
+\emph{Capacity} follows the throughput logs, at roughly one sample per second, that \citet{riiser2013commute} recorded in a 3G network on metro, tram, train, bus and ferry routes in Oslo, which has nothing to do with the Paris network; we treat each sample as one slot (gaps in the logs are skipped), concatenate the logs in random order and scale them by a constant so that mean capacity is a multiple (the \emph{load}, $1$ by default) of the mean nominal demand.
 Table~\ref{tab:real-traces} describes the traces.
-They differ from our synthetic hotspot in ways that matter: about $120$ devices are present instead of $75$, stays last three quarters of an hour instead of four minutes, elastic demand is light (the demand cap of an elastic device is set so that its mean demand equals the mean rate observed for its session; the median cap is $0.28$ to $0.64$~Mbit/s, below the minimum video rate in five of the six traces), and capacity is far more variable, with a coefficient of variation of $0.70$ to $0.84$ and deep fades.
-The observed bytes determine only a third to a half of the nominal demand; the rest is the demand of the randomly assigned video and gaming flows.
-The logs carry neither a service class nor a commercial tier, so these are drawn at random with the same probabilities as before, as are the on--off periods of elastic devices; all parameters of the rules, including $V=20$ and the cap $q=0.3$, are those of the synthetic experiments and were not retuned.
+Compared with the synthetic hotspot, about $120$ devices are present instead of $75$, stays last three quarters of an hour instead of four minutes, real-time traffic is three times rarer, elastic demand is light, and capacity is far more variable, with a coefficient of variation of $0.70$ to $0.84$ and deep fades.
+All parameters of the rules, including $V=20$ and the cap $q=0.3$, are those of the synthetic experiments and were not retuned.
+
+\begin{table}[t]
+\centering
+\caption{Share of sessions classified as video-like and game-like, and median session rates of each group (sessions since January 2025).}
+\label{tab:real-classes}
+\resizebox{0.85\linewidth}{!}{\input{tables/real_classes}}
+\end{table}
 
 \begin{table}[t]
 \centering
@@ -312,9 +331,9 @@ The logs carry neither a service class nor a commercial tier, so these are drawn
 
 \begin{table}[t]
 \centering
-\caption{Trace-driven scenario, site PW0127, load $1$, truthful devices (mean over six traces $\pm$ half-width of the 95\% interval).}
+\caption{Trace-driven scenario, site PW0127, load $1$, truthful devices (mean over six traces $\pm$ half-width of the 95\% interval). The premium target is $0.8$.}
 \label{tab:real-compare}
-\resizebox{0.9\linewidth}{!}{\input{tables/real_compare}}
+\resizebox{\linewidth}{!}{\input{tables/real_compare}}
 \end{table}
 
 \begin{table}[t]
@@ -326,6 +345,13 @@ The logs carry neither a service class nor a commercial tier, so these are drawn
 
 \begin{table}[t]
 \centering
+\caption{Trace-driven scenario, site PW0127, load $1$: sensitivity to the classification rule and to the tier assumption.}
+\label{tab:real-variants}
+\resizebox{\linewidth}{!}{\input{tables/real_variants}}
+\end{table}
+
+\begin{table}[t]
+\centering
 \caption{Trace-driven scenario, site PW0127, load $1$: one elastic device declares video for its whole stay ($120$ devices on six traces).}
 \label{tab:real-dev}
 \resizebox{0.9\linewidth}{!}{\input{tables/real_deviation}}
@@ -333,27 +359,29 @@ The logs carry neither a service class nor a commercial tier, so these are drawn
 
 \paragraph{Truthful devices.}
 Table~\ref{tab:real-compare} repeats the comparison of Section~\ref{sec:exp-compare}.
-The ordering of the rules on RT success, elastic rate and envy is the same as on the synthetic traces, with the exception of capped priority discussed below.
-\repay{} serves $81.5\%$ of RT slots against $75.8\%$ for \textsc{PF}; the paired difference over the six traces is $5.7\pm1.3$ points, with an elastic rate lower by $0.010\pm0.004$~Mbit/s.
-Plain DPP serves $4.9\pm0.8$ points more than \repay{} with an elastic rate lower by almost a quarter and class envy of $2400$~Mbit; \textsc{WFQ} serves $4.6\pm1.2$ points more than \repay{} and \textsc{Priority} $12.5\pm2.8$ more, while cutting the elastic rate to less than half and reaching envy above $5000$~Mbit.
-The class envy of \repay{} is $46$~Mbit on average and at most $57$~Mbit, and no deficit of \repay{} exceeds $0.48$ of its bound in any run, including those at other loads and with a misreporting device.
-The same holds at loads $0.7$ and $1.5$ (Table~\ref{tab:real-load}) and on the second site, where \repay{} serves $85.1\%$ of RT slots against $78.7\%$ for \textsc{PF}.
+\repay{} serves $82.0\%$ of RT slots against $75.4\%$ for \textsc{PF}; the paired difference over the six traces is $6.6\pm0.9$ points, at an elastic rate lower by $0.004\pm0.002$~Mbit/s.
+Its class envy is $42$~Mbit on average and at most $67$~Mbit, and no deficit exceeds $0.39$ of its bound in any run.
+The rules that give RT flows priority do much better on RT success here than on the synthetic traces: plain DPP serves $11.9\pm2.5$ points more RT slots than \repay{}, \textsc{WFQ} $12.1\pm3.4$ and \textsc{Priority} $15.0\pm3.8$, while the elastic rate falls by only $0.04$ to $0.12$~Mbit/s.
+The reason is the traffic mix. When one device in ten is real-time, serving all of them first costs the other nine little on average, although the cost is concentrated: class envy under these rules is $2500$ to $5400$~Mbit.
+Capped priority with the untuned cap $q=0.3$ sits in between, with $9.3\pm3.0$ points more RT slots than \repay{} at the same elastic rate and class envy of $1160$~Mbit.
+The premium service level is met on average by every rule; \textsc{Priority} falls below the target on two of the six traces.
+The pattern is the same at loads $0.7$ and $1.5$ (Table~\ref{tab:real-load}), on the second site ($82.5\%$ for \repay{} against $76.7\%$ for \textsc{PF} and $92.5\%$ for plain DPP), under the stricter classification rule and with all devices free (Table~\ref{tab:real-variants}).
 
-The capped priority that looked best on the synthetic hotspot does not transfer.
-With the same cap $q=0.3$ it serves no more RT slots than \repay{} ($81.1\%$; paired difference $0.4\pm2.0$ points), its utility is lower by $15$ because premium calls are held near the minimum rate, and it delivers only $0.60$ of the committed premium demand, below the target of $0.8$ that \repay{} and \textsc{PF} meet ($1.01$ and $1.03$).
-In exchange it gives elastic devices more ($0.52$ against $0.42$~Mbit/s) and has the lowest envy of the class-aware rules ($9$~Mbit).
-The cap $q=0.3$ that suited the synthetic mix is thus not right for this one, which is the weakness we anticipated in Section~\ref{sec:exp-compare}; we did not test other values of $q$ on these traces.
+Two observations go against \repay{} as we configured it.
+With a realistic share of real-time traffic the envy bound at $V=20$ is costly: \repay{} gives up twelve to fifteen points of RT success to keep envy below its bound, and whether that is a good trade depends on how much the operator values the guarantee to each elastic device.
+And the variant without the debt price (No-debt) serves $6.5\pm1.5$ points more RT slots than \repay{} at the same elastic rate and with the same average envy ($43$ against $42$~Mbit, and less with all devices free), so on these traces the debt price costs RT success without a clear benefit; it does help under the stricter rule, where envy is $16$ against $45$~Mbit.
 
 \paragraph{Misreporting.}
 Table~\ref{tab:real-dev} repeats the unilateral deviation of Section~\ref{sec:exp-strategic} for $20$ elastic devices per trace.
-Under \textsc{Priority} and \textsc{WFQ} every device gains, and the median device gains $219\%$ and $162\%$; under plain DPP $98\%$ gain and the median gain is $26\%$.
-Under \repay{} the median gain is $1.4\%$ and the pooled gain $0.6\%$.
-These gains are small, but two things are less favourable than on the synthetic traces.
-First, $74\%$ of the sampled devices gain something from this one deviation, so on these traces truthful declaration is not a best response for most of them, only nearly one.
-Second, three of the $120$ devices gain more than the bound $B_{g,\mathrm{v}}$ of Theorem~\ref{thm:static}, by factors $1.5$, $1.6$ and $2.1$ (between $64$ and $92$~Mbit over stays of $46$ minutes to two hours in the window, or $2$ to $11\%$ of the device's volume).
-This does not contradict the theorem, whose price-taking hypothesis is not satisfied here, but it shows that the correction term discussed after the theorem is not negligible.
-We checked that these gains are not noise (perturbing capacity by $0.05\%$ moves the volumes by at most $0.2$~Mbit) and not an artefact of how volume is counted. They are not a simple accumulation either: for the device with the largest gain, declaring video during any one third of its stay changes its volume by $-37$ to $+8$~Mbit, against $+92$ for the whole stay, so the gain requires a sustained declaration and we cannot attribute it to a constant advantage per slot.
-Capped priority leaves no gain to misreporting on these traces ($-16\%$ in the median), at the cost described above.
+Under \textsc{Priority} and \textsc{WFQ} every device gains, with a median gain of about $65\%$; under plain DPP every device gains and the median gain is $24\%$; under capped priority $66\%$ of the devices gain, with a median of $3.7\%$.
+Under \repay{} the median change is $-0.2\%$, the pooled change $-0.7\%$, and $48\%$ of the sampled devices gain something from this one deviation.
+
+The bound of Theorem~\ref{thm:static} is exceeded, however, by $10$ of the $120$ devices.
+Nine of them are in the free tier and gain between $1.0$ and $1.8$ times $B_{F,\mathrm{v}}$, that is $44$ to $78$~Mbit or $3$ to $18\%$ of their volume, over stays of ten minutes to two hours in the window.
+The tenth is a premium device that gains $812$~Mbit, almost ten times its bound and $13\%$ of its volume.
+The premium tier of that trace has $25$ devices and two video flows, so the device is often the only video flow of its tier and its reference on the truthful path is zero: this is the empty-group case in which the price-taking hypothesis fails outright (Section~\ref{sec:ic}).
+With the entrant offer of \textsc{Repay-E} the same device gains $197$~Mbit, still more than twice its bound.
+None of this contradicts the theorem, whose hypothesis is not satisfied, and every deficit stays below its bound as Theorem~\ref{thm:bound} requires; but it shows that in thin tiers and over long stays the incentive guarantee is weaker than the bound suggests, and that the gains, although small relative to those under the other class-aware rules, are not confined to the constant $B$.
 
 \subsection{Business constraints}\label{sec:exp-tiers}
 
