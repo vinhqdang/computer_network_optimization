@@ -375,9 +375,10 @@ Between $V=5$ and $V=500$ the RT success of \repay{} rises only from $81.0\%$ to
 What holds \repay{} back is the debt price, the part of the deficit that is charged to the RT group.
 The variant without it (No-debt), which keeps the deficit queues and the bonus of the creditor, serves $86.7\%$ of RT slots at $V=5$ with a class envy of $18$~Mbit and $95.5\%$ at $V=500$ with $459$~Mbit: for a given level of envy it serves about six points more RT slots than \repay{}, at the same elastic rate, and its deficits also stay below their bound (at most $0.82$ of it in any run).
 Capped priority traces a similar curve when its cap is varied ($87.4\%$ at $q=0.2$ with envy of $239$~Mbit), with no bound behind it.
-The debt price is not without effect, as the next paragraph shows: it is what keeps the gain from misreporting near zero.
-On these traces, then, the operator chooses between the full rule, which is the most resistant to misreporting and the weakest on RT success, and the variant without the debt price, which protects more calls for the same envy and leaves a small but systematic incentive to misreport.
-We had taken the full rule as the default on the strength of the synthetic experiments, where the difference between the two was one point of RT success; the traces show that this choice is not innocuous.
+At equal $V$ the debt price does reduce the gain from misreporting, as the next paragraph shows, but $V$ and the debt price turn out to be substitutes for that purpose, and the cheaper instrument is a small $V$.
+The variant without the debt price at $V=5$ serves $86.7\%$ of RT slots with a class envy of $18$~Mbit and leaves a median gain from misreporting of $0.0\%$; the full rule at $V=20$ serves $82.0\%$ with $42$~Mbit and $-0.2\%$.
+On these traces the first configuration is therefore the better one on RT success and envy, at an equal incentive to misreport.
+We had taken the full rule with $V=20$ as the default on the strength of the synthetic experiments, where the two variants differed by one point of RT success, and did not retune it; the traces show that this default is not the best one when real-time traffic is rare.
 
 \begin{figure}[t]
 \centering
@@ -411,9 +412,9 @@ The tenth is a premium device that gains $812$~Mbit, almost ten times its bound 
 The premium tier of that trace has $25$ devices and two video flows, so the device is often the only video flow of its tier and its reference on the truthful path is zero: this is the empty-group case in which the price-taking hypothesis fails outright (Section~\ref{sec:ic}).
 With the entrant offer of \textsc{Repay-E} the same device gains $197$~Mbit, still more than twice its bound.
 Table~\ref{tab:real-sweep-dev} shows how these gains move with $V$ and what the debt price contributes.
-Under \repay{} the median gain rises from $-0.2\%$ at $V=20$ to $2.8\%$ at $V=200$ and the share of devices that gain from $48\%$ to $76\%$; since the bound grows with $V$, only the premium device above remains over it for $V\ge50$.
-Without the debt price the incentive is clearly larger: at $V=20$ the median gain is $2.0\%$ and $86\%$ of the devices gain, and at $V=200$ the median gain is $19\%$ and every device gains, which approaches the $24\%$ of plain DPP.
-The debt price thus buys incentive resistance and costs RT success.
+Under \repay{} the median gain rises from $-1.1\%$ at $V=5$ and $-0.2\%$ at $V=20$ to $2.8\%$ at $V=200$, and the share of devices that gain from $36\%$ to $76\%$.
+Without the debt price the gain is larger at every $V$: the median is $0.0\%$ at $V=5$ ($52\%$ of the devices gain), $2.0\%$ at $V=20$ ($86\%$) and $19\%$ at $V=200$, where every device gains and the figure approaches the $24\%$ of plain DPP.
+The number of devices above the bound moves the other way, because the bound shrinks with $V$: twelve under \repay{} and five without the debt price at $V=5$, one for $V\ge50$ (the premium device above).
 None of this contradicts the theorem, whose hypothesis is not satisfied, and every deficit stays below its bound as Theorem~\ref{thm:bound} requires; but it shows that in thin tiers and over long stays the incentive guarantee is weaker than the bound suggests, and that the gains, although small relative to those under the other class-aware rules, are not confined to the constant $B$.
 
 \subsection{Business constraints}\label{sec:exp-tiers}
